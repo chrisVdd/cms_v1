@@ -1,0 +1,100 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('admin-datatables') }}
+{% endblock %}
+
+
+{% block title %}Post index{% endblock %}
+
+{% block body %}
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Post index</h6>
+            <a href="{{ path('admin_post_new') }}">Create new</a>
+
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Title</th>
+                            <th>Content</th>
+                            <th>CreateDate</th>
+                            <th>UpdateDate</th>
+                            <th>Online</th>
+                            <th>ImageName</th>
+                            <th>ImageSize</th>
+                            <th>ACTIONS</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>Id</th>
+                            <th>Title</th>
+                            <th>Content</th>
+                            <th>CreateDate</th>
+                            <th>UpdateDate</th>
+                            <th>Online</th>
+                            <th>ImageName</th>
+                            <th>ImageSize</th>
+                            <th>ACTIONS</th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                    {% for post in posts %}
+                        <tr>
+                            <td>{{ post.id }}</td>
+                            <td>{{ post.title }}</td>
+                            <td>
+                                <a href="" data-toggle="modal" data-target="#viewContentModal">View content</a>
+                                <div class="modal fade" id="viewContentModal" tabindex="-1" aria-labelledby="viewContentModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="viewContentModalLabel">View content</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            {{ post.content }}
+                                        </div>
+                                        {# <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            <button type="button" class="btn btn-primary">Save changes</button>
+                                        </div> #}
+                                        </div>
+                                    </div>
+                                </div>                            
+                            </td>
+                            <td>{{ post.createDate ? post.createDate|date('Y-m-d H:i:s') : '' }}</td>
+                            <td>{{ post.updateDate ? post.updateDate|date('Y-m-d H:i:s') : '' }}</td>
+                            <td>{{ post.online ? 'Yes' : 'No' }}</td>
+                            <td>{{ post.imageName }}</td>
+                            <td>{{ post.imageSize }}</td>
+                            <td>
+                                <a href="{{ path('admin_post_show', {'id': post.id}) }}">show</a>
+                                <a href="{{ path('admin_post_edit', {'id': post.id}) }}">edit</a>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="9">no records found</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('admin-datatables') }}
+{% endblock %}
+

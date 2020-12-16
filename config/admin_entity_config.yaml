@@ -1,0 +1,9 @@
+admin_entity_config:
+  list:
+    post:
+      id: index
+      createDate: show
+      updateDate: show
+      title: [index, show, create, update]
+    page:
+    category:
