@@ -6,8 +6,16 @@
  */
 
 // any CSS you import will output into a single css file (app.scss in this case)
-import './styles/app.scss';
-import 'bootstrap';
+// import './styles/app.scss';
+// import 'bootstrap';
+
+'use strict';
+const $ = require('jquery');
+require('bootstrap');
+
+// make sure the polyfill library is loaded in this main entry
+require('bootstrap/dist/css/bootstrap.css');
+require('font-awesome/css/font-awesome.css');
 
 bsCustomFileInput.init();
 
