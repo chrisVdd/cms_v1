@@ -23,6 +23,7 @@
     "dependencies": {
         "@fortawesome/fontawesome-free": "^5.15.1",
         "chart.js": "^2.9.4",
+        "ckeditor": "^4.0.0",
         "datatables.net-bs4": "^1.10.22",
         "dropzone": "^5.7.2",
         "jquery.easing": "^1.4.1",
