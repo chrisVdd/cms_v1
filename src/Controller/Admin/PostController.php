@@ -5,6 +5,7 @@ namespace App\Controller\Admin;
 use App\Entity\Post;
 use App\Form\PostType;
 use App\Repository\PostRepository;
+use App\Services\UploadHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -27,19 +28,29 @@ class PostController extends AbstractController
 
     /**
      * @Route("/new", name="admin_post_new", methods={"GET","POST"})
+     * @param Request $request
+     * @return Response
      */
-    public function new(Request $request): Response
+    public function new(Request $request, UploadHelper $uploadHelper): Response
     {
         $post = new Post();
         $form = $this->createForm(PostType::class, $post);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $uploadedFile = $form['imageFilename']->getData();
+
+            if ($uploadedFile) {
+                $newFilename = $uploadHelper->uploadPostImage($uploadedFile, $post->getImageFilename());
+                $post->setImageFilename($newFilename);
+            }
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($post);
             $entityManager->flush();
 
-            return $this->redirectToRoute('post_index');
+            return $this->redirectToRoute('admin_post_index');
         }
 
         return $this->render('admin/post/new.html.twig', [
@@ -61,15 +72,24 @@ class PostController extends AbstractController
     /**
      * @Route("/{id}/edit", name="admin_post_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Post $post): Response
+    public function edit(Request $request, Post $post, UploadHelper $uploadHelper): Response
     {
         $form = $this->createForm(PostType::class, $post);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $uploadedFile = $form['imageFilename']->getData();
+
+            if ($uploadedFile) {
+
+                $newFilename = $uploadHelper->uploadPostImage($uploadedFile, $post->getImageFilename());
+                $post->setImageFilename($newFilename);
+            }
+
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('post_index');
+            return $this->redirectToRoute('admin_post_index');
         }
 
         return $this->render('admin/post/edit.html.twig', [

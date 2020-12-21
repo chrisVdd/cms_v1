@@ -1,13 +1,38 @@
 {% extends 'admin/base.html.twig' %}
 
-{% block title %}Edit Post{% endblock %}
+{% block title %}Edit the post{% endblock %}
 
 {% block body %}
-    <h1>Edit Post</h1>
+    <h1>Edit post "{{ post.title }}"</h1>
 
     {{ include('admin/post/_form.html.twig', {'button_label': 'Update'}) }}
 
     <a href="{{ path('admin_post_index') }}">back to list</a>
 
     {{ include('admin/post/_delete_form.html.twig') }}
+
+    <div class="col-sm-11">
+        <h3>References</h3>
+
+        <ul class="list-group small js-reference-list"
+            data-url="{{ path('admin_post_list_references', {id: post.id}) }}">
+        </ul>
+
+        <hr>
+
+        <form action="{{ path('admin_post_add_reference', {id: post.id}) }}"
+              method="post"
+              enctype="multipart/form-data"
+              class="dropzone js-reference-dropzone"
+        >
+        </form>
+    </div>
+
 {% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.8.3/Sortable.min.js" integrity="sha256-uNITVqEk9HNQeW6mAAm2PJwFX2gN45l8a4yocqsFI6I=" crossorigin="anonymous"></script>
+    {{ encore_entry_script_tags('myDropzone') }}
+{% endblock javascripts %}

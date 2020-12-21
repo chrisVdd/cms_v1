@@ -9,14 +9,18 @@
 import 'bootstrap';
 import 'startbootstrap-sb-admin/src/scss/styles.scss'
 import './styles/admin.scss';
+import 'dropzone/dist/dropzone.css';
+import '@fortawesome/fontawesome-free/css/all.min.css'
 
 require('@fortawesome/fontawesome-free/css/all.min.css');
 
 var $ = require('jquery');
 
-// bsCustomFileInput.init();
+console.log('Hello Webpack Encore! Edit me in assets/ADMIN.js');
 
-// Need jQuery? Install it with "yarn add jquery", then uncomment to import it.
-// import $ from 'jquery';
-
-console.log('Hello Webpack Encore! Edit me in assets/app.js');
+$('.custom-file-input').on('change', function(event) {
+    var inputFile = event.currentTarget;
+    $(inputFile).parent()
+        .find('.custom-file-label')
+        .html(inputFile.files[0].name);
+});

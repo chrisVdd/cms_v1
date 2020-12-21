@@ -3,17 +3,15 @@
 namespace App\Entity;
 
 use App\Repository\PostRepository;
+use App\Services\UploadHelper;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Symfony\Component\HttpFoundation\File\File;
 use Doctrine\ORM\Mapping                    as ORM;
 use Gedmo\Mapping\Annotation                as Gedmo;
-use Vich\UploaderBundle\Mapping\Annotation  as Vich;
 
 
 /**
  * @ORM\Entity(repositoryClass=PostRepository::class)
- * @Vich\Uploadable()
  */
 class Post
 {
@@ -58,20 +56,9 @@ class Post
     private $categories;
 
     /**
-     * @Vich\UploadableField(mapping="post_image", fileNameProperty="imageName", size="imageSize")
-     * @var File|null
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $imageFile;
-
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
-    private $imageName;
-
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $imageSize;
+    private $imageFilename;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="posts")
@@ -80,11 +67,18 @@ class Post
     private $author;
 
     /**
+     * @ORM\OneToMany(targetEntity=PostReference::class, mappedBy="post")
+     * @ORM\OrderBy({"position"="ASC"})
+     */
+    private $postReferences;
+
+    /**
      * Post constructor.
      */
     public function __construct()
     {
-        $this->categories = new ArrayCollection();
+        $this->categories       = new ArrayCollection();
+        $this->postReferences   = new ArrayCollection();
     }
 
     /**
@@ -225,55 +219,29 @@ class Post
     }
 
     /**
-     * @param File|null $imageFile
-     */
-    public function setImageFile(?File $imageFile = null): void
-    {
-        $this->imageFile = $imageFile;
-
-        if (null !== $imageFile) {
-            $this->updateDate = new \DateTimeImmutable();
-        }
-    }
-
-    /**
-     * @return File|null
-     */
-    public function getImageFile(): ?File
-    {
-        return $this->imageFile;
-    }
-
-    /**
-     * @param string|null $imageName
-     */
-    public function setImageName(?string $imageName): void
-    {
-        $this->imageName = $imageName;
-    }
-
-    /**
      * @return string|null
      */
-    public function getImageName(): ?string
+    public function getImageFilename(): ?string
     {
-        return $this->imageName;
+        return $this->imageFilename;
     }
 
     /**
-     * @param int|null $imageSize
+     * @param string|null $imageFilename
+     * @return $this
      */
-    public function setImageSize(?int $imageSize): void
+    public function setImageFilename(?string $imageFilename): self
     {
-        $this->imageSize = $imageSize;
+        $this->imageFilename = $imageFilename;
+        return $this;
     }
 
     /**
-     * @return int|null
+     * @return string
      */
-    public function getImageSize(): ?int
+    public function getImagePath()
     {
-        return $this->imageSize;
+        return UploadHelper::POST_IMAGE.'/'.$this->getImageFilename();
     }
 
     /**
@@ -300,5 +268,35 @@ class Post
     public function __toString()
     {
         return $this->title;
+    }
+
+    /**
+     * @return Collection|PostReference[]
+     */
+    public function getPostReferences(): Collection
+    {
+        return $this->postReferences;
+    }
+
+    public function addPostReference(PostReference $postReference): self
+    {
+        if (!$this->postReferences->contains($postReference)) {
+            $this->postReferences[] = $postReference;
+            $postReference->setPost($this);
+        }
+
+        return $this;
+    }
+
+    public function removePostReference(PostReference $postReference): self
+    {
+        if ($this->postReferences->removeElement($postReference)) {
+            // set the owning side to null (unless already changed)
+            if ($postReference->getPost() === $this) {
+                $postReference->setPost(null);
+            }
+        }
+
+        return $this;
     }
 }

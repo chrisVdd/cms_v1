@@ -10,7 +10,6 @@
         "sass": "^1.29.0",
         "sass-loader": "^9.0.3",
         "startbootstrap-sb-admin": "^6.0.2",
-        "webpack": "^5.6.0",
         "webpack-notifier": "^1.6.0"
     },
     "license": "UNLICENSED",
@@ -25,7 +24,9 @@
         "@fortawesome/fontawesome-free": "^5.15.1",
         "chart.js": "^2.9.4",
         "datatables.net-bs4": "^1.10.22",
+        "dropzone": "^5.7.2",
         "jquery.easing": "^1.4.1",
-        "node-sass": "4.14.1"
+        "node-sass": "4.14.1",
+        "sortablejs": "^1.12.0"
     }
 }

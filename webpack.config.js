@@ -27,6 +27,7 @@ Encore
     .addEntry('admin', './assets/admin.js')
     .addEntry('login', './assets/login.js')
 
+    .addEntry('myDropzone', './assets/myDropzone.js')
     .addEntry('admin-datatables', './assets/admin-datatables.js')
     //.addEntry('page1', './assets/page1.js')
     //.addEntry('page2', './assets/page2.js')

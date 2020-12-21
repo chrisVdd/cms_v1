@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends 'admin/base.html.twig' %}
 
 {% block title %}Post{% endblock %}
 
@@ -31,20 +31,25 @@
                 <th>Online</th>
                 <td>{{ post.online ? 'Yes' : 'No' }}</td>
             </tr>
-            <tr>
-                <th>ImageName</th>
-                <td>{{ post.imageName }}</td>
-            </tr>
-            <tr>
-                <th>ImageSize</th>
-                <td>{{ post.imageSize }}</td>
-            </tr>
+
+            <h1>IMAGE</h1>
+            <img src="{{ post.imagePath|imagine_filter('squared_thumbnail_small') }}" alt="">
+
+
+            {#            {% if post.imageFilename %}#}
+{#                <tr>#}
+{#                    <th>ImageName</th>#}
+{#                    <td>#}
+{#                        <img src="{{ uploaded_asset(post.imagePath)|imagine_filter('squared_thumbnail_medium') }}" alt="">#}
+{#                    </td>#}
+{#                </tr>#}
+{#            {% endif %}#}
         </tbody>
     </table>
 
-    <a href="{{ path('post_index') }}">back to list</a>
+    <a href="{{ path('admin_post_index') }}">back to list</a>
 
-    <a href="{{ path('post_edit', {'id': post.id}) }}">edit</a>
+    <a href="{{ path('admin_post_edit', {'id': post.id}) }}">edit</a>
 
-    {{ include('post/_delete_form.html.twig') }}
+    {{ include('admin/post/_delete_form.html.twig') }}
 {% endblock %}

@@ -1,4 +1,28 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+    {{ form_row(form.title) }}
+    {{ form_row(form.content) }}
+    {{ form_row(form.categories) }}
+
+    <div class="row">
+
+        <div class="col-sm-7">
+            {{ form_row(form.imageFilename, {
+                attr: {'placeholder': 'Select an image for this post'}
+            }) }}
+        </div>
+
+        <div class="col-sm-5">
+            {% if form.vars.data.imageFilename %}
+                <a href="{{ form.vars.data.imagePath }}" target="_blank">
+                    <img src="{{ form.vars.data.imagePath|imagine_filter('squared_thumbnail_small') }}" height="100" />
+                </a>
+            {% endif %}
+        </div>
+    </div>
+
+    {{ form_row(form.online) }}
+
+    <button class="btn btn-success btn-user btn-block">
+        {{ button_label|default('Save') }}
+    </button>
 {{ form_end(form) }}
