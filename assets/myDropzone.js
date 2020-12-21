@@ -40,9 +40,6 @@ class ReferenceList
     constructor($element) {
         this.$element = $element;
 
-        console.log($element);
-        console.log("AHAHAHAHAHA");
-
         this.sortable = Sortable.create(this.$element[0], {
             handle: '.drag-handle',
             animation: 150,
