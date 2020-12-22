@@ -6,6 +6,7 @@ use App\Entity\Post;
 use App\Form\PostType;
 use App\Repository\PostRepository;
 use App\Services\UploadHelper;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -29,15 +30,18 @@ class PostController extends AbstractController
     /**
      * @Route("/new", name="admin_post_new", methods={"GET","POST"})
      * @param Request $request
+     * @param UploadHelper $uploadHelper
      * @return Response
+     * @throws Exception
      */
     public function new(Request $request, UploadHelper $uploadHelper): Response
     {
-        $post = new Post();
-        $form = $this->createForm(PostType::class, $post);
+        $form = $this->createForm(PostType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $post = $form->getData();
 
             $uploadedFile = $form['imageFilename']->getData();
 
@@ -53,10 +57,11 @@ class PostController extends AbstractController
             return $this->redirectToRoute('admin_post_index');
         }
 
-        return $this->render('admin/post/new.html.twig', [
-            'post' => $post,
-            'form' => $form->createView(),
-        ]);
+        return $this->render('admin/post/new.html.twig',
+            [
+                'form' => $form->createView(),
+            ]
+        );
     }
 
     /**

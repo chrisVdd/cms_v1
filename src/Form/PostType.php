@@ -2,19 +2,31 @@
 
 namespace App\Form;
 
+use App\Entity\Category;
 use App\Entity\Post;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Image;
 
+/**
+ * Class PostType
+ * @package App\Form
+ */
 class PostType extends AbstractType
 {
+    /**
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        /** @var array $imageConstraints */
         $imageConstraints = [
             new Image([
                 'maxSize' => '5M'
@@ -24,10 +36,16 @@ class PostType extends AbstractType
         $builder
             ->add('title')
             ->add('content', CKEditorType::class)
-            ->add('categories')
+            ->add('categories', EntityType::class,
+                [
+                    'class' => Category::class,
+                    'multiple' => true,
+                    'expanded' => true,
+                ]
+            )
             ->add('imageFilename', FileType::class,
                 [
-                    'mapped'    => false,
+                    'mapped'        => false,
                     'required'      => false,
                     'constraints'   => $imageConstraints,
                 ]
@@ -39,6 +57,9 @@ class PostType extends AbstractType
         ;
     }
 
+    /**
+     * @param OptionsResolver $resolver
+     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
