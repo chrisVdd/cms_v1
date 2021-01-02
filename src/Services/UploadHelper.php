@@ -18,9 +18,11 @@ class UploadHelper
 {
     const POST_IMAGE        = 'post_image';
     const POST_REFERENCE    = 'post_reference';
+    const TEMPLATE_FILE     = 'uploaded_templates';
 
     private $filesystem;
     private $privateFilesystem;
+    private $templateFilesystem;
     private $requestStackContext;
     private $logger;
     private $publicAssetBaseUrl;
@@ -29,6 +31,7 @@ class UploadHelper
      * UploadHelper constructor.
      * @param FilesystemInterface $publicUploadsFilesystem
      * @param FilesystemInterface $privateUploadsFilesystem
+     * @param FilesystemInterface $templateUploadsFilesystem
      * @param RequestStackContext $requestStackContext
      * @param LoggerInterface $logger
      * @param string $uploadedAssetsBaseUrl
@@ -36,12 +39,14 @@ class UploadHelper
     public function __construct(
         FilesystemInterface $publicUploadsFilesystem,
         FilesystemInterface $privateUploadsFilesystem,
+        FilesystemInterface $templateUploadsFilesystem,
         RequestStackContext $requestStackContext,
         LoggerInterface $logger,
         string $uploadedAssetsBaseUrl)
     {
         $this->filesystem                   = $publicUploadsFilesystem;
         $this->privateFilesystem            = $privateUploadsFilesystem;
+        $this->templateFilesystem            = $templateUploadsFilesystem;
         $this->requestStackContext          = $requestStackContext;
         $this->logger                       = $logger;
         $this->publicAssetBaseUrl           = $uploadedAssetsBaseUrl;
@@ -50,12 +55,11 @@ class UploadHelper
     /**
      * @param UploadedFile $uploadedFile
      * @param string $directory
-     * @param bool $isPublic
+     * @param string $filesystemType
      * @return string
      * @throws FileExistsExceptionAlias
-     * @throws Exception
      */
-    private function uploadFile(UploadedFile $uploadedFile, string $directory, bool $isPublic, bool $isTemplate)
+    private function uploadFile(UploadedFile $uploadedFile, string $directory, string $filesystemType)
     {
         if ($uploadedFile instanceof  UploadedFile) {
             $originalFilename = $uploadedFile->getClientOriginalName();
@@ -64,7 +68,7 @@ class UploadHelper
         }
 
         $newFilename = Urlizer::urlize(pathinfo($originalFilename, PATHINFO_FILENAME)).'-'.uniqid().'.'.$uploadedFile->guessExtension();
-        $filesystem = $this->getFilesystem($isPublic);
+        $filesystem = $this->getFilesystem($filesystemType);
 
         $stream = fopen($uploadedFile->getPathname(), 'r');
         $result = $filesystem->writeStream($directory.'/'.$newFilename, $stream);
@@ -81,18 +85,20 @@ class UploadHelper
     }
 
     /**
-     * @param bool $isPublic
+     * @param string $filesystemType
      * @return FilesystemInterface
      */
-    public function getFilesystem(bool $isPublic)
+    public function getFilesystem(string $filesystemType)
     {
 
-        if ($isPublic === true) {
+        if ($filesystemType === 'public') {
             $filesystem = $this->filesystem;
-        }
-
-        if ($isPublic === false) {
+        } elseif ($filesystemType === 'private') {
             $filesystem = $this->privateFilesystem;
+        } elseif ($filesystemType === 'template') {
+            $filesystem = $this->templateFilesystem;
+        } else {
+            $this->logger->alert("There is no filesystem");
         }
 
         return $filesystem;
@@ -107,7 +113,7 @@ class UploadHelper
     public function uploadPostImage(UploadedFile $uploadedFile, ?string  $existingFilename): string
     {
         /** @var string $newFilename */
-        $newFilename = $this->uploadFile($uploadedFile, self::POST_IMAGE, true, false);
+        $newFilename = $this->uploadFile($uploadedFile, self::POST_IMAGE, "public");
 
         if ($existingFilename) {
 
@@ -133,7 +139,17 @@ class UploadHelper
      */
     public function uploadPostReference(UploadedFile $uploadedFile): string
     {
-        return $this->uploadFile($uploadedFile, self::POST_REFERENCE, false, false);
+        return $this->uploadFile($uploadedFile, self::POST_REFERENCE,'private');
+    }
+
+    /**
+     * @param UploadedFile $uploadedFile
+     * @return string
+     * @throws FileExistsExceptionAlias
+     */
+    public function uploadTemplate(UploadedFile $uploadedFile): string
+    {
+        return $this->uploadFile($uploadedFile, self::TEMPLATE_FILE, "template");
     }
 
     /**
