@@ -16,6 +16,10 @@ require('@fortawesome/fontawesome-free/css/all.min.css');
 
 var $ = require('jquery');
 
+// window.Dropzone = require('dropzone/dist/min/dropzone.min');
+
+window.Dropzone = require('dropzone/dist/min/dropzone.min');
+
 console.log('Hello Webpack Encore! Edit me in assets/ADMIN.js');
 
 $('.custom-file-input').on('change', function(event) {

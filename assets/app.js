@@ -15,7 +15,7 @@ require('bootstrap');
 
 // make sure the polyfill library is loaded in this main entry
 require('bootstrap/dist/css/bootstrap.css');
-require('font-awesome/css/font-awesome.css');
+// require('font-awesome/css/font-awesome.css');
 
 bsCustomFileInput.init();
 

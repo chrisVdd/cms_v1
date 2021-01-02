@@ -31,7 +31,7 @@ class UploadHelper
      * @param FilesystemInterface $privateUploadsFilesystem
      * @param RequestStackContext $requestStackContext
      * @param LoggerInterface $logger
-//     * @param $publicAssetBaseUrl
+     * @param string $uploadedAssetsBaseUrl
      */
     public function __construct(
         FilesystemInterface $publicUploadsFilesystem,
@@ -49,6 +49,57 @@ class UploadHelper
 
     /**
      * @param UploadedFile $uploadedFile
+     * @param string $directory
+     * @param bool $isPublic
+     * @return string
+     * @throws FileExistsExceptionAlias
+     * @throws Exception
+     */
+    private function uploadFile(UploadedFile $uploadedFile, string $directory, bool $isPublic, bool $isTemplate)
+    {
+        if ($uploadedFile instanceof  UploadedFile) {
+            $originalFilename = $uploadedFile->getClientOriginalName();
+        } else {
+            $originalFilename = $uploadedFile->getFilename();
+        }
+
+        $newFilename = Urlizer::urlize(pathinfo($originalFilename, PATHINFO_FILENAME)).'-'.uniqid().'.'.$uploadedFile->guessExtension();
+        $filesystem = $this->getFilesystem($isPublic);
+
+        $stream = fopen($uploadedFile->getPathname(), 'r');
+        $result = $filesystem->writeStream($directory.'/'.$newFilename, $stream);
+
+        if ($result === false) {
+            throw new Exception('Could not write uploaded file "%s" ', $newFilename);
+        }
+
+        if (is_resource($stream)) {
+            fclose($stream);
+        }
+
+        return $newFilename;
+    }
+
+    /**
+     * @param bool $isPublic
+     * @return FilesystemInterface
+     */
+    public function getFilesystem(bool $isPublic)
+    {
+
+        if ($isPublic === true) {
+            $filesystem = $this->filesystem;
+        }
+
+        if ($isPublic === false) {
+            $filesystem = $this->privateFilesystem;
+        }
+
+        return $filesystem;
+    }
+
+    /**
+     * @param UploadedFile $uploadedFile
      * @param string|null $existingFilename
      * @return string
      * @throws Exception
@@ -56,7 +107,7 @@ class UploadHelper
     public function uploadPostImage(UploadedFile $uploadedFile, ?string  $existingFilename): string
     {
         /** @var string $newFilename */
-        $newFilename = $this->uploadFile($uploadedFile, self::POST_IMAGE, true);
+        $newFilename = $this->uploadFile($uploadedFile, self::POST_IMAGE, true, false);
 
         if ($existingFilename) {
 
@@ -77,46 +128,12 @@ class UploadHelper
 
     /**
      * @param UploadedFile $uploadedFile
-     * @param string $directory
-     * @param bool $isPublic
-     * @return string
-     * @throws FileExistsExceptionAlias
-     * @throws Exception
-     */
-    private function uploadFile(UploadedFile $uploadedFile, string $directory, bool $isPublic)
-    {
-        if ($uploadedFile instanceof  UploadedFile) {
-            $originalFilename = $uploadedFile->getClientOriginalName();
-        } else {
-            $originalFilename = $uploadedFile->getFilename();
-        }
-
-        $newFilename = Urlizer::urlize(pathinfo($originalFilename, PATHINFO_FILENAME)).'-'.uniqid().'.'.$uploadedFile->guessExtension();
-
-        $filesystem = $isPublic ? $this->filesystem : $this->privateFilesystem;
-
-        $stream = fopen($uploadedFile->getPathname(), 'r');
-        $result = $this->filesystem->writeStream($directory.'/'.$newFilename, $stream);
-
-        if ($result === false) {
-            throw new Exception('Could not write uploaded file "%s" ', $newFilename);
-        }
-
-        if (is_resource($stream)) {
-            fclose($stream);
-        }
-
-        return $newFilename;
-    }
-
-    /**
-     * @param UploadedFile $uploadedFile
      * @return string
      * @throws FileExistsExceptionAlias
      */
     public function uploadPostReference(UploadedFile $uploadedFile): string
     {
-        return $this->uploadFile($uploadedFile, self::POST_REFERENCE, false);
+        return $this->uploadFile($uploadedFile, self::POST_REFERENCE, false, false);
     }
 
     /**
@@ -132,13 +149,16 @@ class UploadHelper
 
     /**
      * @param string $path
+     * @param bool $isPublic
      * @return false|resource
      * @throws FileNotFoundException
      * @throws Exception
      */
-    public function readStream(string $path)
+    public function readStream(string $path, bool $isPublic)
     {
-        $resource = $this->filesystem->readStream($path);
+        $filesystem = $isPublic ? $this->filesystem : $this->privateFilesystem;
+
+        $resource = $filesystem->readStream($path);
 
         if ($resource === false) {
             throw new Exception('Error opening stream for "%s" ', $path);
@@ -151,6 +171,7 @@ class UploadHelper
      * @param string $path
      * @param bool $isPublic
      * @throws FileNotFoundException
+     * @throws Exception
      */
     public function deleteFile(string $path, bool $isPublic)
     {

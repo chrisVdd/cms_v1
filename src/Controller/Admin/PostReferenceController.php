@@ -9,8 +9,10 @@ use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use League\Flysystem\FileExistsException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\HeaderUtils;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\StreamedResponse;
@@ -29,7 +31,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class PostReferenceController extends AbstractController
 {
     /**
-     * @Route("/post/{id}/reference", name="admin_post_add_reference", methods={"POST"})
+     * @Route("/post/{id}/reference/add", name="admin_post_add_reference", methods={"POST"})
      *
      * @param Post $post
      * @param Request $request
@@ -114,7 +116,7 @@ class PostReferenceController extends AbstractController
     }
 
     /**
-     * @Route("/post/references/{id}/download", name="admin_post_download_reference", methods={"GET"})
+     * @Route("/post/reference/{id}/download", name="admin_post_download_reference", methods={"GET"})
      * @param PostReference $postReference
      * @param UploadHelper $uploadHelper
      *
@@ -212,6 +214,8 @@ class PostReferenceController extends AbstractController
     }
 
     /**
+     * @Route("/post/references/{id}", name="admin_post_edit_references", methods={"PUT"})
+     *
      * @param PostReference $postReference
      * @param EntityManagerInterface $entityManager
      * @param SerializerInterface $serializer
@@ -224,8 +228,7 @@ class PostReferenceController extends AbstractController
         EntityManagerInterface $entityManager,
         SerializerInterface $serializer,
         Request $request,
-        ValidatorInterface $validator
-    )
+        ValidatorInterface $validator)
     {
         /** @var Post $post */
         $post = $postReference->getPost();

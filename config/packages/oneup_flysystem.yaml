@@ -7,7 +7,7 @@ oneup_flysystem:
 
         private_uploads_adapter:
             local:
-                directory: '%kernel.project_dir%/var/uploads'
+                directory: '%kernel.project_dir%/storage/uploads'
 
     filesystems:
         public_uploads_filesystem:
