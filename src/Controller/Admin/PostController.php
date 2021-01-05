@@ -19,6 +19,8 @@ class PostController extends AbstractController
 {
     /**
      * @Route("/", name="admin_post_index", methods={"GET"})
+     * @param PostRepository $postRepository
+     * @return Response
      */
     public function index(PostRepository $postRepository): Response
     {
@@ -42,6 +44,7 @@ class PostController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             $post = $form->getData();
+            $post->setAuthor($this->getUser());
 
             $uploadedFile = $form['imageFilename']->getData();
 
@@ -66,6 +69,8 @@ class PostController extends AbstractController
 
     /**
      * @Route("/{id}", name="admin_post_show", methods={"GET"})
+     * @param Post $post
+     * @return Response
      */
     public function show(Post $post): Response
     {
@@ -76,6 +81,11 @@ class PostController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="admin_post_edit", methods={"GET","POST"})
+     * @param Request $request
+     * @param Post $post
+     * @param UploadHelper $uploadHelper
+     * @return Response
+     * @throws Exception
      */
     public function edit(Request $request, Post $post, UploadHelper $uploadHelper): Response
     {

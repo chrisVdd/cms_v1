@@ -10,6 +10,7 @@ use League\Flysystem\FilesystemInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Asset\Context\RequestStackContext;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+
 /**
  * Class UploadHelper
  * @package App\Services
@@ -67,11 +68,17 @@ class UploadHelper
             $originalFilename = $uploadedFile->getFilename();
         }
 
-        $newFilename = Urlizer::urlize(pathinfo($originalFilename, PATHINFO_FILENAME)).'-'.uniqid().'.'.$uploadedFile->guessExtension();
-        $filesystem = $this->getFilesystem($filesystemType);
+        if ($filesystemType === 'template') {
 
-        $stream = fopen($uploadedFile->getPathname(), 'r');
-        $result = $filesystem->writeStream($directory.'/'.$newFilename, $stream);
+            $newFilename = pathinfo($originalFilename, PATHINFO_FILENAME).'.twig';
+
+        } else {
+            $newFilename = Urlizer::urlize(pathinfo($originalFilename, PATHINFO_FILENAME)).'-'.uniqid().'.'.$uploadedFile->guessExtension();
+        }
+
+        $filesystem = $this->getFilesystem($filesystemType);
+        $stream     = fopen($uploadedFile->getPathname(), 'r');
+        $result     = $filesystem->writeStream($directory.'/'.$newFilename, $stream);
 
         if ($result === false) {
             throw new Exception('Could not write uploaded file "%s" ', $newFilename);
@@ -140,6 +147,7 @@ class UploadHelper
     public function uploadPostReference(UploadedFile $uploadedFile): string
     {
         return $this->uploadFile($uploadedFile, self::POST_REFERENCE,'private');
+
     }
 
     /**
@@ -149,7 +157,11 @@ class UploadHelper
      */
     public function uploadTemplate(UploadedFile $uploadedFile): string
     {
-        return $this->uploadFile($uploadedFile, self::TEMPLATE_FILE, "template");
+
+        /** @var string $newFilename */
+        $newFilename = $this->uploadFile($uploadedFile, self::TEMPLATE_FILE, "template");
+
+        return $newFilename;
     }
 
     /**
@@ -199,6 +211,4 @@ class UploadHelper
             throw new \Exception(sprintf('Error deleting "%s" ', $path));
         }
     }
-
-
 }

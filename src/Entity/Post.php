@@ -278,6 +278,10 @@ class Post
         return $this->postReferences;
     }
 
+    /**
+     * @param PostReference $postReference
+     * @return $this
+     */
     public function addPostReference(PostReference $postReference): self
     {
         if (!$this->postReferences->contains($postReference)) {
@@ -288,6 +292,10 @@ class Post
         return $this;
     }
 
+    /**
+     * @param PostReference $postReference
+     * @return $this
+     */
     public function removePostReference(PostReference $postReference): self
     {
         if ($this->postReferences->removeElement($postReference)) {

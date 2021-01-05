@@ -51,6 +51,12 @@ class Page
     private $online;
 
     /**
+     * @ORM\ManyToOne(targetEntity=Template::class, inversedBy="pages", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $template;
+
+    /**
      * @return int|null
      */
     public function getId(): ?int
@@ -161,6 +167,18 @@ class Page
     public function setOnline(bool $online): self
     {
         $this->online = $online;
+
+        return $this;
+    }
+
+    public function getTemplate(): ?Template
+    {
+        return $this->template;
+    }
+
+    public function setTemplate(?Template $template): self
+    {
+        $this->template = $template;
 
         return $this;
     }

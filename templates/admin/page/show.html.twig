@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends 'admin/base.html.twig' %}
 
 {% block title %}Page{% endblock %}
 
@@ -34,6 +34,12 @@
             <tr>
                 <th>Online</th>
                 <td>{{ page.online ? 'Yes' : 'No' }}</td>
+            </tr>
+
+            <tr>
+                <th>Template</th>
+                <td>{{ page.template.name }}</td>
+                <td>{{ page.template.filename }}</td>
             </tr>
         </tbody>
     </table>
