@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\PageRepository;
+use DateTimeInterface;
 use Doctrine\ORM\Mapping        as ORM;
 use Gedmo\Mapping\Annotation    as Gedmo;
 
@@ -46,7 +47,7 @@ class Page
     private $updateDate;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="boolean", nullable=true)
      */
     private $online;
 
@@ -55,6 +56,17 @@ class Page
      * @ORM\JoinColumn(nullable=false)
      */
     private $template;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Gedmo\Slug(fields={"title"})
+     */
+    private $slug;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $isHome;
 
     /**
      * @return int|null
@@ -122,18 +134,18 @@ class Page
     }
 
     /**
-     * @return \DateTimeInterface|null
+     * @return DateTimeInterface|null
      */
-    public function getCreateDate(): ?\DateTimeInterface
+    public function getCreateDate(): ?DateTimeInterface
     {
         return $this->createDate;
     }
 
     /**
-     * @param \DateTimeInterface $createDate
+     * @param DateTimeInterface $createDate
      * @return $this
      */
-    public function setCreateDate(\DateTimeInterface $createDate): self
+    public function setCreateDate(DateTimeInterface $createDate): self
     {
         $this->createDate = $createDate;
 
@@ -141,29 +153,36 @@ class Page
     }
 
     /**
-     * @return \DateTimeInterface|null
+     * @return DateTimeInterface|null
      */
-    public function getUpdateDate(): ?\DateTimeInterface
+    public function getUpdateDate(): ?DateTimeInterface
     {
         return $this->updateDate;
     }
 
     /**
-     * @param \DateTimeInterface $updateDate
+     * @param DateTimeInterface $updateDate
      * @return $this
      */
-    public function setUpdateDate(\DateTimeInterface $updateDate): self
+    public function setUpdateDate(DateTimeInterface $updateDate): self
     {
         $this->updateDate = $updateDate;
 
         return $this;
     }
 
+    /**
+     * @return bool|null
+     */
     public function getOnline(): ?bool
     {
         return $this->online;
     }
 
+    /**
+     * @param bool $online
+     * @return $this
+     */
     public function setOnline(bool $online): self
     {
         $this->online = $online;
@@ -171,14 +190,59 @@ class Page
         return $this;
     }
 
+    /**
+     * @return Template|null
+     */
     public function getTemplate(): ?Template
     {
         return $this->template;
     }
 
+    /**
+     * @param Template|null $template
+     * @return $this
+     */
     public function setTemplate(?Template $template): self
     {
         $this->template = $template;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    /**
+     * @param string $slug
+     * @return $this
+     */
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function getIsHome(): ?bool
+    {
+        return $this->isHome;
+    }
+
+    /**
+     * @param bool|null $isHome
+     * @return $this
+     */
+    public function setIsHome(?bool $isHome): self
+    {
+        $this->isHome = $isHome;
 
         return $this;
     }

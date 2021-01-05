@@ -31,6 +31,9 @@ class PageType extends AbstractType
             ->add('online', CheckboxType::class, 
                 ['label_attr' => ['class' => 'switch-custom']]
             )
+            ->add('isHome', CheckboxType::class,
+                ['label_attr' => ['class' => 'switch-custom']]
+            )
         ;
     }
 
