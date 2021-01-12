@@ -19,6 +19,27 @@ class PageRepository extends ServiceEntityRepository
         parent::__construct($registry, Page::class);
     }
 
+    /**
+     * @return int|mixed|string
+     */
+    public function getItemsMenu()
+    {
+        return $this
+            ->createQueryBuilder('p')
+            ->addSelect('p.slug','p.title')
+            ->andWhere('p.online = 1')
+            ->getQuery()
+            ->getResult();
+    }
+
+//$qb = $this->createQueryBuilder('p')
+//->addSelect('a', 't')
+//->innerJoin('p.author', 'a')
+//->leftJoin('p.tags', 't')
+//->where('p.publishedAt <= :now')
+//->orderBy('p.publishedAt', 'DESC')
+//->setParameter('now', new \DateTime())
+
     // /**
     //  * @return Page[] Returns an array of Page objects
     //  */

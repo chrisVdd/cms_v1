@@ -49,13 +49,21 @@ class PageController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="page_show", methods={"GET"})
+     * @Route("/{slug}", name="page_show", methods={"GET"})
+     * @param Page $page
+     * @return Response
      */
     public function show(Page $page): Response
     {
-        return $this->render('page/show.html.twig', [
-            'page' => $page,
-        ]);
+        /** @var string $templateName */
+        $templateName = $page->getTemplate()->getFilename();
+
+        return $this->render('page/show.html.twig',
+            [
+                'templateName' => $templateName,
+                'page'         => $page,
+            ]
+        );
     }
 
     /**

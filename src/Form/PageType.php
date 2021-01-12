@@ -3,11 +3,10 @@
 namespace App\Form;
 
 use App\Entity\Page;
-use App\Entity\Template;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -33,6 +32,9 @@ class PageType extends AbstractType
             )
             ->add('isHome', CheckboxType::class,
                 ['label_attr' => ['class' => 'switch-custom']]
+            )
+            ->add('slug', TextType::class,
+                ['attr' => ['disabled' => 'disabled']]
             )
         ;
     }

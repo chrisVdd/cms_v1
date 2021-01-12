@@ -10,14 +10,12 @@
 // import 'bootstrap';
 
 'use strict';
+
+import '../assets/styles/app.scss';
+
 const $ = require('jquery');
-require('bootstrap');
 
-// make sure the polyfill library is loaded in this main entry
-require('bootstrap/dist/css/bootstrap.css');
-// require('font-awesome/css/font-awesome.css');
-
-bsCustomFileInput.init();
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
 // Need jQuery? Install it with "yarn add jquery", then uncomment to import it.
 // import $ from 'jquery';

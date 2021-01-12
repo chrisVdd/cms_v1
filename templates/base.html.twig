@@ -3,12 +3,29 @@
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
+
+        {% block stylesheets %}
+            {{ encore_entry_link_tags('app') }}
+        {% endblock %}
+
     </head>
     <body class="{% block bodyClass %}{% endblock %}">
 
+{#    @todo if URL !== /login #}
+    {{ menu_items() }}
 
-    {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
+    <main class="container">
+        {%  block body %}
+        {%  endblock body %}
+    </main>
+
+
+{#    {% block template %}#}
+
+{#    {% endblock %}#}
+
+    {% block javascripts %}
+        {{ encore_entry_script_tags('app') }}
+    {% endblock %}
     </body>
 </html>
