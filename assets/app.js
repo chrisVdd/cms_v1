@@ -199,15 +199,4 @@ bsCustomFileInput.init();
     //     items: 1
     // });
 
-    // Init AOS
-    function aos_init() {
-        AOS.init({
-            duration: 1000,
-            once: true
-        });
-    }
-    $(window).on('load', function() {
-        aos_init();
-    });
-
 })(jQuery);
