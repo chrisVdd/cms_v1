@@ -25,11 +25,6 @@ class Page
     private $title;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $subTitle;
-
-    /**
      * @ORM\Column(type="text")
      */
     private $content;
@@ -64,9 +59,9 @@ class Page
     private $slug;
 
     /**
-     * @ORM\Column(type="boolean", nullable=true)
+     * @ORM\Column(type="integer")
      */
-    private $isHome;
+    private $position;
 
     /**
      * @return int|null
@@ -91,25 +86,6 @@ class Page
     public function setTitle(string $title): self
     {
         $this->title = $title;
-
-        return $this;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getSubTitle(): ?string
-    {
-        return $this->subTitle;
-    }
-
-    /**
-     * @param string|null $subTitle
-     * @return $this
-     */
-    public function setSubTitle(?string $subTitle): self
-    {
-        $this->subTitle = $subTitle;
 
         return $this;
     }
@@ -229,20 +205,20 @@ class Page
     }
 
     /**
-     * @return bool|null
+     * @return int|null
      */
-    public function getIsHome(): ?bool
+    public function getPosition(): ?int
     {
-        return $this->isHome;
+        return $this->position;
     }
 
     /**
-     * @param bool|null $isHome
+     * @param int $position
      * @return $this
      */
-    public function setIsHome(?bool $isHome): self
+    public function setPosition(int $position): self
     {
-        $this->isHome = $isHome;
+        $this->position = $position;
 
         return $this;
     }

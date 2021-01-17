@@ -6,22 +6,10 @@
  */
 
 // any CSS you import will output into a single css file (app.scss in this case)
-// import './styles/app.scss';
-// import 'bootstrap';
+import './styles/app.scss';
 
-'use strict';
-const $ = require('jquery');
-require('bootstrap');
-
-// make sure the polyfill library is loaded in this main entry
-require('bootstrap/dist/css/bootstrap.css');
-// require('font-awesome/css/font-awesome.css');
-
+// start the Stimulus application
+import 'bootstrap';
 import './styles/login.scss';
 
 bsCustomFileInput.init();
-
-// Need jQuery? Install it with "yarn add jquery", then uncomment to import it.
-// import $ from 'jquery';
-
-console.log('Hello Webpack Encore! Edit me in assets/login.js');

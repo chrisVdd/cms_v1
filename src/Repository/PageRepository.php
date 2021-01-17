@@ -28,6 +28,7 @@ class PageRepository extends ServiceEntityRepository
             ->createQueryBuilder('p')
             ->addSelect('p.slug','p.title')
             ->andWhere('p.online = 1')
+            ->orderBy('p.position')
             ->getQuery()
             ->getResult();
     }

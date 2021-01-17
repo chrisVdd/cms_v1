@@ -1,26 +1,14 @@
-/*
- * Welcome to your app's main JavaScript file!
- *
- * We recommend including the built version of this JavaScript file
- * (and its CSS file) in your base layout (base.html.twig).
- */
-
 // any CSS you import will output into a single css file (app.scss in this case)
-import 'bootstrap';
-import 'startbootstrap-sb-admin/src/scss/styles.scss'
 import './styles/admin.scss';
 import 'dropzone/dist/dropzone.css';
-import '@fortawesome/fontawesome-free/css/all.min.css'
 
-require('@fortawesome/fontawesome-free/css/all.min.css');
+// JS import
+import 'bootstrap/dist/js/bootstrap.bundle.min';
+import 'startbootstrap-sb-admin/dist/js/scripts';
 
 var $ = require('jquery');
 
-// window.Dropzone = require('dropzone/dist/min/dropzone.min');
-
 window.Dropzone = require('dropzone/dist/min/dropzone.min');
-
-console.log('Hello Webpack Encore! Edit me in assets/ADMIN.js');
 
 $('.custom-file-input').on('change', function(event) {
     var inputFile = event.currentTarget;
@@ -28,3 +16,9 @@ $('.custom-file-input').on('change', function(event) {
         .find('.custom-file-label')
         .html(inputFile.files[0].name);
 });
+
+(function(){
+    $('#msbo').on('click', function(){
+        $('body').toggleClass('msb-x');
+    });
+}());

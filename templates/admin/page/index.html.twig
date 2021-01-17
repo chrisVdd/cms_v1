@@ -8,84 +8,93 @@
 {% block title %}Page index{% endblock %}
 
 {% block body %}
-    <div class="card shadow mb-4">
-        <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Page index</h6>
-            <a href="{{ path('admin_page_new') }}">Create new</a>
 
-        </div>
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                    
-                    <thead>
-                        <tr>
-                            <th>Id</th>
-                            <th>Title</th>
-                            <th>SubTitle</th>
-                            <th>Content</th>
-                            <th>CreateDate</th>
-                            <th>UpdateDate</th>
-                            <th>Online</th>
-                            <th>ACTIONS</th>
-                        </tr>
-                    </thead>
-                    <tfoot>
-                        <tr>
-                            <th>Id</th>
-                            <th>Title</th>
-                            <th>SubTitle</th>
-                            <th>Content</th>
-                            <th>CreateDate</th>
-                            <th>UpdateDate</th>
-                            <th>Online</th>
-                            <th>ACTIONS</th>
-                        </tr>
-                    </tfoot>
-                    <tbody>
-                    {% for page in pages %}
-                        <tr>
-                            <td>{{ page.id }}</td>
-                            <td>{{ page.title }}</td>
-                            <td>{{ page.subTitle }}</td>
-                            <td>
-                                <a href="" data-toggle="modal" data-target="#viewContentModal">View content</a>
-                                <div class="modal fade" id="viewContentModal" tabindex="-1" aria-labelledby="viewContentModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="mt-4">Page index</h1>
+        <a href="{{ path('admin_page_new') }}" class="btn btn-success">Create new</a>
+    </div>
+
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+        <li class="breadcrumb-item active">Tables</li>
+    </ol>
+
+    <div class="card-header">
+        <i class="fa fa-book"></i> Pages listing
+    </div>
+
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Title</th>
+                    <th>Content</th>
+                    <th>CreateDate</th>
+                    <th>UpdateDate</th>
+                    <th>Online</th>
+                    <th>Postion</th>
+                    <th>ACTIONS</th>
+                </tr>
+                </thead>
+                <tfoot>
+                <tr>
+                    <th>Id</th>
+                    <th>Title</th>
+                    <th>Content</th>
+                    <th>CreateDate</th>
+                    <th>UpdateDate</th>
+                    <th>Online</th>
+                    <th>Postion</th>
+                    <th>ACTIONS</th>
+                </tr>
+                </tfoot>
+                <tbody>
+                {% for page in pages %}
+                    <tr>
+                        <td>{{ page.id }}</td>
+                        <td>{{ page.title }}</td>
+                        <td>
+                            <a href="" data-toggle="modal" data-target="#viewContentModal">View content</a>
+                            <div class="modal fade" id="viewContentModal" tabindex="-1"
+                                 aria-labelledby="viewContentModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
                                         <div class="modal-header">
                                             <h5 class="modal-title" id="viewContentModalLabel">View content</h5>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
+                                                <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
                                         <div class="modal-body">
-                                            {{ page.content }}
+                                            {{ page.content|html_entity_decode|raw }}
                                         </div>
                                         {# <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                             <button type="button" class="btn btn-primary">Save changes</button>
                                         </div> #}
-                                        </div>
                                     </div>
-                                </div>                            
-                            </td>
-                            <td>{{ page.createDate ? page.createDate|date('Y-m-d H:i:s') : '' }}</td>
-                            <td>{{ page.updateDate ? page.updateDate|date('Y-m-d H:i:s') : '' }}</td>
-                            <td>{{ page.online ? 'Yes' : 'No' }}</td>
-                            <td>
-                                <a href="{{ path('admin_page_show', {'id': page.id}) }}">show</a>
-                                <a href="{{ path('admin_page_edit', {'id': page.id}) }}">edit</a>
-                            </td>
-                        </tr>
-                    {% else %}
-                        <tr>
-                            <td colspan="8">no records found</td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
-            </div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>{{ page.createDate ? page.createDate|date('Y-m-d H:i:s') : '' }}</td>
+                        <td>{{ page.updateDate ? page.updateDate|date('Y-m-d H:i:s') : '' }}</td>
+                        <td>{{ page.online ? 'Yes' : 'No' }}</td>
+                        <td>{{ page.position }}</td>
+                        <td>
+                            <a href="{{ path('admin_page_show', {'id': page.id}) }}">show</a>
+                            <a href="{{ path('admin_page_edit', {'id': page.id}) }}">edit</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="8">no records found</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
         </div>
     </div>
 {% endblock %}

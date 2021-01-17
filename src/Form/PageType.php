@@ -6,6 +6,7 @@ use App\Entity\Page;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -24,15 +25,12 @@ class PageType extends AbstractType
     {
         $builder
             ->add('title')
-            ->add('subTitle')
             ->add('content', CKEditorType::class)
             ->add('template', TemplateType::class)
             ->add('online', CheckboxType::class, 
                 ['label_attr' => ['class' => 'switch-custom']]
             )
-            ->add('isHome', CheckboxType::class,
-                ['label_attr' => ['class' => 'switch-custom']]
-            )
+            ->add('position', IntegerType::class)
             ->add('slug', TextType::class,
                 ['attr' => ['disabled' => 'disabled']]
             )

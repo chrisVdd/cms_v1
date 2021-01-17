@@ -1,12 +1,2 @@
-//@import "~font-awesome"; // fichier scss dans node_modules
-@import '~bootstrap/scss/bootstrap';
-
-body {
-    padding-top: 5rem;
-}
-
-.container {
-    width: auto;
-    max-width: 680px;
-    padding: 0 15px;
-}
+@import "~bootstrap/scss/bootstrap";
+@import "style.css";
