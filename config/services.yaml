@@ -13,9 +13,12 @@ services:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
         bind:
+
+#            ONEUP FILESYSTEM
             $publicUploadsFilesystem:   '@oneup_flysystem.public_uploads_filesystem_filesystem'
             $privateUploadsFilesystem:  '@oneup_flysystem.private_uploads_filesystem_filesystem'
-            $templateUploadsFilesystem:  '@oneup_flysystem.template_uploads_filesystem_filesystem'
+            $templateUploadsFilesystem: '@oneup_flysystem.template_uploads_filesystem_filesystem'
+            $importUploadsFilesystem:   '@oneup_flysystem.import_uploads_filesystem_filesystem'
 
             $uploadedAssetsBaseUrl: '%uploads_base_url%'
 

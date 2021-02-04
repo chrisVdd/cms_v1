@@ -17,11 +17,18 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  */
 class UploadHelper
 {
+    /*@TODO
+        - rename const TEMPLATE_FILE >
+        - rename $filesystem TO $publicfilesystem
+    */
+
+
     const POST_IMAGE        = 'post_image';
     const POST_REFERENCE    = 'post_reference';
     const TEMPLATE_FILE     = 'uploaded_templates';
+    const IMPORT_FILE       = 'data_import';
 
-    private $filesystem;
+    private $publicfilesystem;
     private $privateFilesystem;
     private $templateFilesystem;
     private $requestStackContext;
@@ -45,9 +52,10 @@ class UploadHelper
         LoggerInterface $logger,
         string $uploadedAssetsBaseUrl)
     {
-        $this->filesystem                   = $publicUploadsFilesystem;
+        $this->publicfilesystem             = $publicUploadsFilesystem;
         $this->privateFilesystem            = $privateUploadsFilesystem;
-        $this->templateFilesystem            = $templateUploadsFilesystem;
+        $this->templateFilesystem           = $templateUploadsFilesystem;
+
         $this->requestStackContext          = $requestStackContext;
         $this->logger                       = $logger;
         $this->publicAssetBaseUrl           = $uploadedAssetsBaseUrl;
@@ -68,9 +76,18 @@ class UploadHelper
             $originalFilename = $uploadedFile->getFilename();
         }
 
+        // Uploaded template treatement
         if ($filesystemType === 'template') {
+            $newFilename = pathinfo($originalFilename, PATHINFO_FILENAME) . '.twig';
 
-            $newFilename = pathinfo($originalFilename, PATHINFO_FILENAME).'.twig';
+        // Uploaded import data file treatement
+        } elseif ($filesystemType === 'import' ){
+
+            $now = new \DateTime('now');
+
+            dd($now);
+
+            $newFilename = Urlizer::urlize(pathinfo($originalFilename, PATHINFO_FILENAME)).'-'.$now.'.'.$uploadedFile->guessExtension();
 
         } else {
             $newFilename = Urlizer::urlize(pathinfo($originalFilename, PATHINFO_FILENAME)).'-'.uniqid().'.'.$uploadedFile->guessExtension();
@@ -99,10 +116,13 @@ class UploadHelper
     {
 
         if ($filesystemType === 'public') {
-            $filesystem = $this->filesystem;
+            $filesystem = $this->publicfilesystem;
+
         } elseif ($filesystemType === 'private') {
+
             $filesystem = $this->privateFilesystem;
         } elseif ($filesystemType === 'template') {
+
             $filesystem = $this->templateFilesystem;
         } else {
             $this->logger->alert("There is no filesystem");
@@ -125,7 +145,7 @@ class UploadHelper
         if ($existingFilename) {
 
             try {
-                $result = $this->filesystem->delete(self::POST_IMAGE.'/'.$existingFilename);
+                $result = $this->publicfilesystem->delete(self::POST_IMAGE.'/'.$existingFilename);
 
                 if ($result === false) {
                     throw new Exception(sprintf('Could not delete old uploaded file "%s"', $existingFilename));
@@ -159,7 +179,19 @@ class UploadHelper
     {
 
         /** @var string $newFilename */
-        $newFilename = $this->uploadFile($uploadedFile, self::TEMPLATE_FILE, "template");
+        $newFilename = $this->uploadFile($uploadedFile, self::TEMPLATE_FILE, 'template');
+
+        return $newFilename;
+    }
+
+    /**
+     * @param UploadedFile $uploadedFile
+     * @return string
+     * @throws FileExistsExceptionAlias
+     */
+    public function uploadImport(UploadedFile $uploadedFile): string
+    {
+        $newFilename = $this->uploadFile($uploadedFile, self::IMPORT_FILE, 'import');
 
         return $newFilename;
     }
@@ -184,7 +216,7 @@ class UploadHelper
      */
     public function readStream(string $path, bool $isPublic)
     {
-        $filesystem = $isPublic ? $this->filesystem : $this->privateFilesystem;
+        $filesystem = $isPublic ? $this->publicfilesystem : $this->privateFilesystem;
 
         $resource = $filesystem->readStream($path);
 
@@ -203,7 +235,7 @@ class UploadHelper
      */
     public function deleteFile(string $path, bool $isPublic)
     {
-        $filesystem = $isPublic ? $this->filesystem : $this->privateFilesystem;
+        $filesystem = $isPublic ? $this->publicfilesystem : $this->privateFilesystem;
 
         $result = $filesystem->delete($path);
 
