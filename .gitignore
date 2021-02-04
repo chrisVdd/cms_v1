@@ -23,3 +23,9 @@
 npm-debug.log
 yarn-error.log
 ###< symfony/webpack-encore-bundle ###
+
+###> personal folders and uploads ###
+.idea
+/import_uploaded
+###< symfony/webpack-encore-bundle ###
+
