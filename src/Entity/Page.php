@@ -4,11 +4,15 @@ namespace App\Entity;
 
 use App\Repository\PageRepository;
 use DateTimeInterface;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping        as ORM;
 use Gedmo\Mapping\Annotation    as Gedmo;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=PageRepository::class)
+ * @UniqueEntity(fields={"slug"}, errorPath="title", message="page.slug_unique")
  */
 class Page
 {
@@ -53,8 +57,7 @@ class Page
     private $template;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     * @Gedmo\Slug(fields={"title"})
+     * @ORM\Column(type="string", length=100)
      */
     private $slug;
 
@@ -62,6 +65,20 @@ class Page
      * @ORM\Column(type="integer")
      */
     private $position;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Widget::class, mappedBy="pages")
+     * @ORM\OrderBy({"name": "ASC"})
+     */
+    private $widgets;
+
+    /**
+     * Page constructor.
+     */
+    public function __construct()
+    {
+        $this->widgets = new ArrayCollection();
+    }
 
     /**
      * @return int|null
@@ -219,6 +236,33 @@ class Page
     public function setPosition(int $position): self
     {
         $this->position = $position;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Widget[]
+     */
+    public function getWidgets(): Collection
+    {
+        return $this->widgets;
+    }
+
+    public function addWidget(Widget $widget): self
+    {
+        if (!$this->widgets->contains($widget)) {
+            $this->widgets[] = $widget;
+            $widget->addPage($this);
+        }
+
+        return $this;
+    }
+
+    public function removeWidget(Widget $widget): self
+    {
+        if ($this->widgets->removeElement($widget)) {
+            $widget->removePage($this);
+        }
 
         return $this;
     }

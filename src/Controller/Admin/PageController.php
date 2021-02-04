@@ -102,10 +102,12 @@ class PageController extends AbstractController
             return $this->redirectToRoute('admin_page_index');
         }
 
-        return $this->render('admin/page/edit.html.twig', [
-            'page' => $page,
-            'form' => $form->createView(),
-        ]);
+        return $this->render('admin/page/edit.html.twig',
+            [
+                'page' => $page,
+                'form' => $form->createView(),
+            ]
+        );
     }
 
     /**

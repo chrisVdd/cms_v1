@@ -40,6 +40,23 @@ class PostRepository extends ServiceEntityRepository
             ->getSingleScalarResult();
     }
 
+    /**
+     * @param int $max
+     * @return int|mixed|string
+     */
+    public function findLatest(int $max)
+    {
+        return $this
+            ->createQueryBuilder('post')
+            ->where('post.createDate <= :now')
+            ->orderBy('post.createDate', 'DESC')
+            ->setParameter('now', new \DateTime())
+            ->setMaxResults($max)
+            ->getQuery()
+            ->getResult();
+
+    }
+
     // /**
     //  * @return Post[] Returns an array of Post objects
     //  */
