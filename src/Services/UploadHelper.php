@@ -28,9 +28,10 @@ class UploadHelper
     const TEMPLATE_FILE     = 'uploaded_templates';
     const IMPORT_FILE       = 'data_import';
 
-    private $publicfilesystem;
+    private $publicFilesystem;
     private $privateFilesystem;
     private $templateFilesystem;
+    private $importFilesystem;
     private $requestStackContext;
     private $logger;
     private $publicAssetBaseUrl;
@@ -40,6 +41,7 @@ class UploadHelper
      * @param FilesystemInterface $publicUploadsFilesystem
      * @param FilesystemInterface $privateUploadsFilesystem
      * @param FilesystemInterface $templateUploadsFilesystem
+     * @param FilesystemInterface $importUploadsFilesystem
      * @param RequestStackContext $requestStackContext
      * @param LoggerInterface $logger
      * @param string $uploadedAssetsBaseUrl
@@ -48,13 +50,15 @@ class UploadHelper
         FilesystemInterface $publicUploadsFilesystem,
         FilesystemInterface $privateUploadsFilesystem,
         FilesystemInterface $templateUploadsFilesystem,
+        FilesystemInterface $importUploadsFilesystem,
         RequestStackContext $requestStackContext,
         LoggerInterface $logger,
         string $uploadedAssetsBaseUrl)
     {
-        $this->publicfilesystem             = $publicUploadsFilesystem;
+        $this->publicFilesystem             = $publicUploadsFilesystem;
         $this->privateFilesystem            = $privateUploadsFilesystem;
         $this->templateFilesystem           = $templateUploadsFilesystem;
+        $this->importFilesystem             = $importUploadsFilesystem;
 
         $this->requestStackContext          = $requestStackContext;
         $this->logger                       = $logger;
@@ -83,11 +87,11 @@ class UploadHelper
         // Uploaded import data file treatement
         } elseif ($filesystemType === 'import' ){
 
+            /** @var \DateTime $now */
             $now = new \DateTime('now');
+            $dateFormat = $now->format('d.m.y-H:i:s');
 
-            dd($now);
-
-            $newFilename = Urlizer::urlize(pathinfo($originalFilename, PATHINFO_FILENAME)).'-'.$now.'.'.$uploadedFile->guessExtension();
+            $newFilename = Urlizer::urlize(pathinfo($originalFilename, PATHINFO_FILENAME)).'-'.$dateFormat.'.'.$uploadedFile->guessExtension();
 
         } else {
             $newFilename = Urlizer::urlize(pathinfo($originalFilename, PATHINFO_FILENAME)).'-'.uniqid().'.'.$uploadedFile->guessExtension();
@@ -116,14 +120,13 @@ class UploadHelper
     {
 
         if ($filesystemType === 'public') {
-            $filesystem = $this->publicfilesystem;
-
+            $filesystem = $this->publicFilesystem;
         } elseif ($filesystemType === 'private') {
-
             $filesystem = $this->privateFilesystem;
         } elseif ($filesystemType === 'template') {
-
             $filesystem = $this->templateFilesystem;
+        } elseif ($filesystemType === 'import') {
+            $filesystem = $this->importFilesystem;
         } else {
             $this->logger->alert("There is no filesystem");
         }
@@ -145,7 +148,7 @@ class UploadHelper
         if ($existingFilename) {
 
             try {
-                $result = $this->publicfilesystem->delete(self::POST_IMAGE.'/'.$existingFilename);
+                $result = $this->publicFilesystem->delete(self::POST_IMAGE.'/'.$existingFilename);
 
                 if ($result === false) {
                     throw new Exception(sprintf('Could not delete old uploaded file "%s"', $existingFilename));
@@ -216,7 +219,7 @@ class UploadHelper
      */
     public function readStream(string $path, bool $isPublic)
     {
-        $filesystem = $isPublic ? $this->publicfilesystem : $this->privateFilesystem;
+        $filesystem = $isPublic ? $this->publicFilesystem : $this->privateFilesystem;
 
         $resource = $filesystem->readStream($path);
 
@@ -235,7 +238,7 @@ class UploadHelper
      */
     public function deleteFile(string $path, bool $isPublic)
     {
-        $filesystem = $isPublic ? $this->publicfilesystem : $this->privateFilesystem;
+        $filesystem = $isPublic ? $this->publicFilesystem : $this->privateFilesystem;
 
         $result = $filesystem->delete($path);
 

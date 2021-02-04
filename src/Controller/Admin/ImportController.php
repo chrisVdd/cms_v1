@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Form\ImportUserFormType;
 use App\Services\UploadHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,16 +24,42 @@ class ImportController extends AbstractController
      */
     public function index(Request $request, UploadHelper $uploadHelper): Response
     {
-        $uploadedFile = $request->files->get('importFile');
+        $form = $this->createForm(ImportUserFormType::class);
+        $form->handleRequest($request);
 
-        if ($uploadedFile) {
+        if ($form->isSubmitted() && $form->isValid()) {
 
-            $newFilename = $uploadHelper->uploadImport($uploadedFile);
+            // All datas from the import FORM
+            $importUserModel = $form->getData();
 
+            $uploadedFile = $form['importFile']->getData();
+
+            if ($uploadedFile) {
+
+                $newFilename = $uploadHelper->uploadImport($uploadedFile);
+
+//                $newFilename = $uploadHelper->uploadPostImage($uploadedFile, $post->getImageFilename());
+//                $post->setImageFilename($newFilename);
+            }
+
+
+
+
+
+            dd($importUserModel, $uploadedFile, $newFilename);
 
         }
 
+//        $uploadedFile = $request->files->get('importFile');
+//        if ($uploadedFile) {
+//            $newFilename = $uploadHelper->uploadImport($uploadedFile);
+//        }
 
-        return $this->render("admin/import/index.html.twig", []);
+
+        return $this->render("admin/import/index.html.twig",
+            [
+                'form' => $form->createView(),
+            ]
+        );
     }
 }
