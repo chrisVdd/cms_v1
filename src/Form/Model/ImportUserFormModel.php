@@ -10,5 +10,7 @@ class ImportUserFormModel
 
     public $duplicateEmail;
 
+    public $testinput;
+
 
 }

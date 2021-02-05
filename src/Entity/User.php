@@ -76,11 +76,14 @@ class User implements UserInterface
     }
 
     /**
-     * @param mixed $username
+     * @param string $username
+     * @return $this
      */
     public function setUsername(string $username): self
     {
         $this->username = $username;
+
+        return $this;
     }
 
     /**

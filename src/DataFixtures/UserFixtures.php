@@ -34,6 +34,7 @@ class UserFixtures extends BaseFixture
             /** @var User $user */
             $user = new User();
 
+            $user->setUsername($this->faker->userName);
             $user->setEmail(sprintf('spacebar%d@example.com', $i));
             $user->setPassword($this->passwordEncoder->encodePassword(
                 $user, 'password')
@@ -48,6 +49,7 @@ class UserFixtures extends BaseFixture
             /** @var User $user */
             $user = new User();
 
+            $user->setUsername($this->faker->userName);
             $user->setEmail(sprintf('admin%d@thespacebar.com', $i));
             $user->setPassword($this->passwordEncoder->encodePassword(
                 $user, 'password')

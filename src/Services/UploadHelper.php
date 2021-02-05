@@ -19,9 +19,7 @@ class UploadHelper
 {
     /*@TODO
         - rename const TEMPLATE_FILE >
-        - rename $filesystem TO $publicfilesystem
     */
-
 
     const POST_IMAGE        = 'post_image';
     const POST_REFERENCE    = 'post_reference';
