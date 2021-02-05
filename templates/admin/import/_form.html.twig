@@ -1,19 +1,28 @@
 IMPORT DATAS ?
 
+<div>
+    Steps:
+    {% include '@CraueFormFlow/FormFlow/stepList.html.twig' %}
+</div>
+
 {{ form_start(form) }}
+
+{{ form_errors(form) }}
 
 <div class="row">
 
     <div class="col">
-        {{ form_row(form.importFile) }}
+        {% if flow.getCurrentStepNumber() == 1 %}
+            {{ form_row(form.duplicateEmail) }}
+        {% endif %}
     </div>
 
-    <div class="col">
-        {{ form_row(form.duplicateEmail) }}
-    </div>
+    {{ form_rest(form) }}
 </div>
 
-<button class="btn btn-success btn-user btn-block">
-    {{ button_label|default('IMPORT') }}
-</button>
+{% include '@CraueFormFlow/FormFlow/buttons.html.twig' %}
+
+{#<button class="btn btn-success btn-user btn-block">#}
+{#    {{ button_label|default('IMPORT') }}#}
+{#</button>#}
 {{ form_end(form) }}

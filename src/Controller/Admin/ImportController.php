@@ -2,10 +2,13 @@
 
 namespace App\Controller\Admin;
 
+use App\Form\ImportUserFlow;
 use App\Form\ImportUserFormType;
+use App\Form\Model\ImportUserFormModel;
 use App\Services\ImportHelper;
 use App\Services\UploadHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -22,47 +25,118 @@ class ImportController extends AbstractController
      * @param Request $request
      * @param UploadHelper $uploadHelper
      * @param ImportHelper $importHelper
+     * @param ImportUserFlow $importUserFlow
      * @return Response
-     * @throws \League\Flysystem\FileExistsException
      */
-    public function index(Request $request, UploadHelper $uploadHelper, ImportHelper $importHelper): Response
+    public function index(
+        Request $request,
+        UploadHelper $uploadHelper,
+        ImportHelper $importHelper,
+        ImportUserFlow $importUserFlow): Response
     {
-        $form = $this->createForm(ImportUserFormType::class);
-        $form->handleRequest($request);
+        $formData = new ImportUserFormModel();
+        $importUserFlow->bind($formData);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        $form = $importUserFlow->createForm();
 
-            // All datas from the import FORM
-            $importUserModel = $form->getData();
+        if ($importUserFlow->isValid($form)) {
 
-            $uploadedFile = $form['importFile']->getData();
+            $importUserFlow->saveCurrentStepData($form);
 
-            if ($uploadedFile) {
+            // Launch when Excel is post
+            if ($importUserFlow->getCurrentStepNumber() === 2) {
 
-                // Upload the file in the good folder
-                $newFilename = $uploadHelper->uploadImport($uploadedFile);
+                $importUserModel = $form->getData();
 
-                /** @var array $importDatas */
-                $importDatas = $importHelper->loadDocument($newFilename);
+                $uploadedFile = $form['importFile']->getData();
 
-//                $newFilename = $uploadHelper->uploadPostImage($uploadedFile, $post->getImageFilename());
-//                $post->setImageFilename($newFilename);
+                if ($uploadedFile) {
+
+                    // Upload the file in the good folder
+                    $newFilename = $uploadHelper->uploadImport($uploadedFile);
+
+                    /** @var array $importDatas */
+                    $importDatas = $importHelper->loadDocument($newFilename);
+
+                    $headers = $importHelper->getHeaders($importDatas);
+                    $userEntityFields = $importHelper->getUserEntityFields();
+
+                    dd($importUserFlow->getStep(3));
+
+
+//                    dd($headers, $userEntityFields);
+//                    foreach ($userEntityFields as $entityField) {
+//                        $form->add($entityField, ChoiceType::class,
+//                            [
+//                                'placeholder' => 'Choose a column from the excel file',
+//                                'choices'     => array_flip($headers),
+//                                'multiple'    => false,
+//                                'required'    => false
+//                            ]
+//                        );
+//                    }
+//                    dd($form);
+                }
             }
 
-            dd($importUserModel, $uploadedFile, $newFilename);
+            if ($importUserFlow->getCurrentStepNumber() === 3) {
+
+                $form = $importUserFlow->createForm();
+
+                dd($form);
+
+                die('asldkslkadlsk');
+                $form->getData();
+            }
+
+            if ($importUserFlow->nextStep()) {
+
+                $form = $importUserFlow->createForm();
+
+            } else {
+
+                dd($formData);
+
+//                $entityManager = $this->getDoctrine()->getManager();
+//                $entityManager->persist($formData);
+//                $entityManager->flush();
+
+                $importUserFlow->reset();
+
+                return $this->redirect($this->generateUrl('admin_import_success'));
+            }
+
+//            // All datas from the import FORM
+//            $importUserModel = $form->getData();
+//
+//            $uploadedFile = $form['importFile']->getData();
+//
+//            if ($uploadedFile) {
+//
+//                // Upload the file in the good folder
+//                $newFilename = $uploadHelper->uploadImport($uploadedFile);
+//
+//                /** @var array $importDatas */
+//                $importDatas = $importHelper->loadDocument($newFilename);
+//            }
+//            dd($importUserModel, $uploadedFile, $newFilename);
 
         }
-
-//        $uploadedFile = $request->files->get('importFile');
-//        if ($uploadedFile) {
-//            $newFilename = $uploadHelper->uploadImport($uploadedFile);
-//        }
-
 
         return $this->render("admin/import/index.html.twig",
             [
                 'form' => $form->createView(),
+                'flow' => $importUserFlow
             ]
         );
+    }
+
+    /**
+     * @Route("/success", name="admin_import_success", methods={"GET"})
+     * @return Response
+     */
+    public function importSuccess():Response
+    {
+        return $this->render('admin/import/success.html.twig');
     }
 }

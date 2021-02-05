@@ -7,6 +7,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File as ConstraintsImportFile;
 
@@ -25,7 +27,8 @@ class ImportUserFormType extends AbstractType
         /** @var array $validExtension */
         $validExtension = [new ConstraintsImportFile(
             [
-                'mimeTypes'        => [
+                'mimeTypes'        =>
+                [
                     'application/vnd.ms-excel',
                     'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
                 ],
@@ -45,9 +48,19 @@ class ImportUserFormType extends AbstractType
                             'Duplicate' => 1,
                             'Replace' => 2,
                         ]
-                ]
-            );
+                ]);
+
+        $builder->get('importFile')->addEventListener(FormEvents::POST_SUBMIT,
+            function(FormEvent $event) {
+                $form = $event->getForm();
+
+                dd($form->getParent(), $form->getData());
+
+//                $this->setupColumnFields($form->getParent(), $form->getData());
+            }
+        );
     }
+
 
     /**
      * @param OptionsResolver $resolver

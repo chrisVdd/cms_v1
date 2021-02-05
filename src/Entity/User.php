@@ -24,6 +24,11 @@ class User implements UserInterface
     private $email;
 
     /**
+     * @ORM\Column(type="string", length=180)
+     */
+    private $username;
+
+    /**
      * @ORM\Column(type="string", length=255)
      */
     private $password;
@@ -68,6 +73,14 @@ class User implements UserInterface
     public function getUsername(): string
     {
         return (string) $this->email;
+    }
+
+    /**
+     * @param mixed $username
+     */
+    public function setUsername(string $username): self
+    {
+        $this->username = $username;
     }
 
     /**
