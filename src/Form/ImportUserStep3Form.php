@@ -37,8 +37,8 @@ class ImportUserStep3Form extends AbstractType
     {
 
 //        $userEntityFields = $this->importHelper->getUserEntityFields();
-        $userEntityFields = ['blabla', 'emails', 'userName'];
-        $headersTest = array_flip(['username', 'emails']);
+        $userEntityFields = ['blabla', 'emails', 'userName'];   // FORM LABEL
+        $headersTest = array_flip(['username', 'emails']);      // OPTIONS
 
         dump($userEntityFields, $headersTest);
 //        dd($userEntityFields, $headersTest, 'DIE');
@@ -57,7 +57,7 @@ class ImportUserStep3Form extends AbstractType
             );
         }
 
-        $builder->addModelTransformer(new CollectionToArrayTransformer(), true);
+//        $builder->addModelTransformer(new CollectionToArrayTransformer(), true);
 
 //        $builder
 //            ->get('extraFields')

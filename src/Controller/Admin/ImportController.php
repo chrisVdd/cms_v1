@@ -40,7 +40,7 @@ class ImportController extends AbstractController
         $entityManager = $this->getDoctrine()->getManager();
 
         /** @var ImportUserFormModel $formData */
-        $formData = new ImportUserFormModel();
+        $formData = new ImportUserFormModel($importHelper);
         $importUserFlow->bind($formData);
 
         $steps = $importUserFlow->getSteps();
@@ -48,6 +48,33 @@ class ImportController extends AbstractController
 
         // Create the form for the first step
         $form = $importUserFlow->createForm();
+
+
+        /**
+         * TEST - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+         */
+
+//        $userEntityFields = ['blabla', 'emails', 'userName'];
+//        $headersTest = array_flip(['username', 'emails']);
+//
+//        $extraFields =  [];
+//
+//        foreach ($userEntityFields as $userEntityField) {
+//
+//            $test[$userEntityField] = $headersTest;
+//        }
+//
+//        dd($test);
+
+
+
+
+        /**
+         * TEST - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+         */
+
+
+
 
         if ($importUserFlow->isValid($form)) {
 
