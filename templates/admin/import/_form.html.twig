@@ -11,11 +11,11 @@ IMPORT DATAS ?
 
 <div class="row">
 
-    <div class="col">
+{#    <div class="col">#}
         {% if flow.getCurrentStepNumber() == 1 %}
             {{ form_row(form.duplicateEmail) }}
         {% endif %}
-    </div>
+{#    </div>#}
 
     {{ form_rest(form) }}
 </div>

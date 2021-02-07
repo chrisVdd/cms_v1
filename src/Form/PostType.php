@@ -12,6 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\Validator\Constraints\Image;
 
 /**
@@ -20,6 +21,17 @@ use Symfony\Component\Validator\Constraints\Image;
  */
 class PostType extends AbstractType
 {
+    private $slugger;
+
+    /**
+     * PostType constructor.
+     * @param SluggerInterface $slugger
+     */
+    public function __construct(SluggerInterface $slugger)
+    {
+        $this->slugger = $slugger;
+    }
+
     /**
      * @param FormBuilderInterface $builder
      * @param array $options
@@ -34,7 +46,11 @@ class PostType extends AbstractType
         ];
 
         $builder
-            ->add('title')
+            ->add('title', null,
+                [
+                    'attr' => ['autofocus' => true]
+                ]
+            )
             ->add('content', CKEditorType::class)
             ->add('categories', EntityType::class,
                 [

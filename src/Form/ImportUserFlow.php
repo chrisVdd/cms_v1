@@ -26,7 +26,7 @@ class ImportUserFlow extends FormFlow
                 'label'     => 'Excel file',
                 'form_type' => ImportUserStep2Form::class
             ],
-            // STEP 3
+//            // STEP 3
             [
                 'label'     => 'Matches fields',
                 'form_type' => ImportUserStep3Form::class,

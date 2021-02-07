@@ -70,43 +70,30 @@ class ImportController extends AbstractController
                  * */
                 if ($importUserFlow->getCurrentStep() === '2') {
 
-                    $uploadedFile = $form['testinput']->getData();
-                    dd($uploadedFile);
+                    $uploadedFile = $form['importFile']->getData();
+
+                    if ($uploadedFile) {
+
+                        // 1. upload the file
+                        /** @var string $newFilename */
+                        $newFilename = $uploadHelper->uploadImport($uploadedFile);
+
+                        /** @var array $importDatas */
+                        $importDatas = $importHelper->loadDocument($newFilename);
+
+                        $headers[] = $importHelper->getHeaders($importDatas);
+//                        $importUserFlow->setGenericFormOptions($headers);
+                    }
                 }
-
-
-
-//                $uploadedFile = $form['importFile']->getData();
-//
-//                if ($uploadedFile) {
-//
-//                    dump($uploadedFile);
-//
-//                    // Upload the file in the good folder
-//                    $newFilename = $uploadHelper->uploadImport($uploadedFile);
-//
-//                    /** @var array $importDatas */
-//                    $importDatas = $importHelper->loadDocument($newFilename);
-//
-//                    $headers['headers'] = $importHelper->getHeaders($importDatas);
-//                    $importUserFlow->setGenericFormOptions($headers);
-//                }
-
-
-
-
-
-
-
 
             } else {
 
 //                $entityManager->persist($formData);
 //                $entityManager->flush();
 
-                dump($formData);
-
                 $importUserFlow->reset();
+
+                dd($formData);
 
                 return $this->redirect($this->generateUrl('admin_import_success'));
             }

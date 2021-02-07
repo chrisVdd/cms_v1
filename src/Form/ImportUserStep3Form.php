@@ -3,10 +3,11 @@
 namespace App\Form;
 
 use App\Services\ImportHelper;
+use Symfony\Bridge\Doctrine\Form\DataTransformer\CollectionToArrayTransformer;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\CallbackTransformer;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Class ImportUserStep3Form
@@ -14,19 +15,19 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class ImportUserStep3Form extends AbstractType
 {
-//    /**
-//     * @var ImportHelper
-//     */
-//    private $importHelper;
-//
-//    /**
-//     * ImportUserStep3Form constructor.
-//     * @param ImportHelper $importHelper
-//     */
-//    public function __construct(ImportHelper $importHelper)
-//    {
-//        $this->importHelper = $importHelper;
-//    }
+    /**
+     * @var ImportHelper
+     */
+    private $importHelper;
+
+    /**
+     * ImportUserStep3Form constructor.
+     * @param ImportHelper $importHelper
+     */
+    public function __construct(ImportHelper $importHelper)
+    {
+        $this->importHelper = $importHelper;
+    }
 
     /**
      * @param FormBuilderInterface $builder
@@ -35,33 +36,51 @@ class ImportUserStep3Form extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
 
-        $builder->add('testinput', TextType::class);
-
 //        $userEntityFields = $this->importHelper->getUserEntityFields();
-//
-//        $headersTest = ['username', 'emails'];
-//
-//        foreach ($userEntityFields as $userField) {
-//            $builder->add($userField, ChoiceType::class,
-//                [
-//                    'placeholder' => 'Choose a column from the excel file',
-//                    'choices'     => $options['headers'],
-//                    'choices'     => $headersTest,
-//                    'multiple'    => false,
-//                    'required'    => false
-//                ]
-//            );
-//        }
-    }
+        $userEntityFields = ['blabla', 'emails', 'userName'];
+        $headersTest = array_flip(['username', 'emails']);
 
-//    public function configureOptions(OptionsResolver $resolver)
-//    {
-//        $resolver->setDefaults(
-//            [
-//                'headers' => 'Headers specify in plain text in ImportUserStep3Form for test purpose'
-//            ]
-//        );
-//    }
+        dump($userEntityFields, $headersTest);
+//        dd($userEntityFields, $headersTest, 'DIE');
+
+        foreach ($userEntityFields as $userField) {
+
+            $builder->add('extraFields', ChoiceType::class,
+                [
+                    'label'       => $userField,
+                    'placeholder' => 'Choose a column from the excel file',
+                    'choices'     => $headersTest,
+                    'multiple'    => false,
+                    'expanded'    => false,
+                    'required'    => false
+                ]
+            );
+        }
+
+        $builder->addModelTransformer(new CollectionToArrayTransformer(), true);
+
+//        $builder
+//            ->get('extraFields')
+//            ->addModelTransformer(new CallbackTransformer(
+//                function ($array) {
+//
+//                    dump('transform the array to a string');
+//                    dd($array);
+//                    // transform the array to a string
+//                    $work = count($array)? $array[0]: null;
+//
+//                    dd($work);
+//
+//                    return $work;
+//                },
+//
+//                function ($string) {
+//                    // transform the string back to an array
+//                    dump('transform the string back to an array');
+//                    return [$string];
+//                }
+//            ));
+    }
 
     /**
      * @return mixed
