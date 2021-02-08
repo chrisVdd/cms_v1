@@ -53,9 +53,9 @@ class ImportController extends AbstractController
         /**
          * TEST - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
          */
-
-//        $userEntityFields = ['blabla', 'emails', 'userName'];
-//        $headersTest = array_flip(['username', 'emails']);
+//
+//        $userEntityFields = ['username', 'email', 'lastname', 'firstname'];
+//        $headersTest = array_flip(['username', 'emails', 'lastName']);
 //
 //        $extraFields =  [];
 //

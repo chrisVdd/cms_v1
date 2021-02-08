@@ -29,7 +29,7 @@ class UserType extends AbstractType
                 [
                     'choices' =>
                     [
-                        'User' => 'ROLE_USER',
+                        'User'  => 'ROLE_USER',
                         'Admin' => 'ROLE_ADMIN'
                     ],
                     'multiple' => false,
@@ -42,7 +42,15 @@ class UserType extends AbstractType
 
             function ($rolesArray) {
 
-                return count($rolesArray) ? $rolesArray[0] : null;
+                if (count($rolesArray)) {
+                    $test = $rolesArray[0];
+                } else {
+                    $test = null;
+                }
+
+                dd($test);
+
+//                return count($rolesArray) ? $rolesArray[0] : null;
             },
 
             function ($rolesString) {

@@ -3,9 +3,7 @@
 namespace App\Form;
 
 use App\Services\ImportHelper;
-use Symfony\Bridge\Doctrine\Form\DataTransformer\CollectionToArrayTransformer;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 
@@ -36,26 +34,49 @@ class ImportUserStep3Form extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
 
-//        $userEntityFields = $this->importHelper->getUserEntityFields();
-        $userEntityFields = ['blabla', 'emails', 'userName'];   // FORM LABEL
-        $headersTest = array_flip(['username', 'emails']);      // OPTIONS
+//      $userEntityFields = $this->importHelper->getUserEntityFields();
+        $userEntityFields = ['username', 'email', 'lastname', 'firstname'];   // FORM LABEL
+        $headersTest = ['username', 'emails', 'lastName'];                  // OPTIONS for select
 
-        dump($userEntityFields, $headersTest);
-//        dd($userEntityFields, $headersTest, 'DIE');
+//      dd($userEntityFields, $headersTest, 'DIE');
 
         foreach ($userEntityFields as $userField) {
+
+            $test[$userField] = array_flip($headersTest);
 
             $builder->add('extraFields', ChoiceType::class,
                 [
                     'label'       => $userField,
                     'placeholder' => 'Choose a column from the excel file',
-                    'choices'     => $headersTest,
+                    'choices'     => $test,
                     'multiple'    => false,
                     'expanded'    => false,
                     'required'    => false
                 ]
             );
         }
+
+//        $builder->get('extraFields')->addModelTransformer(new CallbackTransformer(
+//
+//            function ($extraFieldsArray) {
+//
+////                dd($extraFieldsArray);
+//
+//                if (count($extraFieldsArray)) {
+//                    $test = $extraFieldsArray[0];
+//                } else {
+//                    $test = null;
+//                }
+//
+//                dd($test);
+//
+//                return count($extraFieldsArray) ? $extraFieldsArray[0] : null;
+//            },
+//
+//            function ($extraFieldsString) {
+//                return [$extraFieldsString];
+//            }
+//        ));
 
 //        $builder->addModelTransformer(new CollectionToArrayTransformer(), true);
 
