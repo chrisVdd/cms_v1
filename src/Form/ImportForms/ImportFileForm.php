@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Form;
+namespace App\Form\ImportForms;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -8,10 +8,10 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\File as ConstraintsImportFile;
 
 /**
- * Class ImportUserStep2Form
- * @package App\Form
+ * Class ImportFileForm
+ * @package App\Form\ImportForms
  */
-class ImportUserStep2Form extends AbstractType
+class ImportFileForm extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -19,8 +19,6 @@ class ImportUserStep2Form extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-
-        /** @var array $validExtension */
         $validExtension = [new ConstraintsImportFile(
             [
                 'mimeTypes'        =>
@@ -29,20 +27,23 @@ class ImportUserStep2Form extends AbstractType
                         'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
                     ],
                 'mimeTypesMessage' => 'Please, upload a valid Excel document'
-            ])
-        ];
+            ]
+       )];
 
         $builder
             ->add('importFile', FileType::class,
-                ['constraints' => $validExtension]
+                [
+//                    'mapped' => false,
+                    'constraints' => $validExtension
+                ]
             );
     }
 
     /**
-     * @return mixed
+     * @return string|null
      */
     public function getBlockPrefix()
     {
-        return 'importUserStep2';
+        return 'importFileStep';
     }
 }

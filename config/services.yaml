@@ -43,5 +43,5 @@ services:
     Symfony\Component\Asset\Context\RequestStackContext: '@assets.context'
 
 #    ImportUserFlow
-    App\Form\ImportUserFlow:
+    App\Form\Flow\ImportFlow:
         autoconfigure: true

@@ -4,10 +4,12 @@ namespace App\Entity;
 
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ * @Gedmo\Loggable()
  */
 class User implements UserInterface
 {
@@ -20,21 +22,25 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Gedmo\Versioned
      */
     private $email;
 
     /**
      * @ORM\Column(type="string", length=180)
+     * @Gedmo\Versioned
      */
     private $username;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Gedmo\Versioned
      */
     private $password;
 
     /**
      * @ORM\Column(type="json")
+     * @Gedmo\Versioned
      */
     private $roles = [];
 

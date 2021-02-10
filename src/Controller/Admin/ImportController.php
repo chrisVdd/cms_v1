@@ -2,11 +2,10 @@
 
 namespace App\Controller\Admin;
 
-use App\Form\ImportUserFlow;
-use App\Form\Model\ImportUserFormModel;
+use App\Form\DataModel\ImportUserFormModel;
+use App\Form\Flow\ImportFlow;
 use App\Services\ImportHelper;
 use App\Services\UploadHelper;
-use Doctrine\ORM\EntityManagerInterface;
 use League\Flysystem\FileExistsException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,9 +22,9 @@ class ImportController extends AbstractController
     /**
      * @Route("/", name="admin_import_index", methods={"GET", "POST"})
      * @param Request $request
+     * @param ImportFlow $importFlow
      * @param UploadHelper $uploadHelper
      * @param ImportHelper $importHelper
-     * @param ImportUserFlow $importUserFlow
      * @return Response
      * @throws FileExistsException
      */
@@ -33,140 +32,58 @@ class ImportController extends AbstractController
         Request $request,
         UploadHelper $uploadHelper,
         ImportHelper $importHelper,
-        ImportUserFlow $importUserFlow): Response
+        ImportFlow $importFlow): Response
     {
 
-        /** @var EntityManagerInterface $entityManager */
-        $entityManager = $this->getDoctrine()->getManager();
-
         /** @var ImportUserFormModel $formData */
-        $formData = new ImportUserFormModel($importHelper);
-        $importUserFlow->bind($formData);
-
-        $steps = $importUserFlow->getSteps();
-        // dump($steps);
+        $formData = new ImportUserFormModel();
+        $importFlow->bind($formData);
 
         // Create the form for the first step
-        $form = $importUserFlow->createForm();
+        $form = $importFlow->createForm();
 
+        if ($importFlow->isValid($form)) {
 
-        /**
-         * TEST - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-         */
-//
-//        $userEntityFields = ['username', 'email', 'lastname', 'firstname'];
-//        $headersTest = array_flip(['username', 'emails', 'lastName']);
-//
-//        $extraFields =  [];
-//
-//        foreach ($userEntityFields as $userEntityField) {
-//
-//            $test[$userEntityField] = $headersTest;
-//        }
-//
-//        dd($test);
-
-
-
-
-        /**
-         * TEST - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-         */
-
-
-
-
-        if ($importUserFlow->isValid($form)) {
-
-            $importUserFlow->saveCurrentStepData($form);
+            $importFlow->saveCurrentStepData($form);
 
             // If there is a NEXT step
-            if ($importUserFlow->nextStep()) {
+            if ($importFlow->nextStep()) {
 
-                // Create the form for the next step
-                $form = $importUserFlow->createForm();
+                $form = $importFlow->createForm();
 
-                // dump($form);
-                dump($importUserFlow->getCurrentStep());
+                if ($importFlow->getCurrentStep() === 3) {
 
-                /*
-                 * TODO
-                 * WORK on the STEP 2 or 3 ?????
-                 *      1. upload the file
-                 *      2. use the data from the file to generate the 3th form
-                 * */
-                if ($importUserFlow->getCurrentStep() === '2') {
-
-                    $uploadedFile = $form['importFile']->getData();
+                    $uploadedFile = $formData->importFile;
 
                     if ($uploadedFile) {
 
-                        // 1. upload the file
-                        /** @var string $newFilename */
                         $newFilename = $uploadHelper->uploadImport($uploadedFile);
-
-                        /** @var array $importDatas */
                         $importDatas = $importHelper->loadDocument($newFilename);
+                        $cvsHeaders  = $importHelper->getHeaders($importDatas);
 
-                        $headers[] = $importHelper->getHeaders($importDatas);
-//                        $importUserFlow->setGenericFormOptions($headers);
+                        dd($newFilename, $importDatas, $cvsHeaders);
                     }
+
                 }
+
+
 
             } else {
 
 //                $entityManager->persist($formData);
 //                $entityManager->flush();
 
-                $importUserFlow->reset();
-
+                $importFlow->reset();
                 dd($formData);
 
                 return $this->redirect($this->generateUrl('admin_import_success'));
             }
-
-
-
-//            // Launch when Excel is 'post'
-//            if ($importUserFlow->getCurrentStepNumber() === 2) {
-//
-//                $importUserModel = $form->getData();
-//
-//                $uploadedFile = $form['importFile']->getData();
-//
-//                if ($uploadedFile) {
-//
-//                    // Upload the file in the good folder
-//                    $newFilename = $uploadHelper->uploadImport($uploadedFile);
-//
-//                    /** @var array $importDatas */
-//                    $importDatas = $importHelper->loadDocument($newFilename);
-//
-//                    $headers['headers'] = $importHelper->getHeaders($importDatas);
-//                    $importUserFlow->setGenericFormOptions($headers);
-//                }
-//            }
-//
-//            if ($importUserFlow->nextStep()) {
-//
-//                $form = $importUserFlow->createForm();
-//
-//            } else {
-//
-////                $entityManager = $this->getDoctrine()->getManager();
-////                $entityManager->persist($formData);
-////                $entityManager->flush();
-//
-//                $importUserFlow->reset();
-//
-//                return $this->redirect($this->generateUrl('admin_import_success'));
-//            }
         }
 
         return $this->render("admin/import/index.html.twig",
             [
                 'form' => $form->createView(),
-                'flow' => $importUserFlow
+                'flow' => $importFlow
             ]
         );
     }

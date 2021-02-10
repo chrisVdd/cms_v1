@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Form;
+namespace App\Form\ImportForms;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 /**
- * Class ImportUserStep1Form
- * @package App\Form
+ * Class ImportQuestionForm
+ * @package App\Form\ImportForms
  */
-class ImportUserStep1Form extends AbstractType
+class ImportQuestionForm extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -19,14 +19,14 @@ class ImportUserStep1Form extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('duplicateEmail', ChoiceType::class,
-                [
-                    'choices' =>
-                        [
-                            'Do nothing' => 0,
-                            'Duplicate' => 1,
-                            'Replace' => 2,
-                        ]
-                ]
+            [
+                'choices' =>
+                    [
+                        'Do nothing' => 0,
+                        'Duplicate the user' => 1,
+                        'Replace' => 2,
+                    ]
+            ]
         );
     }
 
@@ -35,6 +35,6 @@ class ImportUserStep1Form extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'importUserStep1';
+        return 'importQuestionStep';
     }
 }

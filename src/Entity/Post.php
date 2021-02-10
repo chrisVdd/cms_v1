@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\PostRepository;
 use App\Services\UploadHelper;
+use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping                    as ORM;
@@ -128,18 +129,18 @@ class Post
     }
 
     /**
-     * @return \DateTimeInterface|null
+     * @return DateTimeInterface|null
      */
-    public function getCreateDate(): ?\DateTimeInterface
+    public function getCreateDate(): ?DateTimeInterface
     {
         return $this->createDate;
     }
 
     /**
-     * @param \DateTimeInterface $createDate
+     * @param DateTimeInterface $createDate
      * @return $this
      */
-    public function setCreateDate(\DateTimeInterface $createDate): self
+    public function setCreateDate(DateTimeInterface $createDate): self
     {
         $this->createDate = $createDate;
 
@@ -147,18 +148,18 @@ class Post
     }
 
     /**
-     * @return \DateTimeInterface|null
+     * @return DateTimeInterface|null
      */
-    public function getUpdateDate(): ?\DateTimeInterface
+    public function getUpdateDate(): ?DateTimeInterface
     {
         return $this->updateDate;
     }
 
     /**
-     * @param \DateTimeInterface $updateDate
+     * @param DateTimeInterface $updateDate
      * @return $this
      */
-    public function setUpdateDate(\DateTimeInterface $updateDate): self
+    public function setUpdateDate(DateTimeInterface $updateDate): self
     {
         $this->updateDate = $updateDate;
 

@@ -193,7 +193,6 @@ class UploadHelper
     public function uploadImport(UploadedFile $uploadedFile): string
     {
         $newFilename = $this->uploadFile($uploadedFile, self::IMPORT_FILE, 'import');
-
         return $newFilename;
     }
 
