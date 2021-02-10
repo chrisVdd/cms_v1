@@ -2,6 +2,8 @@
 
 namespace App\Form\DataModel;
 
+use App\Entity\User;
+
 /**
  * Class ImportUserFormModel
  * @package App\Form\DataModel
@@ -23,6 +25,8 @@ class ImportUserFormModel
 //            'user' => 'User',
 //        ];
 //    }
+
+    public array $entityFields = ['entity_username', 'entity_email'];
 
     /**
      * @return string

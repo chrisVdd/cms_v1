@@ -62,14 +62,16 @@ class ImportHelper
     }
 
     /**
+     * >> example of string: 'App:User'
+     *
+     * @param string $className
      * @return mixed[]
      */
-    public function getUserEntityFields()
+    public function getEntityFields(string $className)
     {
-        // @TODO > transform this to ge more generic and not just for user
-        $userEntityFields = $this->entityManager->getClassMetadata('App:User')->getColumnNames();
-
-        return $userEntityFields;
+        return $this->entityManager
+            ->getClassMetadata('App:'.lcfirst($className))
+            ->getColumnNames();
     }
 
     /**

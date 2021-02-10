@@ -57,7 +57,7 @@ class ImportController extends AbstractController
                     $importDatas = $importHelper->loadDocument($newFilename);
                     $cvsHeaders  = $importHelper->getHeaders($importDatas);
 
-                    dd($newFilename, $importDatas, $cvsHeaders);
+//                    dd($newFilename, $importDatas, $cvsHeaders);
                 }
 
             } else {

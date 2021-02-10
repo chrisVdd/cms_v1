@@ -4,6 +4,7 @@ namespace App\Form\ImportForms;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 /**
@@ -18,13 +19,13 @@ class ImportEntityForm extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('entity', ChoiceType::class,
+            $builder->add('entity', ChoiceType::class,
             [
                 'label'     => 'For which entity do you to import datas?',
                 'choices'   =>
                     [
-                        'Page'  => 'page',
-                        'Post'  => 'post',
+//                        'Page'  => 'page',
+//                        'Post'  => 'post',
                         'User'  => 'user',
                     ]
             ]
