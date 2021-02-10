@@ -51,22 +51,14 @@ class ImportController extends AbstractController
 
                 $form = $importFlow->createForm();
 
-                if ($importFlow->getCurrentStep() === 3) {
+                if ($formData->importFile) {
 
-                    $uploadedFile = $formData->importFile;
+                    $newFilename = $uploadHelper->uploadImport($formData->importFile);
+                    $importDatas = $importHelper->loadDocument($newFilename);
+                    $cvsHeaders  = $importHelper->getHeaders($importDatas);
 
-                    if ($uploadedFile) {
-
-                        $newFilename = $uploadHelper->uploadImport($uploadedFile);
-                        $importDatas = $importHelper->loadDocument($newFilename);
-                        $cvsHeaders  = $importHelper->getHeaders($importDatas);
-
-                        dd($newFilename, $importDatas, $cvsHeaders);
-                    }
-
+                    dd($newFilename, $importDatas, $cvsHeaders);
                 }
-
-
 
             } else {
 
