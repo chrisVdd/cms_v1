@@ -27,25 +27,39 @@ class ImportMatchFieldsForm extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+
+//        dd($options);
+
         $entityFields = $this->importHelper->getEntityFields('user');
+        $forbiddenFields = ['id', 'create_date', 'update_date'];
+
+        $fields = array_diff($entityFields, $forbiddenFields);
 
         $csvHeaders = $headersTest = ['username', 'emails', 'lastName'];
 
-        foreach ($entityFields as $entityField) {
+        foreach ($fields as $field) {
 
-            $choices[$entityField] = array_flip($csvHeaders);
+            $choices[$field] = array_flip($csvHeaders);
 
-            $builder->add($entityField, ChoiceType::class,
+            $builder->add($field, ChoiceType::class,
                 [
-                    'label' => $entityField,
+                    'label'       => $field,
                     'placeholder' => 'Choose a column from the excel file',
-                    'choices' => $choices[$entityField],
-                    'multiple' => false,
-                    'expanded' => false,
-                    'required' => false,
-                    'mapped' => false
+                    'choices'     => $choices[$field],
+                    'multiple'    => false,
+                    'expanded'    => false,
+                    'required'    => false,
+                    'mapped'      => false
                 ]
             );
        }
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getBlockPrefix()
+    {
+        return 'ImportMatchFieldsStep';
     }
 }

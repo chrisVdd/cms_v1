@@ -19,16 +19,6 @@ class ImportUserFormModel
 
     public $importFile;
 
-//    public static function getValidEntityNames() {
-//        return [
-//            'page' => 'Page',
-//            'post' => 'Post',
-//            'user' => 'User',
-//        ];
-//    }
-
-//    public array $entityFields = ['entity_username', 'entity_email'];
-
     /**
      * @return string
      */
@@ -60,5 +50,4 @@ class ImportUserFormModel
     {
         $this->duplicateEmail = $duplicateEmail;
     }
-
 }

@@ -8,6 +8,7 @@ use App\Services\ImportHelper;
 use App\Services\UploadHelper;
 use League\Flysystem\FileExistsException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -40,6 +41,8 @@ class ImportController extends AbstractController
         $importFlow->bind($formData);
 
         // Create the form for the first step
+
+        /** @var FormInterface $form */
         $form = $importFlow->createForm();
 
         if ($importFlow->isValid($form)) {
@@ -59,16 +62,22 @@ class ImportController extends AbstractController
                 if ($importFlow->getCurrentStepNumber() === 4) {
 
                     $csvDatas = $importHelper->getCleanImportDatas();
-                    dd($csvDatas);
+                    $headers = $csvDatas[0];
+
+//                    dd($importFlow->getFormOptions(4));
+
+//                    dd($importFlow);
                 }
 
             } else {
 
+
+                dd($formData);
 //                $entityManager->persist($formData);
 //                $entityManager->flush();
 
                 $importFlow->reset();
-                dd($formData);
+
 
                 return $this->redirect($this->generateUrl('admin_import_success'));
             }

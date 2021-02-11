@@ -18,16 +18,48 @@ class ImportQuestionForm extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('duplicateEmail', ChoiceType::class,
-            [
-                'choices' =>
+        $builder
+            ->add('deleteStandards', ChoiceType::class,
+                [
+                    'data' => 0,
+                    'choices' =>
+                        [
+                            'Yes' => 1,
+                            'No'  => 0
+                        ]
+                ]
+            )
+            ->add('deteteTests', ChoiceType::class,
+                [
+                    'data' => 0,
+                    'choices' =>
+                        [
+                            'Yes' => 1,
+                            'No'  => 0
+                        ]
+                ]
+            )
+            ->add('duplicateEmail', ChoiceType::class,
+                [
+                    'data' => 0,
+                    'choices' =>
+                        [
+                            'Skip this user'      => 0,
+                            'Insert this user'    => 1,
+                            'Overwrite this user' => 2,
+                        ]
+                ]
+            )
+            ->add('emptyEmails', ChoiceType::class,
+                [
+                    'data' => 0,
+                    'choices' =>
                     [
-                        'Do nothing' => 0,
-                        'Duplicate the user' => 1,
-                        'Replace' => 2,
+                        'Skip this user'   => 0,
+                        'Insert this user' => 1,
                     ]
-            ]
-        );
+                ]
+            );
     }
 
     /**

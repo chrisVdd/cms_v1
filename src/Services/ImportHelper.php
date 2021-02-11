@@ -67,24 +67,6 @@ class ImportHelper
     }
 
     /**
-     * @param array $sheetDatas
-     * @return array
-     */
-    public function getHeaders(array $sheetDatas)
-    {
-        $headers = $sheetDatas[0];
-
-        return $headers;
-    }
-
-    public function getDatas(array $sheetDatas)
-    {
-        $datas = $sheetDatas;
-
-        return $datas;
-    }
-
-    /**
      * >> example of string: 'App:User'
      *
      * @param string $className
@@ -92,9 +74,11 @@ class ImportHelper
      */
     public function getEntityFields(string $className)
     {
-        return $this->entityManager
+        $allFields = $this->entityManager
             ->getClassMetadata('App:'.lcfirst($className))
             ->getColumnNames();
+
+        return $allFields;
     }
 
     /**
@@ -112,14 +96,7 @@ class ImportHelper
 
         $importDatas = $this->loadDocument($lastFilename);
 
-
-
-
-
-        $cvsHeaders = $this->getHeaders($importDatas);
-        $csvDatas   = $this->getDatas($importDatas);
-
-        return [$csvDatas, $cvsHeaders];
+        return $importDatas;
     }
 
 }
