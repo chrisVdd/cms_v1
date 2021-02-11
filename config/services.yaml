@@ -13,12 +13,9 @@ services:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
         bind:
-
-#            ONEUP FILESYSTEM
             $publicUploadsFilesystem:   '@oneup_flysystem.public_uploads_filesystem_filesystem'
             $privateUploadsFilesystem:  '@oneup_flysystem.private_uploads_filesystem_filesystem'
-            $templateUploadsFilesystem: '@oneup_flysystem.template_uploads_filesystem_filesystem'
-            $importUploadsFilesystem:   '@oneup_flysystem.import_uploads_filesystem_filesystem'
+            $templateUploadsFilesystem:  '@oneup_flysystem.template_uploads_filesystem_filesystem'
 
             $uploadedAssetsBaseUrl: '%uploads_base_url%'
 
@@ -41,7 +38,3 @@ services:
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
     Symfony\Component\Asset\Context\RequestStackContext: '@assets.context'
-
-#    ImportUserFlow
-    App\Form\Flow\ImportFlow:
-        autoconfigure: true

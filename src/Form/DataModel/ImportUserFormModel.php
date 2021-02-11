@@ -3,6 +3,7 @@
 namespace App\Form\DataModel;
 
 use App\Entity\User;
+use App\Services\ImportHelper;
 
 /**
  * Class ImportUserFormModel
@@ -11,10 +12,10 @@ use App\Entity\User;
 class ImportUserFormModel
 {
     /** @var string */
-    public $entity;
+    public string $entity;
 
     /** @var int */
-    public $duplicateEmail;
+    public int $duplicateEmail;
 
     public $importFile;
 
@@ -26,7 +27,7 @@ class ImportUserFormModel
 //        ];
 //    }
 
-    public array $entityFields = ['entity_username', 'entity_email'];
+//    public array $entityFields = ['entity_username', 'entity_email'];
 
     /**
      * @return string

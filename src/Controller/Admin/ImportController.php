@@ -54,10 +54,12 @@ class ImportController extends AbstractController
                 if ($formData->importFile) {
 
                     $newFilename = $uploadHelper->uploadImport($formData->importFile);
-                    $importDatas = $importHelper->loadDocument($newFilename);
-                    $cvsHeaders  = $importHelper->getHeaders($importDatas);
+                }
 
-//                    dd($newFilename, $importDatas, $cvsHeaders);
+                if ($importFlow->getCurrentStepNumber() === 4) {
+
+                    $csvDatas = $importHelper->getCleanImportDatas();
+                    dd($csvDatas);
                 }
 
             } else {

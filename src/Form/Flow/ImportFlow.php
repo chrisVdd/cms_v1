@@ -17,18 +17,18 @@ use Craue\FormFlowBundle\Form\FormFlow;
  */
 class ImportFlow extends FormFlow
 {
-    /**
-     * @var array|string[]
-     */
-    private array $mapEntity = [
-        Page::class,
-        Post::class,
-        User::class,
-    ];
-
-    public function getDataClass(array $properties) {
-        return$this->mapEntity;
-    }
+//    /**
+//     * @var array|string[]
+//     */
+//    private array $mapEntity = [
+//        Page::class,
+//        Post::class,
+//        User::class,
+//    ];
+//
+//    public function getDataClass(array $properties) {
+//        return$this->mapEntity;
+//    }
 
     /**
      * @return array|string[]
