@@ -3,6 +3,7 @@
 namespace App\Form\DataModel;
 
 use App\Entity\User;
+use App\Services\ImportHelper;
 
 /**
  * Class ImportUserFormModel
@@ -10,6 +11,18 @@ use App\Entity\User;
  */
 class ImportUserFormModel extends User
 {
+
+    private ImportHelper $importHelper;
+
+    /**
+     * ImportMatchFieldsForm constructor.
+     * @param ImportHelper $importHelper
+     */
+    public function __construct(ImportHelper $importHelper)
+    {
+        $this->importHelper = $importHelper;
+    }
+
     /** @var string */
     public string $entity;
 

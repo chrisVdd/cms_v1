@@ -82,7 +82,7 @@ class ImportHelper
     }
 
     /**
-     *
+     * @return array
      */
     public function getCleanImportDatas()
     {
@@ -92,11 +92,8 @@ class ImportHelper
         $lastFileMetadatas = $listFolder[array_key_last($listFolder)];
 
         $lastFilename = $lastFileMetadatas['basename'];
-        // dd($lastFilename, $listFolder);
 
-        $importDatas = $this->loadDocument($lastFilename);
-
-        return $importDatas;
+        return $this->loadDocument($lastFilename);
     }
 
 }

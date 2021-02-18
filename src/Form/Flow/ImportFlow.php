@@ -5,6 +5,7 @@ namespace App\Form\Flow;
 use App\Form\ImportForms\ImportFileForm;
 use App\Form\ImportForms\ImportMatchFieldsForm;
 use App\Form\ImportForms\ImportQuestionForm;
+use App\Services\ImportHelper;
 use Craue\FormFlowBundle\Form\FormFlow;
 
 /**
@@ -35,5 +36,36 @@ class ImportFlow extends FormFlow
                 'label' => 'Confirmation'
             ]
         ];
+    }
+
+    private ImportHelper $importHelper;
+
+    /**
+     * ImportMatchFieldsForm constructor.
+     * @param ImportHelper $importHelper
+     */
+    public function __construct(ImportHelper $importHelper)
+    {
+        $this->importHelper = $importHelper;
+    }
+
+    /**
+     * @param $step
+     * @param array $options
+     * @return array
+     */
+    public function getFormOptions($step, array $options = [])
+    {
+        $options = parent::getFormOptions($step, $options);
+        $formData = $this->getFormData();
+
+        $csvDatas = $this->importHelper->getCleanImportDatas();
+        $properChoicesList = array_combine($csvDatas[0], $csvDatas[0]);
+
+        if ($step === 3) {
+            $options['csvHeaders'] = $properChoicesList;
+        }
+
+        return $options;
     }
 }

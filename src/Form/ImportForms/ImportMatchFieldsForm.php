@@ -6,6 +6,7 @@ use App\Services\ImportHelper;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ImportMatchFieldsForm extends AbstractType
 {
@@ -27,14 +28,12 @@ class ImportMatchFieldsForm extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $csvHeaders = $headersTest = ['username', 'emails', 'lastName'];
-        $properChoicesList = array_combine($csvHeaders, $csvHeaders);
-
         $builder->add('email', ChoiceType::class,
             [
                 'label'       => 'Email',
                 'placeholder' => 'Choose a column from the excel file',
-                'choices'     => $properChoicesList,
+                'choices'     => $options['csvHeaders'],
+                'required'    => false
             ]
         );
 
@@ -42,7 +41,8 @@ class ImportMatchFieldsForm extends AbstractType
             [
                 'label'       => 'Username',
                 'placeholder' => 'Choose a column from the excel file',
-                'choices'     => $properChoicesList
+                'choices'     => $options['csvHeaders'],
+                'required'    => false
             ]
         );
 
@@ -50,7 +50,8 @@ class ImportMatchFieldsForm extends AbstractType
             [
                 'label'       => 'Password',
                 'placeholder' => 'Choose a column from the excel file',
-                'choices'     => $properChoicesList
+                'choices'     => $options['csvHeaders'],
+                'required'    => false
             ]
         );
     }
@@ -61,5 +62,10 @@ class ImportMatchFieldsForm extends AbstractType
     public function getBlockPrefix()
     {
         return 'ImportMatchFieldsStep';
+    }
+
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults(['csvHeaders' => false]);
     }
 }

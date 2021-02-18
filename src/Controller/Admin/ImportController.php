@@ -37,7 +37,7 @@ class ImportController extends AbstractController
     {
 
         /** @var ImportUserFormModel $formData */
-        $formData = new ImportUserFormModel();
+        $formData = new ImportUserFormModel($importHelper);
         $importFlow->bind($formData);
 
         // Create the form for the first step
@@ -59,15 +59,11 @@ class ImportController extends AbstractController
                     $newFilename = $uploadHelper->uploadImport($formData->importFile);
                 }
 
-                if ($importFlow->getCurrentStepNumber() === 3) {
-
-                    $csvDatas = $importHelper->getCleanImportDatas();
-                    $headers = $csvDatas[0];
-
-//                    dd($csvDatas, $headers);
-//                    dd($importFlow->getFormOptions(4));
-//                    dd($importFlow);
-                }
+//                if ($importFlow->getCurrentStepNumber() === 3) {
+//
+//                    $csvDatas = $importHelper->getCleanImportDatas();
+//                    $headers = $csvDatas[0];
+//                }
 
             } else {
 
