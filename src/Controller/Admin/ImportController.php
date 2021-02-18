@@ -59,18 +59,17 @@ class ImportController extends AbstractController
                     $newFilename = $uploadHelper->uploadImport($formData->importFile);
                 }
 
-                if ($importFlow->getCurrentStepNumber() === 4) {
+                if ($importFlow->getCurrentStepNumber() === 3) {
 
                     $csvDatas = $importHelper->getCleanImportDatas();
                     $headers = $csvDatas[0];
 
+//                    dd($csvDatas, $headers);
 //                    dd($importFlow->getFormOptions(4));
-
 //                    dd($importFlow);
                 }
 
             } else {
-
 
                 dd($formData);
 //                $entityManager->persist($formData);

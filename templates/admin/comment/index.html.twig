@@ -1,0 +1,75 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('admin-datatables') }}
+{% endblock %}
+
+{% block title %}Comment index{% endblock %}
+
+{% block body %}
+
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="mt-4">Comment index</h1>
+    <a href="{{ path('admin_comment_new') }}" class="btn btn-success">Create new</a>
+</div>
+
+<ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+    <li class="breadcrumb-item active">Tables</li>
+</ol>
+
+<div class="card-header">
+    <i class="fa fa-book"></i> Comments listing
+</div>
+
+<div class="card-body">
+    <div class="table-responsive">
+        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Text</th>
+                    <th>CreateDate</th>
+                    <th>UpdateDate</th>
+                    <th>State</th>
+                    <th>ACTIONS</th>
+                </tr>
+            </thead>
+            <tfoot>
+            <tr>
+                <th>Id</th>
+                <th>Text</th>
+                <th>CreateDate</th>
+                <th>UpdateDate</th>
+                <th>State</th>
+                <th>ACTIONS</th>
+            </tr>
+            </tfoot>
+        <tbody>
+        {% for comment in comments %}
+            <tr>
+                <td>{{ comment.id }}</td>
+                <td>{{ comment.text }}</td>
+                <td>{{ comment.createDate ? comment.createDate|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ comment.updateDate ? comment.updateDate|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ comment.state }}</td>
+                <td>
+                    <a href="{{ path('admin_comment_show', {'id': comment.id}) }}">show</a>
+                    <a href="{{ path('admin_comment_edit', {'id': comment.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table></div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('admin-datatables') }}
+{% endblock %}

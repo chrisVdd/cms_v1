@@ -27,32 +27,32 @@ class ImportMatchFieldsForm extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-
-//        dd($options);
-
-        $entityFields = $this->importHelper->getEntityFields('user');
-        $forbiddenFields = ['id', 'create_date', 'update_date'];
-
-        $fields = array_diff($entityFields, $forbiddenFields);
-
         $csvHeaders = $headersTest = ['username', 'emails', 'lastName'];
+        $properChoicesList = array_combine($csvHeaders, $csvHeaders);
 
-        foreach ($fields as $field) {
+        $builder->add('email', ChoiceType::class,
+            [
+                'label'       => 'Email',
+                'placeholder' => 'Choose a column from the excel file',
+                'choices'     => $properChoicesList,
+            ]
+        );
 
-            $choices[$field] = array_flip($csvHeaders);
+        $builder->add('username', ChoiceType::class,
+            [
+                'label'       => 'Username',
+                'placeholder' => 'Choose a column from the excel file',
+                'choices'     => $properChoicesList
+            ]
+        );
 
-            $builder->add($field, ChoiceType::class,
-                [
-                    'label'       => $field,
-                    'placeholder' => 'Choose a column from the excel file',
-                    'choices'     => $choices[$field],
-                    'multiple'    => false,
-                    'expanded'    => false,
-                    'required'    => false,
-                    'mapped'      => false
-                ]
-            );
-       }
+        $builder->add('password', ChoiceType::class,
+            [
+                'label'       => 'Password',
+                'placeholder' => 'Choose a column from the excel file',
+                'choices'     => $properChoicesList
+            ]
+        );
     }
 
     /**

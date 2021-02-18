@@ -16,7 +16,6 @@ use Gedmo\Mapping\Annotation                as Gedmo;
  */
 class Post
 {
-
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -74,12 +73,18 @@ class Post
     private $postReferences;
 
     /**
+     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="post", orphanRemoval=true)
+     */
+    private $comments;
+
+    /**
      * Post constructor.
      */
     public function __construct()
     {
         $this->categories       = new ArrayCollection();
         $this->postReferences   = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
 
     /**
@@ -303,6 +308,36 @@ class Post
             // set the owning side to null (unless already changed)
             if ($postReference->getPost() === $this) {
                 $postReference->setPost(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Comment[]
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comment $comment): self
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments[] = $comment;
+            $comment->setPost($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comment $comment): self
+    {
+        if ($this->comments->removeElement($comment)) {
+            // set the owning side to null (unless already changed)
+            if ($comment->getPost() === $this) {
+                $comment->setPost(null);
             }
         }
 

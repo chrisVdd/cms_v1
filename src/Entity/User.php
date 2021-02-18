@@ -18,31 +18,31 @@ class User implements UserInterface
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
      * @Gedmo\Versioned
      */
-    private $email;
+    private ?string $email;
 
     /**
      * @ORM\Column(type="string", length=180)
      * @Gedmo\Versioned
      */
-    private $username;
+    private string $username;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Gedmo\Versioned
      */
-    private $password;
+    private ?string $password;
 
     /**
      * @ORM\Column(type="json")
      * @Gedmo\Versioned
      */
-    private $roles = [];
+    private array $roles = [];
 
     /**
      * @return int|null

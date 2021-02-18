@@ -19,6 +19,17 @@ class ImportQuestionForm extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('entity', ChoiceType::class,
+                [
+                    'label'     => 'For which entity do you to import datas?',
+                    'choices'   =>
+                        [
+                            // 'Page'  => 'page',
+                            // 'Post'  => 'post',
+                            'User'  => 'user',
+                        ]
+                ]
+            )
             ->add('deleteStandards', ChoiceType::class,
                 [
                     'data' => 0,
