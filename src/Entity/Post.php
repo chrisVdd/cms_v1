@@ -61,12 +61,6 @@ class Post
     private $imageFilename;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="posts")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $author;
-
-    /**
      * @ORM\OneToMany(targetEntity=PostReference::class, mappedBy="post")
      * @ORM\OrderBy({"position"="ASC"})
      */
@@ -78,13 +72,19 @@ class Post
     private $comments;
 
     /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="posts")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $author;
+
+    /**
      * Post constructor.
      */
     public function __construct()
     {
         $this->categories       = new ArrayCollection();
         $this->postReferences   = new ArrayCollection();
-        $this->comments = new ArrayCollection();
+        $this->comments         = new ArrayCollection();
     }
 
     /**
@@ -251,24 +251,6 @@ class Post
     }
 
     /**
-     * @return User|null
-     */
-    public function getAuthor(): ?User
-    {
-        return $this->author;
-    }
-
-    /**
-     * @param User|null $author
-     * @return $this
-     */
-    public function setAuthor(?User $author): self
-    {
-        $this->author = $author;
-        return $this;
-    }
-
-    /**
      * @return mixed
      */
     public function __toString()
@@ -340,6 +322,18 @@ class Post
                 $comment->setPost(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getAuthor(): ?User
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(?User $author): self
+    {
+        $this->author = $author;
 
         return $this;
     }

@@ -4,8 +4,12 @@ namespace App\Controller\Admin;
 
 use App\Form\DataModel\ImportUserFormModel;
 use App\Form\Flow\ImportFlow;
+use App\Repository\UserRepository;
 use App\Services\ImportHelper;
 use App\Services\UploadHelper;
+use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Query\QueryBuilder;
+use Doctrine\Persistence\ObjectManager;
 use League\Flysystem\FileExistsException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
@@ -23,9 +27,11 @@ class ImportController extends AbstractController
     /**
      * @Route("/", name="admin_import_index", methods={"GET", "POST"})
      * @param Request $request
-     * @param ImportFlow $importFlow
      * @param UploadHelper $uploadHelper
      * @param ImportHelper $importHelper
+     * @param ImportFlow $importFlow
+     * @param UserRepository $userRepository
+     * @param Connection $connection
      * @return Response
      * @throws FileExistsException
      */
@@ -33,9 +39,10 @@ class ImportController extends AbstractController
         Request $request,
         UploadHelper $uploadHelper,
         ImportHelper $importHelper,
-        ImportFlow $importFlow): Response
+        ImportFlow $importFlow,
+        UserRepository $userRepository,
+        Connection $connection): Response
     {
-
         /** @var ImportUserFormModel $formData */
         $formData = new ImportUserFormModel($importHelper);
         $importFlow->bind($formData);
@@ -59,15 +66,70 @@ class ImportController extends AbstractController
                     $newFilename = $uploadHelper->uploadImport($formData->importFile);
                 }
 
-//                if ($importFlow->getCurrentStepNumber() === 3) {
-//
-//                    $csvDatas = $importHelper->getCleanImportDatas();
-//                    $headers = $csvDatas[0];
-//                }
-
             } else {
 
+                /** @var ObjectManager $entityManager */
+                $entityManager = $this->getDoctrine()->getManager();
+
+                // if deteteTests = 1 > delete users with is_test = 1
+                switch ($formData->deteteTests) {
+                    case 0:
+                    break;
+
+                    case 1:
+
+                        $userRepository->deleteTestUsers();
+
+//                        $query = $entityManager
+//                            ->createQueryBuilder()
+//                            ->delete('App:User', 'u')
+//                            ->where('u.isTest = 1');
+////                            ->leftJoin('u.post', 'p')
+////                            ->where('p.author');
+//
+//                        $test = $query->getQuery()->getDQL();
+//                        dd($test);
+//
+//                        $query->getQuery()->execute();
+
+                    break;
+                }
+
+                dd('$formData');
+
+                // if duplicateEmail
+                switch ($formData->duplicateEmail) {
+                    // = 0 > do nothing
+                    case 0:
+                    break;
+
+                    // = 1 > insert a new user
+                    case 1:
+                        $userRepository->insertUserFromImport();
+                    break;
+
+                    // = 2 > update the user with the same email
+                    case 2:
+                        $userRepository->updateUserFromImport();
+                    break;
+                }
+
+                // if emptyEmails
+                switch ($formData->emptyEmails) {
+
+                    // = 0 > do nothing
+                    case 0:
+                    break;
+                    // = 1 > insert a new user
+                    case 1:
+                        $userRepository->insertUserFromImport();
+                    break;
+                }
+
+
                 dd($formData);
+
+
 //                $entityManager->persist($formData);
 //                $entityManager->flush();
 
