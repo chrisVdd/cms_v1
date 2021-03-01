@@ -28,21 +28,23 @@ class UserRepository extends ServiceEntityRepository
     {
         $deletableUserIds = $this
             ->createQueryBuilder('user')
-            ->select('user.id')
-            ->leftJoin('user.posts', 'post')
-            ->andWhere('p.author = :user.id')
+//            ->select('user.id')
+            ->innerJoin('user.posts', 'post')
+//            ->andWhere('p.author = :user.id')
             ->andWhere('user.isTest = 1')
             ->getQuery()
-//            ->getSQL();
             ->getResult();
 
-        $this
+        $test = $this
             ->createQueryBuilder('user')
             ->where('user.id in (:ids)')
             ->setParameter('ids', $deletableUserIds)
             ->delete()
             ->getQuery()
-            ->execute();
+            ->getResult();
+
+        dd($deletableUserIds, $test);
+//            ->execute();
     }
 
 

@@ -31,7 +31,6 @@ class ImportController extends AbstractController
      * @param ImportHelper $importHelper
      * @param ImportFlow $importFlow
      * @param UserRepository $userRepository
-     * @param Connection $connection
      * @return Response
      * @throws FileExistsException
      */
@@ -40,8 +39,7 @@ class ImportController extends AbstractController
         UploadHelper $uploadHelper,
         ImportHelper $importHelper,
         ImportFlow $importFlow,
-        UserRepository $userRepository,
-        Connection $connection): Response
+        UserRepository $userRepository): Response
     {
         /** @var ImportUserFormModel $formData */
         $formData = new ImportUserFormModel($importHelper);

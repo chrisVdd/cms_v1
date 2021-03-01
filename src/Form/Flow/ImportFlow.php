@@ -59,10 +59,11 @@ class ImportFlow extends FormFlow
         $options = parent::getFormOptions($step, $options);
         $formData = $this->getFormData();
 
-        $csvDatas = $this->importHelper->getCleanImportDatas();
-        $properChoicesList = array_combine($csvDatas[0], $csvDatas[0]);
-
         if ($step === 3) {
+
+            $csvDatas = $this->importHelper->getCleanImportDatas();
+            $properChoicesList = array_combine($csvDatas[0], $csvDatas[0]);
+
             $options['csvHeaders'] = $properChoicesList;
         }
 

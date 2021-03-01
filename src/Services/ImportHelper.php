@@ -63,6 +63,8 @@ class ImportHelper
             $datas[] = $tmp_row;
         }
 
+        dd($datas);
+
         return $datas;
     }
 
@@ -92,6 +94,8 @@ class ImportHelper
         $lastFileMetadatas = $listFolder[array_key_last($listFolder)];
 
         $lastFilename = $lastFileMetadatas['basename'];
+
+//        dd($lastFileMetadatas, $lastFilename);
 
         return $this->loadDocument($lastFilename);
     }
