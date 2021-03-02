@@ -5,6 +5,7 @@ namespace App\Services;
 use Doctrine\ORM\EntityManagerInterface;
 use League\Flysystem\FilesystemInterface;
 use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Reader\Exception;
 use PhpOffice\PhpSpreadsheet\Reader\IReader;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 
@@ -33,6 +34,7 @@ class ImportHelper
     /**
      * @param string $filename
      * @return array
+     * @throws Exception
      */
     public function loadDocument(string $filename)
     {
@@ -63,8 +65,6 @@ class ImportHelper
             $datas[] = $tmp_row;
         }
 
-        dd($datas);
-
         return $datas;
     }
 
@@ -85,6 +85,7 @@ class ImportHelper
 
     /**
      * @return array
+     * @throws Exception
      */
     public function getCleanImportDatas()
     {
@@ -94,8 +95,6 @@ class ImportHelper
         $lastFileMetadatas = $listFolder[array_key_last($listFolder)];
 
         $lastFilename = $lastFileMetadatas['basename'];
-
-//        dd($lastFileMetadatas, $lastFilename);
 
         return $this->loadDocument($lastFilename);
     }

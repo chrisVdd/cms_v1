@@ -70,7 +70,7 @@ class UploadHelper
      * @return string
      * @throws FileExistsExceptionAlias
      */
-    private function uploadFile(UploadedFile $uploadedFile, string $directory, string $filesystemType)
+    private function  uploadFile(UploadedFile $uploadedFile, string $directory, string $filesystemType)
     {
         if ($uploadedFile instanceof  UploadedFile) {
             $originalFilename = $uploadedFile->getClientOriginalName();
@@ -92,6 +92,7 @@ class UploadHelper
             $newFilename = Urlizer::urlize(pathinfo($originalFilename, PATHINFO_FILENAME)).'-'.$dateFormat.'.'.$uploadedFile->guessExtension();
 
         } else {
+
             $newFilename = Urlizer::urlize(pathinfo($originalFilename, PATHINFO_FILENAME)).'-'.uniqid().'.'.$uploadedFile->guessExtension();
         }
 
@@ -192,9 +193,7 @@ class UploadHelper
      */
     public function uploadImport(UploadedFile $uploadedFile): string
     {
-        $newFilename = $this->uploadFile($uploadedFile, self::IMPORT_FILE, 'import');
-
-        return $newFilename;
+        return $this->uploadFile($uploadedFile, self::IMPORT_FILE, 'import');
     }
 
     /**

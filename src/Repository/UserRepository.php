@@ -24,27 +24,17 @@ class UserRepository extends ServiceEntityRepository
         parent::__construct($registry, User::class);
     }
 
+    /**
+     * Delete ALL the test users from DB
+     */
     public function deleteTestUsers()
     {
-        $deletableUserIds = $this
+        $this
             ->createQueryBuilder('user')
-//            ->select('user.id')
-            ->innerJoin('user.posts', 'post')
-//            ->andWhere('p.author = :user.id')
-            ->andWhere('user.isTest = 1')
+            ->delete('App:User', 'u')
+            ->where('u.isTest = 1')
             ->getQuery()
-            ->getResult();
-
-        $test = $this
-            ->createQueryBuilder('user')
-            ->where('user.id in (:ids)')
-            ->setParameter('ids', $deletableUserIds)
-            ->delete()
-            ->getQuery()
-            ->getResult();
-
-        dd($deletableUserIds, $test);
-//            ->execute();
+            ->execute();
     }
 
 
@@ -60,6 +50,15 @@ class UserRepository extends ServiceEntityRepository
             ->getResult();
 
         return $query;
+    }
+
+    public function insertUserFromImport($formData)
+    {
+        dd($formData);
+
+        $query = $this
+            ->createQueryBuilder('user')
+            ->
     }
 
 

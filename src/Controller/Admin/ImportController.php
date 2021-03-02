@@ -7,8 +7,6 @@ use App\Form\Flow\ImportFlow;
 use App\Repository\UserRepository;
 use App\Services\ImportHelper;
 use App\Services\UploadHelper;
-use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\Persistence\ObjectManager;
 use League\Flysystem\FileExistsException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -59,11 +57,6 @@ class ImportController extends AbstractController
 
                 $form = $importFlow->createForm();
 
-                if ($formData->importFile) {
-
-                    $newFilename = $uploadHelper->uploadImport($formData->importFile);
-                }
-
             } else {
 
                 /** @var ObjectManager $entityManager */
@@ -71,29 +64,13 @@ class ImportController extends AbstractController
 
                 // if deteteTests = 1 > delete users with is_test = 1
                 switch ($formData->deteteTests) {
-                    case 0:
-                    break;
+//                    case 0:
+//                    break;
 
                     case 1:
-
                         $userRepository->deleteTestUsers();
-
-//                        $query = $entityManager
-//                            ->createQueryBuilder()
-//                            ->delete('App:User', 'u')
-//                            ->where('u.isTest = 1');
-////                            ->leftJoin('u.post', 'p')
-////                            ->where('p.author');
-//
-//                        $test = $query->getQuery()->getDQL();
-//                        dd($test);
-//
-//                        $query->getQuery()->execute();
-
                     break;
                 }
-
-                dd('$formData');
 
                 // if duplicateEmail
                 switch ($formData->duplicateEmail) {
@@ -108,7 +85,7 @@ class ImportController extends AbstractController
 
                     // = 2 > update the user with the same email
                     case 2:
-                        $userRepository->updateUserFromImport();
+                        $userRepository->updateUserFromImport($formData);
                     break;
                 }
 

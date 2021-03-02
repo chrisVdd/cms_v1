@@ -6,6 +6,7 @@ use App\Form\ImportForms\ImportFileForm;
 use App\Form\ImportForms\ImportMatchFieldsForm;
 use App\Form\ImportForms\ImportQuestionForm;
 use App\Services\ImportHelper;
+use App\Services\UploadHelper;
 use Craue\FormFlowBundle\Form\FormFlow;
 
 /**
@@ -39,14 +40,17 @@ class ImportFlow extends FormFlow
     }
 
     private ImportHelper $importHelper;
+    private UploadHelper $uploadHelper;
 
     /**
      * ImportMatchFieldsForm constructor.
      * @param ImportHelper $importHelper
+     * @param UploadHelper $uploadHelper
      */
-    public function __construct(ImportHelper $importHelper)
+    public function __construct(ImportHelper $importHelper, UploadHelper $uploadHelper)
     {
         $this->importHelper = $importHelper;
+        $this->uploadHelper = $uploadHelper;
     }
 
     /**
@@ -60,6 +64,9 @@ class ImportFlow extends FormFlow
         $formData = $this->getFormData();
 
         if ($step === 3) {
+
+            // Upload the import file in the good folder
+            $this->uploadHelper->uploadImport($formData->importFile);
 
             $csvDatas = $this->importHelper->getCleanImportDatas();
             $properChoicesList = array_combine($csvDatas[0], $csvDatas[0]);
