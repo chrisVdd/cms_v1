@@ -12,17 +12,22 @@
     <body class="{% block bodyClass %}{% endblock %}">
 
     {# @todo if URL !== /login #}
-    <header id="header" class="fixed-top">
-        <div class="container d-flex align-items-center">
-            <h1 class="logo mr-auto">
-                <a href="{{ path('page_show', {'slug': 'homepage'}) }}">Website title</a>
-            </h1>
 
-            <nav class="nav-menu d-none d-lg-block">
-                {{ menu_items() }}
-            </nav>
-        </div>
-    </header>
+{#    {% if app.request.get('_route') !== 'app_login' %}#}
+        <header id="header" class="fixed-top">
+            <div class="container d-flex align-items-center">
+                <h1 class="logo mr-auto">
+                    <a href="{{ path('page_show', {'slug': 'homepage'}) }}">Website title</a>
+                </h1>
+
+                <nav class="nav-menu d-none d-lg-block">
+                    {{ menu_items() }}
+                </nav>
+            </div>
+        </header>
+{#    {% endif %}#}
+
+
 
     <section id="hero" class="d-flex align-items-center">
 

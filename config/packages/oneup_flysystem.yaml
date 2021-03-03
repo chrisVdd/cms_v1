@@ -13,6 +13,10 @@ oneup_flysystem:
             local:
                 directory: '%kernel.project_dir%/templates'
 
+        import_uploads_adapter:
+            local:
+                directory: '%kernel.project_dir%/import_uploaded'
+
     filesystems:
         public_uploads_filesystem:
             adapter: public_uploads_adapter
@@ -22,3 +26,6 @@ oneup_flysystem:
 
         template_uploads_filesystem:
             adapter: template_uploads_adapter
+
+        import_uploads_filesystem:
+            adapter: import_uploads_adapter

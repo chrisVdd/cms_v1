@@ -3,11 +3,15 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ * @Gedmo\Loggable()
  */
 class User implements UserInterface
 {
@@ -16,22 +20,46 @@ class User implements UserInterface
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Gedmo\Versioned
      */
-    private $email;
+    private ?string $email;
+
+    /**
+     * @ORM\Column(type="string", length=180)
+     * @Gedmo\Versioned
+     */
+    private string $username;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Gedmo\Versioned
      */
-    private $password;
+    private ?string $password;
 
     /**
      * @ORM\Column(type="json")
+     * @Gedmo\Versioned
      */
-    private $roles = [];
+    private array $roles = [];
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private ?bool $isTest;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Post::class, mappedBy="author", orphanRemoval=true)
+     */
+    private $posts;
+
+    public function __construct()
+    {
+        $this->posts = new ArrayCollection();
+    }
 
     /**
      * @return int|null
@@ -67,7 +95,18 @@ class User implements UserInterface
      */
     public function getUsername(): string
     {
-        return (string) $this->email;
+        return (string) $this->username;
+    }
+
+    /**
+     * @param string $username
+     * @return $this
+     */
+    public function setUsername(string $username): self
+    {
+        $this->username = $username;
+
+        return $this;
     }
 
     /**
@@ -135,5 +174,54 @@ class User implements UserInterface
     public function __toString()
     {
         return $this->getUsername();
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function getIsTest(): ?bool
+    {
+        return $this->isTest;
+    }
+
+    /**
+     * @param bool $isTest
+     * @return $this
+     */
+    public function setIsTest(bool $isTest): self
+    {
+        $this->isTest = $isTest;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Post[]
+     */
+    public function getPosts(): Collection
+    {
+        return $this->posts;
+    }
+
+    public function addPost(Post $post): self
+    {
+        if (!$this->posts->contains($post)) {
+            $this->posts[] = $post;
+            $post->setAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function removePost(Post $post): self
+    {
+        if ($this->posts->removeElement($post)) {
+            // set the owning side to null (unless already changed)
+            if ($post->getAuthor() === $this) {
+                $post->setAuthor(null);
+            }
+        }
+
+        return $this;
     }
 }

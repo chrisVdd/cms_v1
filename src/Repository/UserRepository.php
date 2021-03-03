@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query\Expr;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -14,10 +15,58 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class UserRepository extends ServiceEntityRepository
 {
+    /**
+     * UserRepository constructor.
+     * @param ManagerRegistry $registry
+     */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, User::class);
     }
+
+    /**
+     * Delete ALL the test users from DB
+     */
+    public function deleteTestUsers()
+    {
+        $this
+            ->createQueryBuilder('user')
+            ->delete('App:User', 'u')
+            ->where('u.isTest = 1')
+            ->getQuery()
+            ->execute();
+    }
+
+
+    public function updateUserFromImport($csvData)
+    {
+        dd($csvData);
+
+        // 1. > same email > you update the user with same email
+
+
+        $query = $this
+            ->createQueryBuilder('user')
+            ->update('user')
+            ->set('user.email', '')
+            ->where('user.email =:email')
+            ->setParameter('email', $val)
+            ->getQuery()
+            ->getResult();
+
+        return $query;
+    }
+
+    public function insertUserFromImport($csvData)
+    {
+        dd($csvData);
+//
+//        $query = $this
+//            ->createQueryBuilder('user')
+//            ->
+    }
+
+
 
     // /**
     //  * @return User[] Returns an array of User objects

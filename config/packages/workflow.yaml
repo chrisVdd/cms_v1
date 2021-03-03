@@ -1,0 +1,24 @@
+framework:
+    workflows:
+        import:
+            type: 'workflow'
+            marking_store:
+                type: 'method'
+                property: 'currentPlace'
+            supports:
+                - App\Entity\ImportContainer
+            places:
+                - importQuestions
+                - importFile
+                - importMatchFields
+                - confirmed
+            transitions:
+                to_importFile:
+                    from:   importQuestions
+                    to:     importFile
+                to_importMatchFields:
+                    from:   importFile
+                    to:     importMatchFields
+                to_confirmed:
+                    from:   importMatchFields
+                    to:     confirmed

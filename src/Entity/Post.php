@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\PostRepository;
 use App\Services\UploadHelper;
+use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping                    as ORM;
@@ -15,7 +16,6 @@ use Gedmo\Mapping\Annotation                as Gedmo;
  */
 class Post
 {
-
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -61,16 +61,21 @@ class Post
     private $imageFilename;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="posts")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $author;
-
-    /**
      * @ORM\OneToMany(targetEntity=PostReference::class, mappedBy="post")
      * @ORM\OrderBy({"position"="ASC"})
      */
     private $postReferences;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="post", orphanRemoval=true)
+     */
+    private $comments;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="posts")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $author;
 
     /**
      * Post constructor.
@@ -79,6 +84,7 @@ class Post
     {
         $this->categories       = new ArrayCollection();
         $this->postReferences   = new ArrayCollection();
+        $this->comments         = new ArrayCollection();
     }
 
     /**
@@ -128,18 +134,18 @@ class Post
     }
 
     /**
-     * @return \DateTimeInterface|null
+     * @return DateTimeInterface|null
      */
-    public function getCreateDate(): ?\DateTimeInterface
+    public function getCreateDate(): ?DateTimeInterface
     {
         return $this->createDate;
     }
 
     /**
-     * @param \DateTimeInterface $createDate
+     * @param DateTimeInterface $createDate
      * @return $this
      */
-    public function setCreateDate(\DateTimeInterface $createDate): self
+    public function setCreateDate(DateTimeInterface $createDate): self
     {
         $this->createDate = $createDate;
 
@@ -147,18 +153,18 @@ class Post
     }
 
     /**
-     * @return \DateTimeInterface|null
+     * @return DateTimeInterface|null
      */
-    public function getUpdateDate(): ?\DateTimeInterface
+    public function getUpdateDate(): ?DateTimeInterface
     {
         return $this->updateDate;
     }
 
     /**
-     * @param \DateTimeInterface $updateDate
+     * @param DateTimeInterface $updateDate
      * @return $this
      */
-    public function setUpdateDate(\DateTimeInterface $updateDate): self
+    public function setUpdateDate(DateTimeInterface $updateDate): self
     {
         $this->updateDate = $updateDate;
 
@@ -245,24 +251,6 @@ class Post
     }
 
     /**
-     * @return User|null
-     */
-    public function getAuthor(): ?User
-    {
-        return $this->author;
-    }
-
-    /**
-     * @param User|null $author
-     * @return $this
-     */
-    public function setAuthor(?User $author): self
-    {
-        $this->author = $author;
-        return $this;
-    }
-
-    /**
      * @return mixed
      */
     public function __toString()
@@ -304,6 +292,48 @@ class Post
                 $postReference->setPost(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Comment[]
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comment $comment): self
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments[] = $comment;
+            $comment->setPost($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comment $comment): self
+    {
+        if ($this->comments->removeElement($comment)) {
+            // set the owning side to null (unless already changed)
+            if ($comment->getPost() === $this) {
+                $comment->setPost(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getAuthor(): ?User
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(?User $author): self
+    {
+        $this->author = $author;
 
         return $this;
     }
