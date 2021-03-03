@@ -38,8 +38,13 @@ class UserRepository extends ServiceEntityRepository
     }
 
 
-    public function updateUserFromImport($val)
+    public function updateUserFromImport($csvData)
     {
+        dd($csvData);
+
+        // 1. > same email > you update the user with same email
+
+
         $query = $this
             ->createQueryBuilder('user')
             ->update('user')
@@ -52,13 +57,13 @@ class UserRepository extends ServiceEntityRepository
         return $query;
     }
 
-    public function insertUserFromImport($formData)
+    public function insertUserFromImport($csvData)
     {
-        dd($formData);
-
-        $query = $this
-            ->createQueryBuilder('user')
-            ->
+        dd($csvData);
+//
+//        $query = $this
+//            ->createQueryBuilder('user')
+//            ->
     }
 
 

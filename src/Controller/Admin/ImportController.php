@@ -62,7 +62,23 @@ class ImportController extends AbstractController
                 /** @var ObjectManager $entityManager */
                 $entityManager = $this->getDoctrine()->getManager();
 
-                // if deteteTests = 1 > delete users with is_test = 1
+                $csvDatas = $importHelper->getCleanImportDatas();
+                $headers = array_shift($csvDatas);
+
+                $stringKey = $headers[0];
+
+                $test = [];
+                foreach ($csvDatas as $row) {
+
+//                    $test = ;
+
+                }
+
+
+
+                dd($test, $stringKey, $headers, $csvDatas);
+
+            // if deteteTests = 1 > delete users with is_test = 1
                 switch ($formData->deteteTests) {
 //                    case 0:
 //                    break;
@@ -72,7 +88,7 @@ class ImportController extends AbstractController
                     break;
                 }
 
-                // if duplicateEmail
+            // if duplicateEmail
                 switch ($formData->duplicateEmail) {
                     // = 0 > do nothing
                     case 0:
@@ -80,12 +96,26 @@ class ImportController extends AbstractController
 
                     // = 1 > insert a new user
                     case 1:
-                        $userRepository->insertUserFromImport();
+
+                        dump($csvDatas);
+
+                        foreach ($csvDatas as $csvData) {
+
+                            if ($users = $userRepository->findBy(['email' => $csvData])) {
+                                dump($csvData);
+                            }
+                        }
+
+
+                        die('sjdkjsdk');
+
+                        $userRepository->insertUserFromImport($csvDatas);
                     break;
 
                     // = 2 > update the user with the same email
                     case 2:
-                        $userRepository->updateUserFromImport($formData);
+
+                        $userRepository->updateUserFromImport($csvDatas);
                     break;
                 }
 
@@ -97,7 +127,7 @@ class ImportController extends AbstractController
                     break;
                     // = 1 > insert a new user
                     case 1:
-                        $userRepository->insertUserFromImport();
+                        $userRepository->insertUserFromImport($csvDatas);
                     break;
                 }
 
