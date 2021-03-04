@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}Welcome ADMIN!{% endblock %}</title>
@@ -12,29 +12,118 @@
 
     {% endblock %}
 </head>
-<body>
 
-    <!-- Topbar -->
-    {{ include('admin/includes/topbar.html.twig') }}
+<body class="bg-gray-800 font-sans leading-normal tracking-normal mt-12">
 
-    <div id="layoutSidenav">
-        <!-- Sidebar -->
+        {# Topbar #}
+        {{ include('admin/includes/topbar.html.twig') }}
+
+        <div class="flex flex-col md:flex-row">
+
+        {# Sidebar #}
         {{ include('admin/includes/sidebar.html.twig') }}
 
-        <div id="layoutSidenav_content">
-            <main>
-                <div class="container-fluid">
+        {# CONTENT #}
+            <div class="main-content flex-1 bg-gray-100 mt-12 md:mt-2 pb-24 md:pb-5">
 
-                    {% block body %}{% endblock %}
+                <div class="bg-gray-800 pt-3">
+                    <div class="rounded-tl-3xl bg-gradient-to-r from-blue-900 to-gray-800 p-4 shadow text-2xl text-white">
+                        <h3 class="font-bold pl-2">Analytics</h3>
+                    </div>
                 </div>
-            </main>
 
-            {{ include('admin/includes/footer.html.twig') }}
+                <div class="flex flex-wrap">
 
+
+
+                </div>
+            </div>
         </div>
-    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{#        <header class="bg-white shadow">#}
+{#            <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">#}
+{#                <h1 class="text-3xl font-bold text-gray-900">#}
+{#                    Dashboard#}
+{#                </h1>#}
+{#            </div>#}
+{#        </header>#}
+{#        <main>#}
+{#            <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">#}
+{#                <!-- Replace with your content -->#}
+{#                <div class="px-4 py-6 sm:px-0">#}
+{#                    <div class="border-4 border-dashed border-gray-200 rounded-lg h-96"></div>#}
+{#                </div>#}
+{#                <!-- /End replace -->#}
+{#            </div>#}
+{#        </main>#}
+
+
+
+
+{#    <div id="layoutSidenav">#}
+{#        <!-- Sidebar -->#}
+{#        {{ include('admin/includes/sidebar.html.twig') }}#}
+
+{#        <div id="layoutSidenav_content">#}
+{#            <main>#}
+{#                <div class="container-fluid">#}
+
+{#                    {% block body %}{% endblock %}#}
+{#                </div>#}
+{#            </main>#}
+
+{#            {{ include('admin/includes/footer.html.twig') }}#}
+
+{#        </div>#}
+{#    </div>#}
 
     {% block javascripts %}
+        <script>
+            /*Toggle dropdown list*/
+            function toggleDD(myDropMenu) {
+                document.getElementById(myDropMenu).classList.toggle("invisible");
+            }
+            /*Filter dropdown options*/
+            function filterDD(myDropMenu, myDropMenuSearch) {
+                var input, filter, ul, li, a, i;
+                input = document.getElementById(myDropMenuSearch);
+                filter = input.value.toUpperCase();
+                div = document.getElementById(myDropMenu);
+                a = div.getElementsByTagName("a");
+                for (i = 0; i < a.length; i++) {
+                    if (a[i].innerHTML.toUpperCase().indexOf(filter) > -1) {
+                        a[i].style.display = "";
+                    } else {
+                        a[i].style.display = "none";
+                    }
+                }
+            }
+            // Close the dropdown menu if the user clicks outside of it
+            window.onclick = function(event) {
+                if (!event.target.matches('.drop-button') && !event.target.matches('.drop-search')) {
+                    var dropdowns = document.getElementsByClassName("dropdownlist");
+                    for (var i = 0; i < dropdowns.length; i++) {
+                        var openDropdown = dropdowns[i];
+                        if (!openDropdown.classList.contains('invisible')) {
+                            openDropdown.classList.add('invisible');
+                        }
+                    }
+                }
+            }
+        </script>
         {{ encore_entry_script_tags('admin') }}
     {% endblock %}
 </body>

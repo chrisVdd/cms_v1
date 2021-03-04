@@ -1,105 +1,61 @@
+<div class="bg-gray-800 shadow-xl h-16 fixed bottom-0 mt-12 md:relative md:h-screen z-10 w-full md:w-48">
+    <div class="md:mt-12 md:w-48 md:fixed md:left-0 md:top-0 content-center md:content-start text-left justify-between">
+        <ul class="list-reset flex flex-row md:flex-col py-0 md:py-3 px-1 md:px-2 text-center md:text-left">
 
-<div id="layoutSidenav_nav">
-    <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
-        <div class="sb-sidenav-menu">
-            <div class="nav">
-                <div class="sb-sidenav-menu-heading">Management</div>
-                <a class="nav-link" href="{{ path('admin_index') }}">
-                    <div class="sb-nav-link-icon"><i class="fa fa-tachometer"></i></div>
-                    Dashboard
+            <li class="mr-3 flex-1">
+                <a href="{{ path('admin_index') }}" class="block py-1 md:py-3 pl-1 align-middle text-white no-underline hover:text-white border-b-2 border-gray-800 hover:border-pink-500">
+                    <i class="fas fa-tachometer-alt pr-0 md:pr-3"></i>
+                    <span class="pb-1 md:pb-0 text-xs md:text-base text-gray-600 md:text-gray-400 block md:inline-block">
+                        Management
+                    </span>
                 </a>
+            </li>
 
-                <div class="sb-sidenav-menu-heading">Content</div>
-                <a class="nav-link" href="{{ path('admin_page_index') }}">
-                    <div class="sb-nav-link-icon"><i class="fa fa-book"></i></div>
-                    Pages
+            <li class="mr-3 flex-1">
+                <a href="{{ path('admin_page_index') }}" class="block py-1 md:py-3 pl-1 align-middle text-white no-underline hover:text-white border-b-2 border-gray-800 hover:border-pink-500">
+                    <i class="fas fa-columns pr-0 md:pr-3"></i>
+                    <span class="pb-1 md:pb-0 text-xs md:text-base text-gray-600 md:text-gray-400 block md:inline-block">
+                        Pages
+                    </span>
                 </a>
-                <a class="nav-link" href="{{ path('admin_post_index') }}">
-                    <div class="sb-nav-link-icon"><i class="fa fa-newspaper-o"></i></div>
-                    Posts
-                </a>
-                <a class="nav-link" href="{{ path('admin_comment_index') }}">
-                    <div class="sb-nav-link-icon"><i class="fa fa-newspaper-o"></i></div>
-                    Comments
-                </a>
+            </li>
 
-                <div class="sb-sidenav-menu-heading">Users</div>
-                <a class="nav-link" href="{{ path('admin_user_index') }}">
-                    <div class="sb-nav-link-icon"><i class="fa fa-address-book"></i></div>
-                    Users
+            <li class="mr-3 flex-1">
+                <a href="{{ path('admin_post_index') }}" class="block py-1 md:py-3 pl-1 align-middle text-white no-underline hover:text-white border-b-2 border-gray-800 hover:border-pink-500">
+                    <i class="fas fa-newspaper pr-0 md:pr-3"></i>
+                    <span class="pb-1 md:pb-0 text-xs md:text-base text-gray-600 md:text-gray-400 block md:inline-block">
+                        Posts
+                    </span>
                 </a>
-                <a class="nav-link" href="{{ path('admin_import_index') }}">
-                    <div class="sb-nav-link-icon"><i class="fa fa-file-import"></i></div>
-                    Import users
-                </a>
+            </li>
 
+            <li class="mr-3 flex-1">
+                <a href="{{ path('admin_comment_index') }}" class="block py-1 md:py-3 pl-1 align-middle text-white no-underline hover:text-white border-b-2 border-gray-800 hover:border-pink-500">
+                    <i class="fas fa-comment pr-0 md:pr-3"></i>
+                    <span class="pb-1 md:pb-0 text-xs md:text-base text-gray-600 md:text-gray-400 block md:inline-block">
+                        Comments
+                    </span>
+                </a>
+            </li>
 
-                <div class="sb-sidenav-menu-heading">Users</div>
-                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayouts"
-                       aria-expanded="false" aria-controls="collapseLayouts">
-                        <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
-                        Layouts
-                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                    </a>
-                <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne"
-                     data-parent="#sidenavAccordion">
-                    <nav class="sb-sidenav-menu-nested nav">
-                        <a class="nav-link" href="layout-static.html">Static Navigation</a>
-                        <a class="nav-link" href="layout-sidenav-light.html">Light Sidenav</a>
-                    </nav>
-                </div>
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
-                   aria-expanded="false" aria-controls="collapsePages">
-                    <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
-                    Pages
-                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+            <li class="mr-3 flex-1">
+                <a href="{{ path('admin_user_index') }}" class="block py-1 md:py-3 pl-1 align-middle text-white no-underline hover:text-white border-b-2 border-gray-800 hover:border-pink-500">
+                    <i class="fas fa-user pr-0 md:pr-3"></i>
+                    <span class="pb-1 md:pb-0 text-xs md:text-base text-gray-600 md:text-gray-400 block md:inline-block">
+                        User
+                    </span>
                 </a>
-                <div class="collapse" id="collapsePages" aria-labelledby="headingTwo"
-                     data-parent="#sidenavAccordion">
-                    <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
-                        <a class="nav-link collapsed" href="#" data-toggle="collapse"
-                           data-target="#pagesCollapseAuth" aria-expanded="false" aria-controls="pagesCollapseAuth">
-                            Authentication
-                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                        </a>
-                        <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne"
-                             data-parent="#sidenavAccordionPages">
-                            <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link" href="login.html">Login</a>
-                                <a class="nav-link" href="register.html">Register</a>
-                                <a class="nav-link" href="password.html">Forgot Password</a>
-                            </nav>
-                        </div>
-                        <a class="nav-link collapsed" href="#" data-toggle="collapse"
-                           data-target="#pagesCollapseError" aria-expanded="false"
-                           aria-controls="pagesCollapseError">
-                            Error
-                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                        </a>
-                        <div class="collapse" id="pagesCollapseError" aria-labelledby="headingOne"
-                             data-parent="#sidenavAccordionPages">
-                            <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link" href="401.html">401 Page</a>
-                                <a class="nav-link" href="404.html">404 Page</a>
-                                <a class="nav-link" href="500.html">500 Page</a>
-                            </nav>
-                        </div>
-                    </nav>
-                </div>
-                <div class="sb-sidenav-menu-heading">Addons</div>
-                <a class="nav-link" href="charts.html">
-                    <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
-                    Charts
+            </li>
+
+            <li class="mr-3 flex-1">
+                <a href="{{ path('admin_import_index') }}" class="block py-1 md:py-3 pl-1 align-middle text-white no-underline hover:text-white border-b-2 border-gray-800 hover:border-pink-500">
+                    <i class="fas fa-file-import pr-0 md:pr-3"></i>
+                    <span class="pb-1 md:pb-0 text-xs md:text-base text-gray-600 md:text-gray-400 block md:inline-block">
+                        Import DATAS
+                    </span>
                 </a>
-                <a class="nav-link" href="tables.html">
-                    <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                    Tables
-                </a>
-            </div>
-        </div>
-        <div class="sb-sidenav-footer">
-            <div class="small">Logged in as:</div>
-            Start Bootstrap
-        </div>
-    </nav>
+            </li>
+
+        </ul>
+    </div>
 </div>
