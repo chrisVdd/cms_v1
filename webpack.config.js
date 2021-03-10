@@ -28,7 +28,7 @@ Encore
     .addEntry('admin', './assets/admin.js')
     .addEntry('login', './assets/login.js')
     // .addEntry('myDropzone', './assets/myDropzone.js')
-    // .addEntry('admin-datatables', './assets/admin-datatables.js')
+    .addEntry('admin-datatables', './assets/admin-datatables.js')
 
     .copyFiles([
         {from: './node_modules/ckeditor/', to: 'ckeditor/[path][name].[ext]', pattern: /\.(js|css)$/, includeSubdirectories: false},
@@ -88,7 +88,7 @@ Encore
     //.enableIntegrityHashes(Encore.isProduction())
 
     // uncomment if you're having problems with a jQuery plugin
-    //.autoProvidejQuery()
+    .autoProvidejQuery()
 ;
 
 module.exports = Encore.getWebpackConfig();

@@ -4,9 +4,11 @@ namespace App\Controller\Admin;
 
 use App\Entity\Page;
 use App\Entity\Template;
+use App\Entity\User;
 use App\Form\PageType;
 use App\Repository\PageRepository;
 use App\Services\UploadHelper;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use League\Flysystem\FileExistsException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -119,6 +121,8 @@ class PageController extends AbstractController
     public function delete(Request $request, Page $page): Response
     {
         if ($this->isCsrfTokenValid('delete'.$page->getId(), $request->request->get('_token'))) {
+
+            /** @var EntityManager $entityManager */
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($page);
             $entityManager->flush();

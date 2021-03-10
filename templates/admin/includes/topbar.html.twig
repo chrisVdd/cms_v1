@@ -1,48 +1,78 @@
-<nav class="bg-gray-800 pt-2 md:pt-1 pb-1 px-1 mt-0 h-auto fixed w-full z-20 top-0">
+<header class="relative flex-shrink-0 bg-white dark:bg-darker">
+    <div class="flex items-center justify-between p-2 border-b dark:border-primary-darker">
 
-    <div class="flex flex-wrap items-center">
-        <div class="flex flex-shrink md:w-1/3 justify-center md:justify-start text-white">
-            <a href="#">
-                <span class="text-xl pl-2"><i class="em em-grinning"></i></span>
-            </a>
-        </div>
+        <!-- Mobile menu button -->
+        <button @click="isMobileMainMenuOpen = !isMobileMainMenuOpen"
+                class="p-1 transition-colors duration-200 rounded-md text-primary-lighter bg-primary-50 hover:text-primary hover:bg-primary-100 dark:hover:text-light dark:hover:bg-primary-dark dark:bg-dark md:hidden focus:outline-none focus:ring">
+            <span class="sr-only">Open main manu</span>
+            <span aria-hidden="true">
+                                <svg class="w-8 h-8"
+                                     xmlns="http://www.w3.org/2000/svg"
+                                     fill="none"
+                                     viewBox="0 0 24 24"
+                                     stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round"
+                                                                 stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                                </svg>
+                            </span>
+        </button>
 
-        <div class="flex flex-1 md:w-1/3 justify-center md:justify-start text-white px-2">
-                <span class="relative w-full">
-                    <input type="search" placeholder="Search" class="w-full bg-gray-900 text-white transition border border-transparent focus:outline-none focus:border-gray-400 rounded py-3 px-2 pl-10 appearance-none leading-normal">
-                    <div class="absolute search-icon" style="top: 1rem; left: .8rem;">
-                        <svg class="fill-current pointer-events-none text-white w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                            <path d="M12.9 14.32a8 8 0 1 1 1.41-1.41l5.35 5.33-1.42 1.42-5.33-5.34zM8 14A6 6 0 1 0 8 2a6 6 0 0 0 0 12z"></path>
-                        </svg>
-                    </div>
-                </span>
-        </div>
+        <!-- Brand -->
+        <a href="#" class="inline-block text-2xl font-bold tracking-wider uppercase text-primary-dark dark:text-light">K-WD</a>
 
-        <div class="flex w-full pt-2 content-center justify-between md:w-1/3 md:justify-end">
-            <ul class="list-reset flex justify-between flex-1 md:flex-none items-center">
-                <li class="flex-1 md:flex-none md:mr-3">
-                    <a class="inline-block py-2 px-4 text-white no-underline" href="#">Active</a>
-                </li>
-                <li class="flex-1 md:flex-none md:mr-3">
-                    <a class="inline-block text-gray-600 no-underline hover:text-gray-200 hover:text-underline py-2 px-4" href="#">link</a>
-                </li>
-                <li class="flex-1 md:flex-none md:mr-3">
-                    <div class="relative inline-block">
-                        <button onclick="toggleDD('myDropdown')" class="drop-button text-white focus:outline-none">
-                            <span class="pr-2"><i class="em em-robot_face"></i></span>
-                            Hi, User <svg class="h-3 fill-current inline" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /></svg>
-                        </button>
-                        <div id="myDropdown" class="dropdownlist absolute bg-gray-800 text-white right-0 mt-3 p-3 overflow-auto z-30 invisible">
-                            <a href="#" class="p-2 hover:bg-gray-800 text-white text-sm no-underline hover:no-underline block"><i class="fas fa-user-alt"></i> Profile</a>
-                            <a href="#" class="p-2 hover:bg-gray-800 text-white text-sm no-underline hover:no-underline block"><i class="fas fa-users-cog"></i> Settings</a>
-                            <div class="border border-gray-800"></div>
-                            <a href="#" class="p-2 hover:bg-gray-800 text-white text-sm no-underline hover:no-underline block"><i class="fas fa-sign-out-alt"></i> Log Out</a>
-                        </div>
-                    </div>
-                </li>
-            </ul>
+        <!-- Mobile sub menu button -->
+        <button @click="isMobileSubMenuOpen = !isMobileSubMenuOpen"
+                class="p-1 transition-colors duration-200 rounded-md text-primary-lighter bg-primary-50 hover:text-primary hover:bg-primary-100 dark:hover:text-light dark:hover:bg-primary-dark dark:bg-dark md:hidden focus:outline-none focus:ring">
+            <span class="sr-only">Open sub manu</span>
+            <span aria-hidden="true">
+                            <svg class="w-8 h-8"
+                                 xmlns="http://www.w3.org/2000/svg"
+                                 fill="none"
+                                 viewBox="0 0 24 24"
+                                 stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                          d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"
+                                    />
+                      </svg>
+                    </span>
+        </button>
+
+        <!-- User avatar button -->
+        <div class="relative ml-auto" x-data="{ open: false }">
+            <button @click="open = !open"
+                    type="button"
+                    aria-haspopup="true"
+                    :aria-expanded="open ? 'true' : 'false'"
+                    class="block transition-opacity duration-200 rounded-full dark:opacity-75 dark:hover:opacity-100 focus:outline-none focus:ring dark:focus:opacity-100">
+                <span class="sr-only">User menu</span>
+                <img class="w-10 h-10 rounded-full" src="../public/build/images/avatar.jpg" alt="Ahmed Kamel"/>
+            </button>
+
+            <!-- User dropdown menu -->
+            <div x-show="open"
+                 x-transition:enter="transition-all transform ease-out"
+                 x-transition:enter-start="translate-y-1/2 opacity-0"
+                 x-transition:enter-end="translate-y-0 opacity-100"
+                 x-transition:leave="transition-all transform ease-in"
+                 x-transition:leave-start="translate-y-0 opacity-100"
+                 x-transition:leave-end="translate-y-1/2 opacity-0"
+                 @click.away="open = false"
+                 class="absolute right-0 w-48 py-1 origin-top-right bg-white rounded-md shadow-lg top-12 ring-1 ring-black ring-opacity-5 dark:bg-dark"
+                 role="menu"
+                 aria-orientation="vertical"
+                 aria-label="User menu">
+
+                <a href="#" role="menuitem" class="block px-4 py-2 text-sm text-gray-700 transition-colors hover:bg-gray-100 dark:text-light dark:hover:bg-primary">
+                    Your Profile
+                </a>
+
+                <a href="#" role="menuitem" class="block px-4 py-2 text-sm text-gray-700 transition-colors hover:bg-gray-100 dark:text-light dark:hover:bg-primary">
+                    Settings
+                </a>
+
+                <a href="#" role="menuitem" class="block px-4 py-2 text-sm text-gray-700 transition-colors hover:bg-gray-100 dark:text-light dark:hover:bg-primary">
+                    Logout
+                </a>
+            </div>
         </div>
     </div>
-
-</nav>
+</header>
