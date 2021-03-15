@@ -7,141 +7,30 @@
     {% block stylesheets %}
 
         {{ encore_entry_link_tags('admin') }}
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;700;900&display=swap" />
     {% endblock %}
 </head>
 
 <body>
-{#        {{ include('admin/includes/sidebar.html.twig') }}#}
-{#        {{ include('admin/includes/topbar.html.twig') }}#}
-{#        {% block body %}{% endblock %}#}
 
-    <div x-data="setup()" x-init="$refs.loading.classList.add('hidden'); setColors(color);" :class="{ 'dark': isDark}">
-        <div class="flex h-screen antialiased text-gray-900 bg-gray-100 dark:bg-dark dark:text-light">
+    <div class="d-flex" id="wrapper">
 
-            {# Loading screen #}
-            <div x-ref="loading" class="fixed inset-0 z-50 flex items-center justify-center text-2xl font-semibold text-white bg-primary-darker">
-                Loading.....
-            </div>
+        {# Sidebar #}
+        {{ include('admin/includes/sidebar.html.twig') }}
 
-            {# Sidebar #}
-            {{ include('admin/includes/sidebar.html.twig') }}
+        <div id="page-content-wrapper">
 
-            <div class="flex flex-col flex-1 min-h-screen overflow-x-hidden overflow-y-auto">
+            {# Topbar #}
+            {{ include('admin/includes/topbar.html.twig') }}
 
-                {# Topbar #}
-                {{ include('admin/includes/topbar.html.twig') }}
-
-                {# Main content #}
-                <div class="flex items-center justify-center flex-1 h-full p-4">
-                    <main>
-                        {% block body %}
-                        {% endblock body %}
-                    </main>
-                </div>
+            <div class="container-fluid">
+                {% block body %}
+                {% endblock body %}
             </div>
         </div>
     </div>
 
-
     {% block javascripts %}
         {{ encore_entry_script_tags('admin') }}
-
-        <script src="https://cdn.jsdelivr.net/gh/alpine-collective/alpine-magic-helpers@0.5.x/dist/component.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.7.3/dist/alpine.min.js" defer></script>
-
-        <script>
-            const setup = () => {
-                const getTheme = () => {
-                    if (window.localStorage.getItem('dark')) {
-                        return JSON.parse(window.localStorage.getItem('dark'))
-                    }
-                    return !!window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
-                }
-
-                const setTheme = (value) => {
-                    window.localStorage.setItem('dark', value)
-                }
-
-                const getColor = () => {
-                    if (window.localStorage.getItem('color')) {
-                        return window.localStorage.getItem('color')
-                    }
-                    return 'cyan'
-                }
-
-                const setColors = (color) => {
-                    const root = document.documentElement
-                    root.style.setProperty('--color-primary', `var(--color-${color})`)
-                    root.style.setProperty('--color-primary-50', `var(--color-${color}-50)`)
-                    root.style.setProperty('--color-primary-100', `var(--color-${color}-100)`)
-                    root.style.setProperty('--color-primary-light', `var(--color-${color}-light)`)
-                    root.style.setProperty('--color-primary-lighter', `var(--color-${color}-lighter)`)
-                    root.style.setProperty('--color-primary-dark', `var(--color-${color}-dark)`)
-                    root.style.setProperty('--color-primary-darker', `var(--color-${color}-darker)`)
-                    this.selectedColor = color
-                    window.localStorage.setItem('color', color)
-                }
-
-                return {
-                    loading: true,
-                    isDark: getTheme(),
-                    color: getColor(),
-                    selectedColor: 'cyan',
-                    toggleTheme() {
-                        this.isDark = !this.isDark
-                        setTheme(this.isDark)
-                    },
-                    setLightTheme() {
-                        this.isDark = false
-                        setTheme(this.isDark)
-                    },
-                    setDarkTheme() {
-                        this.isDark = true
-                        setTheme(this.isDark)
-                    },
-                    setColors,
-                    toggleSidbarMenu() {
-                        this.isSidebarOpen = !this.isSidebarOpen
-                    },
-                    isSettingsPanelOpen: false,
-                    openSettingsPanel() {
-                        this.isSettingsPanelOpen = true
-                        this.$nextTick(() => {
-                            this.$refs.settingsPanel.focus()
-                        })
-                    },
-                    isNotificationsPanelOpen: false,
-                    openNotificationsPanel() {
-                        this.isNotificationsPanelOpen = true
-                        this.$nextTick(() => {
-                            this.$refs.notificationsPanel.focus()
-                        })
-                    },
-                    // isSearchPanelOpen: false,
-                    // openSearchPanel() {
-                    //     this.isSearchPanelOpen = true
-                    //     this.$nextTick(() => {
-                    //         this.$refs.searchInput.focus()
-                    //     })
-                    // },
-                    isMobileSubMenuOpen: false,
-                    openMobileSubMenu() {
-                        this.isMobileSubMenuOpen = true
-                        this.$nextTick(() => {
-                            this.$refs.mobileSubMenu.focus()
-                        })
-                    },
-                    isMobileMainMenuOpen: false,
-                    openMobileMainMenu() {
-                        this.isMobileMainMenuOpen = true
-                        this.$nextTick(() => {
-                            this.$refs.mobileMainMenu.focus()
-                        })
-                    },
-                }
-            }
-        </script>
     {% endblock %}
 </body>
 </html>

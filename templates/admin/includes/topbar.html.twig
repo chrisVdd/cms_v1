@@ -1,78 +1,28 @@
-<header class="relative flex-shrink-0 bg-white dark:bg-darker">
-    <div class="flex items-center justify-between p-2 border-b dark:border-primary-darker">
+<nav class="navbar navbar-expand-lg dark-blue-bg border-bottom">
+    <button class="btn btn-primary" id="menu-toggle">
+        <i class="fas fa-chevron-left"></i>
+    </button>
 
-        <!-- Mobile menu button -->
-        <button @click="isMobileMainMenuOpen = !isMobileMainMenuOpen"
-                class="p-1 transition-colors duration-200 rounded-md text-primary-lighter bg-primary-50 hover:text-primary hover:bg-primary-100 dark:hover:text-light dark:hover:bg-primary-dark dark:bg-dark md:hidden focus:outline-none focus:ring">
-            <span class="sr-only">Open main manu</span>
-            <span aria-hidden="true">
-                                <svg class="w-8 h-8"
-                                     xmlns="http://www.w3.org/2000/svg"
-                                     fill="none"
-                                     viewBox="0 0 24 24"
-                                     stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round"
-                                                                 stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-                                </svg>
-                            </span>
-        </button>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
 
-        <!-- Brand -->
-        <a href="#" class="inline-block text-2xl font-bold tracking-wider uppercase text-primary-dark dark:text-light">K-WD</a>
-
-        <!-- Mobile sub menu button -->
-        <button @click="isMobileSubMenuOpen = !isMobileSubMenuOpen"
-                class="p-1 transition-colors duration-200 rounded-md text-primary-lighter bg-primary-50 hover:text-primary hover:bg-primary-100 dark:hover:text-light dark:hover:bg-primary-dark dark:bg-dark md:hidden focus:outline-none focus:ring">
-            <span class="sr-only">Open sub manu</span>
-            <span aria-hidden="true">
-                            <svg class="w-8 h-8"
-                                 xmlns="http://www.w3.org/2000/svg"
-                                 fill="none"
-                                 viewBox="0 0 24 24"
-                                 stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                          d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"
-                                    />
-                      </svg>
-                    </span>
-        </button>
-
-        <!-- User avatar button -->
-        <div class="relative ml-auto" x-data="{ open: false }">
-            <button @click="open = !open"
-                    type="button"
-                    aria-haspopup="true"
-                    :aria-expanded="open ? 'true' : 'false'"
-                    class="block transition-opacity duration-200 rounded-full dark:opacity-75 dark:hover:opacity-100 focus:outline-none focus:ring dark:focus:opacity-100">
-                <span class="sr-only">User menu</span>
-                <img class="w-10 h-10 rounded-full" src="../public/build/images/avatar.jpg" alt="Ahmed Kamel"/>
-            </button>
-
-            <!-- User dropdown menu -->
-            <div x-show="open"
-                 x-transition:enter="transition-all transform ease-out"
-                 x-transition:enter-start="translate-y-1/2 opacity-0"
-                 x-transition:enter-end="translate-y-0 opacity-100"
-                 x-transition:leave="transition-all transform ease-in"
-                 x-transition:leave-start="translate-y-0 opacity-100"
-                 x-transition:leave-end="translate-y-1/2 opacity-0"
-                 @click.away="open = false"
-                 class="absolute right-0 w-48 py-1 origin-top-right bg-white rounded-md shadow-lg top-12 ring-1 ring-black ring-opacity-5 dark:bg-dark"
-                 role="menu"
-                 aria-orientation="vertical"
-                 aria-label="User menu">
-
-                <a href="#" role="menuitem" class="block px-4 py-2 text-sm text-gray-700 transition-colors hover:bg-gray-100 dark:text-light dark:hover:bg-primary">
-                    Your Profile
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-user fa-fw"></i> {{ app.user.username }}
                 </a>
-
-                <a href="#" role="menuitem" class="block px-4 py-2 text-sm text-gray-700 transition-colors hover:bg-gray-100 dark:text-light dark:hover:bg-primary">
-                    Settings
-                </a>
-
-                <a href="#" role="menuitem" class="block px-4 py-2 text-sm text-gray-700 transition-colors hover:bg-gray-100 dark:text-light dark:hover:bg-primary">
-                    Logout
-                </a>
-            </div>
-        </div>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="#">
+                        <i class="fas fa-id-card fa-fw"></i> Profile
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">
+                        <i class="fas fa-sign-out-alt fa-fw"></i> Logout
+                    </a>
+                </div>
+            </li>
+        </ul>
     </div>
-</header>
+</nav>
