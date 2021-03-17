@@ -1,18 +1,46 @@
-{{ form_start(form) }}
+<div class="card">
+    <div class="card-body">
 
-    <div class="row">
-        <div class="col">
-            {{ form_row(form.title) }}
+        {{ form_start(form) }}
+
+        <div class="mb-3">
+            {{ form_label(form.title, null, {'label_attr': {'class': 'form-label'} }) }}
+            {{ form_widget(form.title, {'attr': {'class': 'form-control'}} ) }}
         </div>
+
+        <div class="mb-3">
+            {{ form_label(form.content, null, {'label_attr': {'class': 'form-label'} }) }}
+            {{ form_widget(form.content, {'attr': {'class': 'form-control'}} ) }}
+        </div>
+
+        <div class="mb-3">
+            {{ form_label(form.online, null, {'label_attr': {'class': 'checkbox-switch-label'}}) }}
+            {{ form_widget(form.online, {'attr': {'class': 'checkbox-switch-input'}}) }}
+        </div>
+
+        <div class="mb-3">
+            {{ form_label(form.template.name, null, {'label_attr': {'class': 'form-label'} }) }}
+            {{ form_widget(form.template.name, {'attr': {'class': 'form-control'}}       ) }}
+        </div>
+
+        <div class="mb-3">
+            {{ form_label(form.template.filename, null, {'label_attr': {'class': 'form-label'} }) }}
+            {{ form_widget(form.template.filename, {'attr': {'class': 'form-control'}}       ) }}
+        </div>
+
+        <div class="mb-3">
+            {{ form_label(form.position, null, {'label_attr': {'id': 'form-label'} }) }}
+            {{ form_widget(form.position, {'attr': {'class': 'form-control'}} ) }}
+        </div>
+
+        <div class="mb-3">
+            {{ form_label(form.widgets, null, {'label_attr': {'class': 'form-label'} }) }}
+            {{ form_widget(form.widgets, {'attr': {'class': 'form-control'}} ) }}
+        </div>
+
+        <button class="btn btn-success btn-block">
+            {{ button_label|default('Save') }}
+        </button>
+        {{ form_end(form) }}
     </div>
-
-    {{ form_row(form.content) }}
-    {{ form_row(form.online) }}
-    {{ form_row(form.position) }}
-    {{ form_row(form.widgets) }}
-    {{ form_row(form.template) }}
-
-    <button class="btn btn-success btn-user btn-block">
-        {{ button_label|default('Save') }}
-    </button>
-{{ form_end(form) }}
+</div>

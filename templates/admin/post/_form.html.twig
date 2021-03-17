@@ -1,28 +1,54 @@
-{{ form_start(form) }}
+<div class="card">
+    <div class="card-body">
+        {{ form_start(form) }}
 
-    <div class="row">
-        <div class="col">
-            {{ form_row(form.title) }}
-            {{ form_row(form.categories) }}
+        <div class="row">
+            <div class="col">
+                <div class="mb-3">
+                    {{ form_label(form.title, null, {'label_attr': {'class': 'form-label'} }) }}
+                    {{ form_widget(form.title, {'attr': {'class': 'form-control'}} ) }}
+                </div>
+
+                <div class="mb-3">
+                    {{ form_widget(form.categories, {'attr': {'class': 'form-check-input'}} ) }}
+                    {{ form_label(form.categories, null, {'label_attr': {'class': 'form-check-label'} }) }}
+                </div>
+
+{#                <div class="form-check">#}
+{#                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">#}
+{#                    <label class="form-check-label" for="flexCheckDefault">#}
+{#                        Default checkbox#}
+{#                    </label>#}
+{#                </div>#}
+            </div>
+
+            <div class="col">
+
+                <div class="mb-3">
+                    {{ form_row(form.imageFilename, {attr: {'placeholder': 'Select an image for this post'}}) }}
+                </div>
+
+                {% if form.vars.data.imageFilename|default %}
+                    <a href="{{ form.vars.data.imagePath }}" target="_blank">
+                        <img src="{{ form.vars.data.imagePath|imagine_filter('squared_thumbnail_small') }}" height="100" />
+                    </a>
+                {% endif %}
+            </div>
         </div>
 
-        <div class="col">
-            {{ form_row(form.imageFilename, {
-                attr: {'placeholder': 'Select an image for this post'}
-            }) }}
-
-            {% if form.vars.data.imageFilename|default %}
-                <a href="{{ form.vars.data.imagePath }}" target="_blank">
-                    <img src="{{ form.vars.data.imagePath|imagine_filter('squared_thumbnail_small') }}" height="100" />
-                </a>
-            {% endif %}
+        <div class="mb-3">
+            {{ form_label(form.content, null, {'label_attr': {'class': 'form-label'} }) }}
+            {{ form_widget(form.content, {'attr': {'class': 'form-control'}} ) }}
         </div>
+
+        <div class="mb-3">
+            {{ form_label(form.online, null, {'label_attr': {'class': 'checkbox-switch-label'} }) }}
+            {{ form_widget(form.online, {'attr': {'class': 'checkbox-switch-input'}} ) }}
+        </div>
+
+        <button class="btn btn-success  btn-block">
+            {{ button_label|default('Save') }}
+        </button>
+    {{ form_end(form) }}
     </div>
-
-    {{ form_row(form.content) }}
-    {{ form_row(form.online) }}
-
-    <button class="btn btn-success btn-user btn-block">
-        {{ button_label|default('Save') }}
-    </button>
-{{ form_end(form) }}
+</div>

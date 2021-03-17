@@ -1,6 +1,16 @@
 {{ form_start(form) }}
+
+    <div class="mb-3">
+        {{ form_label(form.name, null, {'label_attr': {'class': 'form-label'} }) }}
+        {{ form_widget(form.name, {'attr': {'class': 'form-control'}} ) }}
+    </div>
+    <div class="mb-3">
+        {{ form_label(form.filename, null, {'label_attr': {'class': 'form-label'} }) }}
+        {{ form_widget(form.filename, {'attr': {'class': 'form-control'}} ) }}
+    </div>
+
     {{ form_widget(form) }}
-    <button class="btn btn-success btn-user btn-block">
+    <button class="btn btn-success btn-block">
         {{ button_label|default('Save') }}
     </button>
 {{ form_end(form) }}

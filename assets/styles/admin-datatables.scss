@@ -1,0 +1,14 @@
+@import "~datatables.net-dt/css/jquery.dataTables.css";
+
+//  * * * * * * * * * * * * * *  CUSTOM COLOR MAP
+$dark-blue: #1b1e3d;
+$middle-blue: #5396e7;
+$light-blue: #d4dcff;
+
+#dataTable {
+
+    thead tr,
+    tfoot tr {
+        color: $light-blue;
+    }
+}

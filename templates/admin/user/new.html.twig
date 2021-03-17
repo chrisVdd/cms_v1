@@ -3,9 +3,21 @@
 {% block title %}New User{% endblock %}
 
 {% block body %}
-    <h1>Create a new User</h1>
 
-    {{ include('admin/user/_form.html.twig') }}
+    {#    <h1>Create User</h1>#}
 
-    <a href="{{ path('admin_user_index') }}">back to list</a>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Library</li>
+        </ol>
+    </nav>
+
+    {{ include('admin/user/_form.html.twig', {'button_label': 'Create'}) }}
+
+    <div>
+        <a href="{{ path('admin_user_index') }}" class="btn btn-primary">
+            <i class="fas fa-chevron-left"></i> back to list
+        </a>
+    </div>
 {% endblock %}

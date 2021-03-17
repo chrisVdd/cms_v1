@@ -5,13 +5,11 @@
     <title>{% block title %}Welcome ADMIN!{% endblock %}</title>
 
     {% block stylesheets %}
-
         {{ encore_entry_link_tags('admin') }}
     {% endblock %}
 </head>
 
 <body>
-
     <div class="d-flex" id="wrapper">
 
         {# Sidebar #}
@@ -22,7 +20,7 @@
             {# Topbar #}
             {{ include('admin/includes/topbar.html.twig') }}
 
-            <div class="container-fluid">
+            <div class="container-fluid" id="main-content">
                 {% block body %}
                 {% endblock body %}
             </div>

@@ -5,7 +5,7 @@
     {{ encore_entry_link_tags('admin-datatables') }}
 {% endblock %}
 
-{% block title %}Users index{% endblock %}
+{% block title %}Users listing{% endblock %}
 
 {% block body %}
 
@@ -14,64 +14,67 @@
 {#        <a href="{{ path('admin_user_new') }}" class="btn btn-success">Create a new</a>#}
 {#    </div>#}
 
-{#    <ol class="breadcrumb mb-4">#}
-{#        <li class="breadcrumb-item"><a href="{{ path('admin_index') }}">Dashboard</a></li>#}
-{#        <li class="breadcrumb-item active">Tables</li>#}
-{#    </ol>#}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Library</li>
+        </ol>
+    </nav>
 
-    <div>
-        <table class="min-w-full table-auto border-gray-800" id="dataTable">
+    <div class="card">
+        <div class="card-body">
+            <table class="table table-striped table-bordered" id="dataTable">
             <thead class="justify-between">
-                <tr class="bg-gray-800">
-                    <th class="px-16 py-2">
-                        <span class="text-gray-300"> ID</span>
+                <tr class="dark-blue-bg">
+                    <th>
+                        <span> ID</span>
                     </th>
-                    <th class="px-16 py-2">
-                        <span class="text-gray-300"> Email</span>
+                    <th>
+                        <span> Email</span>
                     </th>
-                    <th class="px-16 py-2">
-                        <span class="text-gray-300"> Username</span>
+                    <th>
+                        <span> Username</span>
                     </th>
-                    <th class="px-16 py-2">
-                        <span class="text-gray-300"> Roles</span>
+                    <th>
+                        <span> Roles</span>
                     </th>
-                    <th class="px-16 py-2">
-                        <span class="text-gray-300"> actions</span>
+                    <th>
+                        <span> ACTIONS</span>
                     </th>
                 </tr>
             </thead>
             <tfoot class="justify-between">
-                <tr class="bg-gray-800">
-                    <th class="px-16 py-2">
-                        <span class="text-gray-300"> ID</span>
+                <tr class="dark-blue-bg">
+                    <th>
+                        <span> ID</span>
                     </th>
-                    <th class="px-16 py-2">
-                        <span class="text-gray-300"> Email</span>
+                    <th>
+                        <span> Email</span>
                     </th>
-                    <th class="px-16 py-2">
-                        <span class="text-gray-300"> Username</span>
+                    <th>
+                        <span> Username</span>
                     </th>
-                    <th class="px-16 py-2">
-                        <span class="text-gray-300"> Roles</span>
+                    <th>
+                        <span> Roles</span>
                     </th>
-                    <th class="px-16 py-2">
-                        <span class="text-gray-300"> actions</span>
+                    <th>
+                        <span> ACTIONS</span>
                     </th>
                 </tr>
             </tfoot>
 
-            <tbody class="bg-gray-200">
+            <tbody>
                 {% for user in users %}
-                    <tr class="bg-white border-4 border-gray-200">
-                        <td class="px-16 "># {{ user.id }}</td>
-                        <td class="px-16 ">{{ user.email }}</td>
-                        <td class="px-16 ">{{ user.username }}</td>
-                        <td class="px-16 ">{{ user.roles ? user.roles|json_encode : '' }}</td>
-                        <td class="px-16 ">
-                            <a href="{{ path('admin_user_show', {'id': user.id}) }}" class="bg-indigo-500 text-white px-4 py-2 border rounded-md hover:bg-white hover:border-indigo-500 hover:text-black">
+                    <tr>
+                        <td># {{ user.id }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.username }}</td>
+                        <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
+                        <td>
+                            <a href="{{ path('admin_user_show', {'id': user.id}) }}" class="btn btn-primary">
                                 show
                             </a>
-                            <a href="{{ path('admin_user_edit', {'id': user.id}) }}" class="bg-indigo-500 text-white px-4 py-2 border rounded-md hover:bg-white hover:border-indigo-500 hover:text-black">
+                            <a href="{{ path('admin_user_edit', {'id': user.id}) }}" class="btn btn-success">
                                 edit
                             </a>
                         </td>
@@ -83,10 +86,11 @@
                 {% endfor %}
             </tbody>
         </table>
+        </div>
     </div>
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
-{#    {{ encore_entry_script_tags('admin-datatables') }}#}
+    {{ encore_entry_script_tags('admin-datatables') }}
 {% endblock %}

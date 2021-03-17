@@ -22,9 +22,11 @@ Encore
      */
     .addEntry('app', './assets/app.js')
     .addEntry('admin', './assets/admin.js')
+
+    // Page specific
     .addEntry('login', './assets/login.js')
-    // .addEntry('myDropzone', './assets/myDropzone.js')
     .addEntry('admin-datatables', './assets/admin-datatables.js')
+    .addEntry('myDropzone', './assets/myDropzone.js')
 
     .copyFiles([
         {from: './node_modules/ckeditor/', to: 'ckeditor/[path][name].[ext]', pattern: /\.(js|css)$/, includeSubdirectories: false},

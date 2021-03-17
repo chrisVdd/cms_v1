@@ -8,10 +8,91 @@ Plus clair pour border et texte: #d4dcff
 @import url('~@fortawesome/fontawesome-free/css/all.css');
 
 //  * * * * * * * * * * * * * *  CUSTOM COLOR MAP
+
 $dark-blue:     #1b1e3d;
 $middle-blue:   #5396e7;
 $light-blue:    #d4dcff;
 
+$middle-green:  #3ce077;
+$light-green:   #80e5a4;
+
+$light-red:     #e35d6a;
+
+// FORM SPECIALS
+.checkbox-switch-input {
+    position: relative;
+    width: 40px;
+    height: 20px;
+    -webkit-appearance: none;
+    background: $light-red;
+    outline: none;
+    cursor: pointer;
+    border-radius: 10px;
+    //box-shadow: inset 0 0 3px rgb(27, 30, 61);
+    transition: background 300ms linear;
+}
+
+.checkbox-switch-input:checked {
+    background: $light-green;
+}
+
+.checkbox-switch-input::before {
+    content: "";
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-radius: 20px;
+    top: 0;
+    left: 0;
+    background: $dark-blue;
+    transform: scale(1.1);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: left 300ms linear;
+}
+
+.checkbox-switch-input:checked::before {
+    left: 20px;
+}
+
+
+.form-control[type=file]:not(:disabled):not([readonly]) {
+    cursor: pointer;
+}
+
+.form-control[type=file] {
+    overflow: hidden;
+}
+
+// BTN
+.btn-primary {
+    @include button-variant($middle-blue,
+        darken($middle-blue, 7.5%),
+        darken($middle-blue, 10%),
+        lighten($middle-blue,5%),
+        lighten($middle-blue, 10%),
+        darken($middle-blue,30%)
+    );
+}
+
+.btn-outline-primary {
+    @include button-outline-variant($middle-blue, $dark-blue, lighten($middle-blue,5%), $middle-blue);
+}
+
+.btn-success {
+    @include button-variant($middle-green,
+        darken($middle-green, 7.5%),
+        darken($middle-green, 10%),
+        lighten($middle-green,5%),
+        lighten($middle-blue, 10%),
+        darken($middle-green,30%)
+    );
+}
+
+.btn-outline-success {
+    @include button-outline-variant($middle-green, $dark-blue, lighten($middle-green,5%), $middle-green);
+}
+
+// Special THEMES and nav
 .dark-blue-bg {
 
     background-color: $dark-blue;
@@ -21,7 +102,7 @@ $light-blue:    #d4dcff;
     }
 
     a .active {
-        
+
     }
 
     a:hover,
@@ -71,6 +152,11 @@ $light-blue:    #d4dcff;
 
 .border-right-light {
     border-right: 1px solid $light-blue !important;
+}
+
+#main-content {
+
+    margin-top: 1.5rem;
 }
 
 // END * * * * * * * * * * * * * * CUSTOM COLOR MAP

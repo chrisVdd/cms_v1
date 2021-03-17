@@ -56,6 +56,11 @@ class User implements UserInterface
      */
     private $posts;
 
+    /**
+     * @ORM\OneToOne(targetEntity=Profil::class, mappedBy="user", cascade={"persist", "remove"})
+     */
+    private $profil;
+
     public function __construct()
     {
         $this->posts = new ArrayCollection();
@@ -221,6 +226,28 @@ class User implements UserInterface
                 $post->setAuthor(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getProfil(): ?Profil
+    {
+        return $this->profil;
+    }
+
+    public function setProfil(?Profil $profil): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($profil === null && $this->profil !== null) {
+            $this->profil->setUser(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($profil !== null && $profil->getUser() !== $this) {
+            $profil->setUser($this);
+        }
+
+        $this->profil = $profil;
 
         return $this;
     }

@@ -43,9 +43,7 @@ class PageType extends AbstractType
             ->add('title')
             ->add('content', CKEditorType::class)
             ->add('template', TemplateType::class)
-            ->add('online', CheckboxType::class, 
-                ['label_attr' => ['class' => 'switch-custom']]
-            )
+            ->add('online', CheckboxType::class)
             ->add('position', IntegerType::class)
             ->add('widgets', EntityType::class,
                 [
