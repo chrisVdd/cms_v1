@@ -14,13 +14,6 @@
     {#        <a href="{{ path('admin_user_new') }}" class="btn btn-success">Create a new</a>#}
     {#    </div>#}
 
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="#">Home</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Library</li>
-        </ol>
-    </nav>
-
     <div class="card">
         <div class="card-body">
             <table class="table table-striped table-bordered" id="dataTable">
@@ -63,7 +56,7 @@
                                             </button>
                                         </div>
                                         <div class="modal-body">
-                                            {{ post.content }}
+                                            {{ post.content|html_entity_decode|html_entity_decode|raw }}
                                         </div>
                                         {# <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -98,6 +91,6 @@
 
 {% block javascripts %}
     {{ parent() }}
-{#    {{ encore_entry_script_tags('admin-datatables') }}#}
+    {{ encore_entry_script_tags('admin-datatables') }}
 {% endblock %}
 

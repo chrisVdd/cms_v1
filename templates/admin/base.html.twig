@@ -21,6 +21,10 @@
             {{ include('admin/includes/topbar.html.twig') }}
 
             <div class="container-fluid" id="main-content">
+
+                {# Breadcrumb #}
+                {{ include('admin/includes/breadcrumb.html.twig') }}
+
                 {% block body %}
                 {% endblock body %}
             </div>

@@ -13,6 +13,7 @@ $dark-blue:     #1b1e3d;
 $middle-blue:   #5396e7;
 $light-blue:    #d4dcff;
 
+$dark-green:    #19a54c;
 $middle-green:  #3ce077;
 $light-green:   #80e5a4;
 
@@ -54,7 +55,6 @@ $light-red:     #e35d6a;
     left: 20px;
 }
 
-
 .form-control[type=file]:not(:disabled):not([readonly]) {
     cursor: pointer;
 }
@@ -65,31 +65,15 @@ $light-red:     #e35d6a;
 
 // BTN
 .btn-primary {
-    @include button-variant($middle-blue,
-        darken($middle-blue, 7.5%),
-        darken($middle-blue, 10%),
-        lighten($middle-blue,5%),
-        lighten($middle-blue, 10%),
-        darken($middle-blue,30%)
-    );
-}
+    background-color: $middle-blue;
+    border: 1px solid $dark-blue;
 
-.btn-outline-primary {
-    @include button-outline-variant($middle-blue, $dark-blue, lighten($middle-blue,5%), $middle-blue);
+    //border: 1px solid $light-blue;
 }
 
 .btn-success {
-    @include button-variant($middle-green,
-        darken($middle-green, 7.5%),
-        darken($middle-green, 10%),
-        lighten($middle-green,5%),
-        lighten($middle-blue, 10%),
-        darken($middle-green,30%)
-    );
-}
-
-.btn-outline-success {
-    @include button-outline-variant($middle-green, $dark-blue, lighten($middle-green,5%), $middle-green);
+    background-color: $middle-green;
+    border: 1px solid $dark-green;
 }
 
 // Special THEMES and nav
@@ -110,8 +94,36 @@ $light-red:     #e35d6a;
         color: $middle-blue;
     }
 
+    .btn-primary {
+        border: 1px solid $light-blue;
+        color: $light-blue;
+    }
+
+    .btn-success {
+        border: 1px solid $dark-blue;
+        color: $light-blue;
+    }
+
+    .btn-success:hover {
+
+    }
+
+    .list-group-item-action:hover,
+    .list-group-item-action:focus {
+        z-index: 1;
+        text-decoration: none;
+        background-color: transparent;
+    }
+
+    .dark-blue-bg a:hover,
+    .dark-blue-bg a:focus {
+        color: #5396e7;
+    }
+
     .dropdown-menu {
         background-color: $dark-blue;
+        color: $light-blue;
+        border: none;
 
         .fas {
             margin-right: 0.5em;
@@ -119,6 +131,7 @@ $light-red:     #e35d6a;
 
         .dropdown-item:hover,
         .dropdown-item:focus {
+            color: $middle-blue;
             background-color: transparent;
         }
 
@@ -155,8 +168,22 @@ $light-red:     #e35d6a;
 }
 
 #main-content {
-
     margin-top: 1.5rem;
+}
+
+.modal-header {
+    background-color: $dark-blue;
+    color: $light-blue;
+
+    button,
+    button:hover{
+        color: $light-blue;
+    }
+}
+
+.modal .fa-times {
+    color: $light-blue;
+    cursor: pointer;
 }
 
 // END * * * * * * * * * * * * * * CUSTOM COLOR MAP

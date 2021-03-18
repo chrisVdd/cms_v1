@@ -1,5 +1,9 @@
 {% extends 'admin/base.html.twig' %}
 
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
 {% block title %}Edit the post{% endblock %}
 
 {% block body %}
@@ -46,7 +50,6 @@
 {% endblock %}
 
 {% block javascripts %}
-
     {{ parent() }}
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.8.3/Sortable.min.js" integrity="sha256-uNITVqEk9HNQeW6mAAm2PJwFX2gN45l8a4yocqsFI6I=" crossorigin="anonymous"></script>
     {{ encore_entry_script_tags('myDropzone') }}

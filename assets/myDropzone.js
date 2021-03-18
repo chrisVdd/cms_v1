@@ -85,7 +85,7 @@ class ReferenceList
         const itemsHtml = this.references.map(reference => {
             return `
         <li class="list-group-item d-flex justify-content-between align-items-center" 
-        data-id="${reference.id}">
+            data-id="${reference.id}">
             <span class="drag-handle fa fa-reorder">Reorder</span>
             <input type="text" value="${reference.originalFilename}" class="form-control js-edit-filename" style="width: auto;">
             <span>
