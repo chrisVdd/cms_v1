@@ -12,23 +12,23 @@
 
     {{ include('admin/post/_form.html.twig', {'button_label': 'Update'}) }}
 
-    <div class="col-sm-11">
-        <h3>References</h3>
+{#    <div>#}
+{#        <h3>References linked to this post</h3>#}
 
-        <ul class="list-group small js-reference-list"
-            data-url="{{ path('admin_post_list_references', {id: post.id}) }}">
-        </ul>
+{#        <ul class="list-group small js-reference-list"#}
+{#            data-url="{{ path('admin_post_list_references', {id: post.id}) }}">#}
+{#        </ul>#}
 
-        <hr>
+{#        <hr>#}
 
-        <form action="{{ path('admin_post_add_reference', {id: post.id}) }}"
-              method="post"
-              enctype="multipart/form-data"
-              class="dropzone js-reference-dropzone">
+{#        <form action="{{ path('admin_post_add_reference', {id: post.id}) }}"#}
+{#              method="post"#}
+{#              enctype="multipart/form-data"#}
+{#              class="dropzone js-reference-dropzone">#}
 {#            <input type="file" name="reference">#}
 {#            <button type="submit" class="btn btn-primary">Upload reference</button>#}
-        </form>
-    </div>
+{#        </form>#}
+{#    </div>#}
 
     <div class="card">
         <div class="card-body">
@@ -44,6 +44,5 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.8.3/Sortable.min.js" integrity="sha256-uNITVqEk9HNQeW6mAAm2PJwFX2gN45l8a4yocqsFI6I=" crossorigin="anonymous"></script>
     {{ encore_entry_script_tags('myDropzone') }}
 {% endblock javascripts %}

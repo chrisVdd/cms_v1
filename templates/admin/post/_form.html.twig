@@ -1,51 +1,96 @@
 <div class="card">
     <div class="card-body">
+
         {{ form_start(form) }}
 
-        <div class="row">
-            <div class="col">
-                <div class="mb-3">
-                    {{ form_label(form.title, null, {'label_attr': {'class': 'form-label'} }) }}
-                    {{ form_widget(form.title, {'attr': {'class': 'form-control'}} ) }}
-                </div>
+            <div class="row">
 
-                <div class="mb-3">
-                    {% for category in form.categories %}
-                        <div class="form-check">
-                            {{ form_label(category, null, {'label_attr': {'class': 'form-check-label'} }) }}
-                            {{ form_widget(category, {'attr': {'class': 'form-check-input'}} ) }}
+                <div class="col">
+                    <div class="mb-3">
+                        {{ form_label(form.title, null, {'label_attr': {'class': 'form-label'} }) }}
+                        {{ form_widget(form.title, {'attr': {'class': 'form-control'}} ) }}
+                    </div>
+
+                    <div class="mb-3">
+                        <div class="row">
+                            <div class="col-8">
+                                {{ form_label(form.imageFilename, null, {'label_attr': {'class': 'form-label'} }) }}
+                                {{ form_widget(form.imageFilename, {
+                                    'attr': {'class': 'form-control'},
+                                    'placeholder': 'Select an image for this post'
+                                } ) }}
+                            </div>
+                            <div class="col-4">
+                                {% if form.vars.data.imageFilename|default %}
+                                    <a href="{{ form.vars.data.imagePath }}" target="_blank">
+                                        <img src="{{ form.vars.data.imagePath|imagine_filter('squared_thumbnail_small') }}" height="100"  alt=""/>
+                                    </a>
+                                {% endif %}
+                            </div>
                         </div>
-                    {% endfor %}
+                    </div>
+                </div>
+
+                <div class="col">
+
+                    <div class="mb-3">
+                        {{ form_label(form.categories, null, {'label_attr': {'class': 'form-label'} }) }}                        {% for category in form.categories %}
+                            <div class="form-check">
+                                {{ form_label(category, null, {'label_attr': {'class': 'form-check-label'} }) }}
+                                {{ form_widget(category, {'attr': {'class': 'form-check-input'}} ) }}
+                            </div>
+                        {% endfor %}
+                    </div>
                 </div>
             </div>
 
-            <div class="col">
+            <div class="mb-3">
+                {{ form_label(form.content, null, {'label_attr': {'class': 'form-label'} }) }}
+                {{ form_widget(form.content, {'attr': {'class': 'form-control'}} ) }}
+            </div>
 
-                <div class="mb-3">
-                    {{ form_row(form.imageFilename, {attr: {'placeholder': 'Select an image for this post'}}) }}
+            <div class="mb-3">
+                {{ form_label(form.online, null, {'label_attr': {'class': 'checkbox-switch-label'} }) }}
+                {{ form_widget(form.online, {'attr': {'class': 'checkbox-switch-input'}} ) }}
+            </div>
+
+            <hr>
+
+            <div class="mb-10">
+                <h3>References linked to this post</h3>
+
+                <div class="js-reference-list" id="post-reference-list"
+                     data-url="{{ path('admin_post_list_references', {id: post.id}) }}">
                 </div>
 
-                {% if form.vars.data.imageFilename|default %}
-                    <a href="{{ form.vars.data.imagePath }}" target="_blank">
-                        <img src="{{ form.vars.data.imagePath|imagine_filter('squared_thumbnail_small') }}" height="100" />
-                    </a>
-                {% endif %}
+                <form action="{{ path('admin_post_add_reference', {id: post.id}) }}"
+                      method="post"
+                      enctype="multipart/form-data"
+                      class="dropzone js-reference-dropzone">
+                    {# <input type="file" name="reference">#}
+                    {# <button type="submit" class="btn btn-primary">Upload reference</button>#}
+                </form>
+
             </div>
-        </div>
 
-        <div class="mb-3">
-            {{ form_label(form.content, null, {'label_attr': {'class': 'form-label'} }) }}
-            {{ form_widget(form.content, {'attr': {'class': 'form-control'}} ) }}
-        </div>
+{#            <div class="row-3" style="border: 1px solid red;">#}
+{#                <h3>References linked to this post</h3>#}
 
-        <div class="mb-3">
-            {{ form_label(form.online, null, {'label_attr': {'class': 'checkbox-switch-label'} }) }}
-            {{ form_widget(form.online, {'attr': {'class': 'checkbox-switch-input'}} ) }}
-        </div>
 
-        <button class="btn btn-success  btn-block">
-            {{ button_label|default('Save') }}
-        </button>
-    {{ form_end(form) }}
+{#                <div class="row mb-3">#}
+{#                    <div class="col-4 themed-grid-col">.col-4</div>#}
+{#                    <div class="col-4 themed-grid-col">.col-4</div>#}
+{#                    <div class="col-4 themed-grid-col">.col-4</div>#}
+{#                </div>#}
+
+{#                <ul class="list-group row js-reference-list" id="post-reference-list"#}
+{#                    data-url="{{ path('admin_post_list_references', {id: post.id}) }}">#}
+{#                </ul>#}
+            <hr>
+
+            <button class="btn btn-success btn-block">
+                {{ button_label|default('Save') }}
+            </button>
+        {{ form_end(form) }}
     </div>
 </div>

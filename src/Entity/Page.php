@@ -29,6 +29,11 @@ class Page
     private $title;
 
     /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $subTitle;
+
+    /**
      * @ORM\Column(type="text")
      */
     private $content;
@@ -103,6 +108,25 @@ class Page
     public function setTitle(string $title): self
     {
         $this->title = $title;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getSubTitle(): ?string
+    {
+        return $this->subTitle;
+    }
+
+    /**
+     * @param string $subTitle
+     * @return $this
+     */
+    public function setSubTitle(string $subTitle): self
+    {
+        $this->subTitle = $subTitle;
 
         return $this;
     }

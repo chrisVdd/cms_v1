@@ -63,6 +63,30 @@ $light-red:     #e35d6a;
     overflow: hidden;
 }
 
+//#post_imageFilename {
+//    display: inline-flex;
+//    width: 60%;
+//}
+
+// * * * * * * * * * * * * * * DROPZONE
+#post-reference-list {
+
+    color: $dark-blue;
+    border: 1px solid green;
+
+    .drag-handle {
+        .fa-arrows-alt {
+            cursor: grab;
+        }
+    }
+}
+
+
+// END * * * * * * * * * * * * * * DROPZONE
+
+
+
+
 // BTN
 .btn-primary {
     background-color: $middle-blue;
@@ -185,6 +209,8 @@ $light-red:     #e35d6a;
     color: $light-blue;
     cursor: pointer;
 }
+
+
 
 // END * * * * * * * * * * * * * * CUSTOM COLOR MAP
 

@@ -9,6 +9,11 @@
         </div>
 
         <div class="mb-3">
+            {{ form_label(form.subTitle, null, {'label_attr': {'class': 'form-label'} }) }}
+            {{ form_widget(form.subTitle, {'attr': {'class': 'form-control'}} ) }}
+        </div>
+
+        <div class="mb-3">
             {{ form_label(form.content, null, {'label_attr': {'class': 'form-label'} }) }}
             {{ form_widget(form.content, {'attr': {'class': 'form-control'}} ) }}
         </div>

@@ -1,4 +1,4 @@
-// import Dropzone from 'dropzone';
+import Dropzone from 'dropzone';
 import Sortable from 'sortablejs';
 
 Dropzone.autoDiscover = false;
@@ -84,21 +84,27 @@ class ReferenceList
     render() {
         const itemsHtml = this.references.map(reference => {
             return `
-        <li class="list-group-item d-flex justify-content-between align-items-center" 
-            data-id="${reference.id}">
-            <span class="drag-handle fa fa-reorder">Reorder</span>
-            <input type="text" value="${reference.originalFilename}" class="form-control js-edit-filename" style="width: auto;">
-            <span>
-                <a href="/admin/post/references/${reference.id}/download" class="btn btn-link btn-sm">
-                    <span class="fa fa-download" style="vertical-align: middle"></span>
-                </a>
-                <button class="js-reference-delete btn btn-link btn-sm">
-                    <span class="fa fa-trash"></span>
-                </button>
-            </span>
-        </li>
-`
-        });
+                <div class="d-flex justify-content-center">
+                    <div class="mx-2">
+                        <span class="drag-handle">
+                            <i class="fas fa-arrows-alt"></i>
+                        </span>
+                    </div>
+                
+                    <div class="ms-auto">
+                        <input type="text" value="${reference.originalFilename}" class="form-control js-edit-filename">
+                    </div>
+                
+                    <div class="mx-4">
+                        <a href="/admin/post/references/${reference.id}/download" class="btn btn-link btn-primary">
+                            <span class="fa fa-download" style="vertical-align: middle"></span>
+                        </a>
+                        <button class="js-reference-delete btn btn-link btn-primary">
+                            <span class="fa fa-trash"></span>
+                        </button>
+                    </div>
+                </div>
+            `});
         this.$element.html(itemsHtml.join(''));
     }
 }
@@ -130,3 +136,21 @@ function initializeDropzone(referenceList) {
         }
     });
 }
+
+// <li class="list-group-item" data-id="${reference.id}">
+//     <span class="drag-handle col">
+//     <i class="fas fa-arrows-alt"></i>
+//     </span>
+//
+//     <input type="text" value="${reference.originalFilename}"
+// class="form-control js-edit-filename">
+//
+//     <span class="col">
+//     <a href="/admin/post/references/${reference.id}/download" class="btn btn-link btn-primary">
+//     <span class="fa fa-download" style="vertical-align: middle"></span>
+//     </a>
+//     <button class="js-reference-delete btn btn-link btn-primary">
+//     <span class="fa fa-trash"></span>
+//     </button>
+//     </span>
+//     </li>

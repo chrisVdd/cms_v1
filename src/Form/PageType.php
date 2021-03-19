@@ -40,6 +40,7 @@ class PageType extends AbstractType
     {
         $builder
             ->add('title')
+            ->add('subTitle')
             ->add('content', CKEditorType::class)
             ->add('template', TemplateType::class)
             ->add('online', CheckboxType::class)

@@ -32,7 +32,16 @@
                     </div>
                     <div class="mb-3">
                         {{ form_label(form.profile.avatar, null, {'label_attr': {'class': 'form-label'} }) }}
-                        {{ form_widget(form.profile.avatar, {'attr': {'class': 'form-control'}} ) }}
+                        {{ form_widget(form.profile.avatar, {'attr': {
+                            'class': 'form-control',
+                            'placeholder': 'Select your avatar'
+                        }} ) }}
+
+                        {% if form.vars.data.profile.avatar|default %}
+                            <a href="{{ form.vars.data.profile.avatarPath }}" target="_blank">
+                                <img src="{{ form.vars.data.profile.avatarPath|imagine_filter('squared_thumbnail_small') }}" height="100" />
+                            </a>
+                        {% endif %}
                     </div>
                 </div>
             </div>
