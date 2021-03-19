@@ -57,10 +57,13 @@ class User implements UserInterface
     private $posts;
 
     /**
-     * @ORM\OneToOne(targetEntity=Profil::class, mappedBy="user", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=Profile::class, mappedBy="user", cascade={"persist", "remove"})
      */
-    private $profil;
+    private $profile;
 
+    /**
+     * User constructor.
+     */
     public function __construct()
     {
         $this->posts = new ArrayCollection();
@@ -208,6 +211,10 @@ class User implements UserInterface
         return $this->posts;
     }
 
+    /**
+     * @param Post $post
+     * @return $this
+     */
     public function addPost(Post $post): self
     {
         if (!$this->posts->contains($post)) {
@@ -218,6 +225,10 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * @param Post $post
+     * @return $this
+     */
     public function removePost(Post $post): self
     {
         if ($this->posts->removeElement($post)) {
@@ -230,24 +241,31 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getProfil(): ?Profil
+    /**
+     * @return Profile|null
+     */
+    public function getProfile(): ?Profile
     {
-        return $this->profil;
+        return $this->profile;
     }
 
-    public function setProfil(?Profil $profil): self
+    /**
+     * @param Profile|null $profile
+     * @return $this
+     */
+    public function setProfile(?Profile $profile): self
     {
         // unset the owning side of the relation if necessary
-        if ($profil === null && $this->profil !== null) {
-            $this->profil->setUser(null);
+        if ($profile === null && $this->profile !== null) {
+            $this->profile->setUser(null);
         }
 
         // set the owning side of the relation if necessary
-        if ($profil !== null && $profil->getUser() !== $this) {
-            $profil->setUser($this);
+        if ($profile !== null && $profile->getUser() !== $this) {
+            $profile->setUser($this);
         }
 
-        $this->profil = $profil;
+        $this->profile = $profile;
 
         return $this;
     }

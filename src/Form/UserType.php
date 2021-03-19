@@ -38,7 +38,9 @@ class UserType extends AbstractType
                     'expanded' => false,
                     'required' => true
                 ]
-            );
+            )
+            ->add('profile', ProfileType::class)
+        ;
 
         $builder->get('roles')->addModelTransformer(new CallbackTransformer(
 
