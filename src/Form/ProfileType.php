@@ -8,6 +8,7 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Image;
 
 /**
  * Class ProfileType
@@ -21,11 +22,31 @@ class ProfileType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        /** @var array $imageConstraints */
+        $imageConstraints = [
+            new Image([
+                'maxSize' => '5M'
+            ])
+        ];
+
         $builder
-            ->add('firstname', TextType::class)
-            ->add('lastname', TextType::class)
-            ->add('avatar', FileType::class)
-        ;
+            ->add('firstname', TextType::class,
+                [
+                    'required' => false
+                ]
+            )
+            ->add('lastname', TextType::class,
+                [
+                    'required' => false
+                ]
+            )
+            ->add('avatar', FileType::class,
+                [
+                    'mapped'        => false,
+                    'required'      => false,
+                    'constraints'   => $imageConstraints
+                ]
+            );
     }
 
     /**

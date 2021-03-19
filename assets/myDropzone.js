@@ -103,8 +103,6 @@ class ReferenceList
     }
 }
 
-
-
 /**
  * @param {ReferenceList} referenceList
  */

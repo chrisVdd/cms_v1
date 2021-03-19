@@ -20,8 +20,8 @@ class UploadHelper
     /*@TODO
         - rename const TEMPLATE_FILE >
     */
-
     const POST_IMAGE        = 'post_image';
+    const USER_AVATAR       = 'user_avatar';
     const POST_REFERENCE    = 'post_reference';
     const TEMPLATE_FILE     = 'uploaded_templates';
     const IMPORT_FILE       = 'data_import';
@@ -160,6 +160,35 @@ class UploadHelper
 
         return $newFilename;
     }
+
+    /**
+     * @param UploadedFile $uploadedFile
+     * @param string|null $existingAvatar
+     * @return string
+     * @throws FileExistsExceptionAlias
+     */
+    public function uploadAvatar(UploadedFile $uploadedFile, ?string  $existingAvatar): string
+    {
+        /** @var string $newFilename */
+        $newFilename = $this->uploadFile($uploadedFile, self::USER_AVATAR, "public");
+
+        if ($existingAvatar) {
+
+            try {
+                $result = $this->publicFilesystem->delete(self::POST_IMAGE.'/'.$existingAvatar);
+
+                if ($result === false) {
+                    throw new Exception(sprintf('Could not delete old uploaded file "%s"', $existingAvatar));
+                }
+
+            } catch (FileNotFoundException $e) {
+                $this->logger->alert(sprintf('Old uploaded file "%s" was missing when trying to delete', $existingAvatar));
+            }
+        }
+
+        return $newFilename;
+    }
+
 
     /**
      * @param UploadedFile $uploadedFile

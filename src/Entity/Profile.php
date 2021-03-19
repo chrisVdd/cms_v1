@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ProfileRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation    as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass=ProfileRepository::class)
@@ -18,12 +19,12 @@ class Profile
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $firstname;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $lastname;
 
@@ -34,11 +35,13 @@ class Profile
 
     /**
      * @ORM\Column(type="datetime")
+     * @Gedmo\Timestampable(on="create")
      */
     private $createDate;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @Gedmo\Timestampable(on="update")
      */
     private $updateDate;
 
