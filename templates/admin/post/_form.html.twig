@@ -10,16 +10,13 @@
                 </div>
 
                 <div class="mb-3">
-                    {{ form_widget(form.categories, {'attr': {'class': 'form-check-input'}} ) }}
-                    {{ form_label(form.categories, null, {'label_attr': {'class': 'form-check-label'} }) }}
+                    {% for category in form.categories %}
+                        <div class="form-check">
+                            {{ form_label(category, null, {'label_attr': {'class': 'form-check-label'} }) }}
+                            {{ form_widget(category, {'attr': {'class': 'form-check-input'}} ) }}
+                        </div>
+                    {% endfor %}
                 </div>
-
-{#                <div class="form-check">#}
-{#                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">#}
-{#                    <label class="form-check-label" for="flexCheckDefault">#}
-{#                        Default checkbox#}
-{#                    </label>#}
-{#                </div>#}
             </div>
 
             <div class="col">

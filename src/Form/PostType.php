@@ -54,7 +54,7 @@ class PostType extends AbstractType
             ->add('content', CKEditorType::class)
             ->add('categories', EntityType::class,
                 [
-                    'class' => Category::class,
+                    'class'    => Category::class,
                     'multiple' => true,
                     'expanded' => true,
                 ]

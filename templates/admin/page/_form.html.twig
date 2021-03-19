@@ -34,8 +34,12 @@
         </div>
 
         <div class="mb-3">
-            {{ form_label(form.widgets, null, {'label_attr': {'class': 'form-label'} }) }}
-            {{ form_widget(form.widgets, {'attr': {'class': 'form-control'}} ) }}
+            {% for widget in form.widgets %}
+                <div class="form-check">
+                    {{ form_label(widget, null, {'label_attr': {'class': 'form-check-label'} }) }}
+                    {{ form_widget(widget, {'attr': {'class': 'form-check-input'}} ) }}
+                </div>
+            {% endfor %}
         </div>
 
         <button class="btn btn-success btn-block">
