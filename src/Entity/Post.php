@@ -78,6 +78,11 @@ class Post
     private $author;
 
     /**
+     * @ORM\Column(type="text")
+     */
+    private $summary;
+
+    /**
      * Post constructor.
      */
     public function __construct()
@@ -334,6 +339,18 @@ class Post
     public function setAuthor(?User $author): self
     {
         $this->author = $author;
+
+        return $this;
+    }
+
+    public function getSummary(): ?string
+    {
+        return $this->summary;
+    }
+
+    public function setSummary(string $summary): self
+    {
+        $this->summary = $summary;
 
         return $this;
     }

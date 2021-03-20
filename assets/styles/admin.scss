@@ -63,21 +63,26 @@ $light-red:     #e35d6a;
     overflow: hidden;
 }
 
-//#post_imageFilename {
-//    display: inline-flex;
-//    width: 60%;
-//}
-
 // * * * * * * * * * * * * * * DROPZONE
 #post-reference-list {
 
     color: $dark-blue;
     border: 1px solid green;
 
+    .btn-primary,
+    .btn-danger {
+        color: $light-blue;
+    }
+
     .drag-handle {
         .fa-arrows-alt {
             cursor: grab;
         }
+    }
+
+    #sortable-item {
+        background-color: $light-blue;
+        border: 1px solid $dark-blue;
     }
 }
 

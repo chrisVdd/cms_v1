@@ -5,6 +5,7 @@
 
             <div class="row">
 
+{# LEFT CONTENT #}
                 <div class="col">
                     <div class="mb-3">
                         {{ form_label(form.title, null, {'label_attr': {'class': 'form-label'} }) }}
@@ -12,26 +13,12 @@
                     </div>
 
                     <div class="mb-3">
-                        <div class="row">
-                            <div class="col-8">
-                                {{ form_label(form.imageFilename, null, {'label_attr': {'class': 'form-label'} }) }}
-                                {{ form_widget(form.imageFilename, {
-                                    'attr': {'class': 'form-control'},
-                                    'placeholder': 'Select an image for this post'
-                                } ) }}
-                            </div>
-                            <div class="col-4">
-                                {% if form.vars.data.imageFilename|default %}
-                                    <a href="{{ form.vars.data.imagePath }}" target="_blank">
-                                        <img src="{{ form.vars.data.imagePath|imagine_filter('squared_thumbnail_small') }}" height="100"  alt=""/>
-                                    </a>
-                                {% endif %}
-                            </div>
-                        </div>
+                        {{ form_label(form.summary, null, {'label_attr': {'class': 'form-label'} }) }}
+                        {{ form_widget(form.summary, {'attr': {
+                            'class': 'form-control',
+                            'rows': '3'
+                        }} ) }}
                     </div>
-                </div>
-
-                <div class="col">
 
                     <div class="mb-3">
                         {{ form_label(form.categories, null, {'label_attr': {'class': 'form-label'} }) }}                        {% for category in form.categories %}
@@ -42,36 +29,74 @@
                         {% endfor %}
                     </div>
                 </div>
-            </div>
 
-            <div class="mb-3">
-                {{ form_label(form.content, null, {'label_attr': {'class': 'form-label'} }) }}
-                {{ form_widget(form.content, {'attr': {'class': 'form-control'}} ) }}
-            </div>
+{# RIGHT CONTENT #}
+                <div class="col">
 
-            <div class="mb-3">
-                {{ form_label(form.online, null, {'label_attr': {'class': 'checkbox-switch-label'} }) }}
-                {{ form_widget(form.online, {'attr': {'class': 'checkbox-switch-input'}} ) }}
-            </div>
+                    <div class="mb-3">
+                        <div class="row">
+                            {{ form_label(form.imageFilename, null, {'label_attr': {'class': 'form-label'} }) }}
+                            {{ form_widget(form.imageFilename,
+                                {
+                                    'attr': {'class': 'form-control'},
+                                    'placeholder': 'Select an image for this post'
+                                }
+                            ) }}
+                            {% if form.vars.data.imageFilename|default %}
+                                <a href="{{ form.vars.data.imagePath }}" target="_blank" class="mx-auto pt-3" style="width: 200px;">
+                                    <img src="{{ form.vars.data.imagePath|imagine_filter('squared_thumbnail_small') }}" height="100"  alt=""/>
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
 
-            <hr>
-
-            <div class="mb-10">
-                <h3>References linked to this post</h3>
-
-                <div class="js-reference-list" id="post-reference-list"
-                     data-url="{{ path('admin_post_list_references', {id: post.id}) }}">
+                    <div class="mb-3">
+                        {{ form_label(form.online, null, {'label_attr': {'class': 'checkbox-switch-label'} }) }}
+                        {{ form_widget(form.online, {'attr': {'class': 'checkbox-switch-input'}} ) }}
+                    </div>
                 </div>
+            </div>
 
-                <form action="{{ path('admin_post_add_reference', {id: post.id}) }}"
-                      method="post"
-                      enctype="multipart/form-data"
-                      class="dropzone js-reference-dropzone">
-                    {# <input type="file" name="reference">#}
-                    {# <button type="submit" class="btn btn-primary">Upload reference</button>#}
-                </form>
+        <div class="row">
+            <div class="col">
+                <div class="mb-3">
+                    {{ form_label(form.content, null, {'label_attr': {'class': 'form-label'} }) }}
+                    {{ form_widget(form.content, {'attr': {'class': 'form-control'}} ) }}
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
 
             </div>
+
+            <div class="col">
+                <div class="mb-3">
+                    <h3>References linked to this post</h3>
+
+                    {% if form.vars.data.postReferences|default %}
+
+                        <div class="js-reference-list" id="post-reference-list"
+                             data-url="{{ path('admin_post_list_references', {id: post.id}) }}">
+                        </div>
+
+                        <form action="{{ path('admin_post_add_reference', {id: post.id}) }}"
+                              method="post"
+                              enctype="multipart/form-data"
+                              class="dropzone js-reference-dropzone">
+                             <input type="file" name="reference">
+                             <button type="submit" class="btn btn-primary">Upload reference</button>
+                        </form>
+                    {% else %}
+                        Need to have the ID of the post
+{#                        post.id > {{ path('admin_post_add_reference', {id: post.id}) }}#}
+                    {% endif %}
+
+                </div>
+            </div>
+        </div>
+
 
 {#            <div class="row-3" style="border: 1px solid red;">#}
 {#                <h3>References linked to this post</h3>#}

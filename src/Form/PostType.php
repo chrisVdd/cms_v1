@@ -10,7 +10,10 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\Validator\Constraints\Image;
@@ -46,11 +49,12 @@ class PostType extends AbstractType
         ];
 
         $builder
-            ->add('title', null,
+            ->add('title', TextType::class,
                 [
                     'attr' => ['autofocus' => true]
                 ]
             )
+            ->add('summary', TextareaType::class)
             ->add('content', CKEditorType::class)
             ->add('categories', EntityType::class,
                 [
@@ -66,11 +70,29 @@ class PostType extends AbstractType
                     'constraints'   => $imageConstraints,
                 ]
             )
-            ->add('online', CheckboxType::class, 
+            ->add('online', CheckboxType::class,
                 ['label_attr' => ['class' => 'switch-custom']]
-            )
-            
-        ;
+            );
+
+        $builder->addEventListener(FormEvents::PRE_SET_DATA,
+            function (FormEvent $event) {
+
+            $data = $event->getData();
+            dump("------- PRE_SET_DATA");
+            dump($data);
+            dump("------- END PRE_SET_DATA");
+        });
+
+        $builder->addEventListener(FormEvents::PRE_SUBMIT,
+            function (FormEvent $event){
+
+                $data = $event->getData();
+                dump("------- PRE_SUBMIT");
+                dd($data);
+                dump("------- END PRE_SUBMIT");
+
+            });
+
     }
 
     /**

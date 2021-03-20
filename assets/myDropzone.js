@@ -84,22 +84,23 @@ class ReferenceList
     render() {
         const itemsHtml = this.references.map(reference => {
             return `
-                <div class="d-flex justify-content-center">
-                    <div class="mx-2">
+                <div class="d-flex " id="sortable-item">
+                    <div class="p-2 flex-fill">
                         <span class="drag-handle">
                             <i class="fas fa-arrows-alt"></i>
                         </span>
                     </div>
                 
-                    <div class="ms-auto">
-                        <input type="text" value="${reference.originalFilename}" class="form-control js-edit-filename">
+                    <div class="p-2 flex-fill">
+                        <input type="text" value="${reference.originalFilename}" 
+                               class="form-control js-edit-filename" />
                     </div>
                 
-                    <div class="mx-4">
-                        <a href="/admin/post/references/${reference.id}/download" class="btn btn-link btn-primary">
+                    <div class="p-2 flex-fill">
+                        <a href="/admin/post/references/${reference.id}/download" class="btn btn-primary">
                             <span class="fa fa-download" style="vertical-align: middle"></span>
                         </a>
-                        <button class="js-reference-delete btn btn-link btn-primary">
+                        <button class="js-reference-delete btn btn-danger">
                             <span class="fa fa-trash"></span>
                         </button>
                     </div>

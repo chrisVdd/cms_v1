@@ -12,24 +12,6 @@
 
     {{ include('admin/post/_form.html.twig', {'button_label': 'Update'}) }}
 
-{#    <div>#}
-{#        <h3>References linked to this post</h3>#}
-
-{#        <ul class="list-group small js-reference-list"#}
-{#            data-url="{{ path('admin_post_list_references', {id: post.id}) }}">#}
-{#        </ul>#}
-
-{#        <hr>#}
-
-{#        <form action="{{ path('admin_post_add_reference', {id: post.id}) }}"#}
-{#              method="post"#}
-{#              enctype="multipart/form-data"#}
-{#              class="dropzone js-reference-dropzone">#}
-{#            <input type="file" name="reference">#}
-{#            <button type="submit" class="btn btn-primary">Upload reference</button>#}
-{#        </form>#}
-{#    </div>#}
-
     <div class="card">
         <div class="card-body">
             <a href="{{ path('admin_post_index') }}" class="btn btn-primary" role="button">
