@@ -3,19 +3,19 @@ oneup_flysystem:
     adapters:
         public_uploads_adapter:
             local:
-                directory: '%kernel.project_dir%/public/%uploads_dir_name%'
+                location: '%kernel.project_dir%/public/%uploads_dir_name%'
 
         private_uploads_adapter:
             local:
-                directory: '%kernel.project_dir%/storage/uploads'
+                location: '%kernel.project_dir%/storage/uploads'
 
         template_uploads_adapter:
             local:
-                directory: '%kernel.project_dir%/templates'
+                location: '%kernel.project_dir%/templates'
 
         import_uploads_adapter:
             local:
-                directory: '%kernel.project_dir%/import_uploaded'
+                location: '%kernel.project_dir%/import_uploaded'
 
     filesystems:
         public_uploads_filesystem:

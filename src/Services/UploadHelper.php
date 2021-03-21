@@ -3,10 +3,8 @@
 namespace App\Services;
 
 use Exception;
+use League\Flysystem\Filesystem;
 use Gedmo\Sluggable\Util\Urlizer;
-use League\Flysystem\FileExistsException as FileExistsExceptionAlias;
-use League\Flysystem\FileNotFoundException;
-use League\Flysystem\FilesystemInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Asset\Context\RequestStackContext;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -17,8 +15,8 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  */
 class UploadHelper
 {
-    /*@TODO
-        - rename const TEMPLATE_FILE >
+    /* @TODO
+     * - rename const TEMPLATE_FILE >
     */
     const POST_IMAGE        = 'post_image';
     const USER_AVATAR       = 'user_avatar';
@@ -26,29 +24,30 @@ class UploadHelper
     const TEMPLATE_FILE     = 'uploaded_templates';
     const IMPORT_FILE       = 'data_import';
 
-    private FilesystemInterface $publicFilesystem;
-    private FilesystemInterface $privateFilesystem;
-    private FilesystemInterface $templateFilesystem;
-    private FilesystemInterface $importFilesystem;
+    private Filesystem $publicFilesystem;
+    private Filesystem $privateFilesystem;
+    private Filesystem $templateFilesystem;
+    private Filesystem $importFilesystem;
+
     private RequestStackContext $requestStackContext;
     private LoggerInterface $logger;
     private string $publicAssetBaseUrl;
 
     /**
      * UploadHelper constructor.
-     * @param FilesystemInterface $publicUploadsFilesystem
-     * @param FilesystemInterface $privateUploadsFilesystem
-     * @param FilesystemInterface $templateUploadsFilesystem
-     * @param FilesystemInterface $importUploadsFilesystem
+     * @param Filesystem $publicUploadsFilesystem
+     * @param Filesystem $privateUploadsFilesystem
+     * @param Filesystem $templateUploadsFilesystem
+     * @param Filesystem $importUploadsFilesystem
      * @param RequestStackContext $requestStackContext
      * @param LoggerInterface $logger
      * @param string $uploadedAssetsBaseUrl
      */
     public function __construct(
-        FilesystemInterface $publicUploadsFilesystem,
-        FilesystemInterface $privateUploadsFilesystem,
-        FilesystemInterface $templateUploadsFilesystem,
-        FilesystemInterface $importUploadsFilesystem,
+        Filesystem $publicUploadsFilesystem,
+        Filesystem $privateUploadsFilesystem,
+        Filesystem $templateUploadsFilesystem,
+        Filesystem $importUploadsFilesystem,
         RequestStackContext $requestStackContext,
         LoggerInterface $logger,
         string $uploadedAssetsBaseUrl)
@@ -63,13 +62,6 @@ class UploadHelper
         $this->publicAssetBaseUrl           = $uploadedAssetsBaseUrl;
     }
 
-    /**
-     * @param UploadedFile $uploadedFile
-     * @param string $directory
-     * @param string $filesystemType
-     * @return string
-     * @throws FileExistsExceptionAlias
-     */
     private function  uploadFile(UploadedFile $uploadedFile, string $directory, string $filesystemType)
     {
         if ($uploadedFile instanceof  UploadedFile) {
@@ -78,7 +70,7 @@ class UploadHelper
             $originalFilename = $uploadedFile->getFilename();
         }
 
-        // Uploaded template treatement
+        // Uploaded template treatment
         if ($filesystemType === 'template') {
             $newFilename = pathinfo($originalFilename, PATHINFO_FILENAME) . '.twig';
 
@@ -111,10 +103,6 @@ class UploadHelper
         return $newFilename;
     }
 
-    /**
-     * @param string $filesystemType
-     * @return FilesystemInterface
-     */
     public function getFilesystem(string $filesystemType)
     {
 
@@ -133,12 +121,6 @@ class UploadHelper
         return $filesystem;
     }
 
-    /**
-     * @param UploadedFile $uploadedFile
-     * @param string|null $existingFilename
-     * @return string
-     * @throws Exception
-     */
     public function uploadPostImage(UploadedFile $uploadedFile, ?string  $existingFilename): string
     {
         /** @var string $newFilename */
@@ -161,12 +143,6 @@ class UploadHelper
         return $newFilename;
     }
 
-    /**
-     * @param UploadedFile $uploadedFile
-     * @param string|null $existingAvatar
-     * @return string
-     * @throws FileExistsExceptionAlias
-     */
     public function uploadAvatar(UploadedFile $uploadedFile, ?string  $existingAvatar): string
     {
         /** @var string $newFilename */
@@ -189,23 +165,12 @@ class UploadHelper
         return $newFilename;
     }
 
-
-    /**
-     * @param UploadedFile $uploadedFile
-     * @return string
-     * @throws FileExistsExceptionAlias
-     */
     public function uploadPostReference(UploadedFile $uploadedFile): string
     {
         return $this->uploadFile($uploadedFile, self::POST_REFERENCE,'private');
 
     }
 
-    /**
-     * @param UploadedFile $uploadedFile
-     * @return string
-     * @throws FileExistsExceptionAlias
-     */
     public function uploadTemplate(UploadedFile $uploadedFile): string
     {
 
@@ -215,20 +180,11 @@ class UploadHelper
         return $newFilename;
     }
 
-    /**
-     * @param UploadedFile $uploadedFile
-     * @return string
-     * @throws FileExistsExceptionAlias
-     */
     public function uploadImport(UploadedFile $uploadedFile): string
     {
         return $this->uploadFile($uploadedFile, self::IMPORT_FILE, 'import');
     }
 
-    /**
-     * @param string $path
-     * @return string
-     */
     public function getPublicPath(string $path): string
     {
         return $this
@@ -236,13 +192,6 @@ class UploadHelper
                 ->getBasePath().$this->publicAssetBaseUrl.'/'.$path;
     }
 
-    /**
-     * @param string $path
-     * @param bool $isPublic
-     * @return false|resource
-     * @throws FileNotFoundException
-     * @throws Exception
-     */
     public function readStream(string $path, bool $isPublic)
     {
         $filesystem = $isPublic ? $this->publicFilesystem : $this->privateFilesystem;
@@ -256,12 +205,6 @@ class UploadHelper
         return $resource;
     }
 
-    /**
-     * @param string $path
-     * @param bool $isPublic
-     * @throws FileNotFoundException
-     * @throws Exception
-     */
     public function deleteFile(string $path, bool $isPublic)
     {
         $filesystem = $isPublic ? $this->publicFilesystem : $this->privateFilesystem;

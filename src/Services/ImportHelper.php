@@ -3,11 +3,10 @@
 namespace App\Services;
 
 use Doctrine\ORM\EntityManagerInterface;
-use League\Flysystem\FilesystemInterface;
+use League\Flysystem\Filesystem;
+use League\Flysystem\FilesystemException;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Reader\Exception;
-use PhpOffice\PhpSpreadsheet\Reader\IReader;
-use PhpOffice\PhpSpreadsheet\Spreadsheet;
 
 /**
  * Class ImportHelper
@@ -15,16 +14,16 @@ use PhpOffice\PhpSpreadsheet\Spreadsheet;
  */
 class ImportHelper
 {
-    private FilesystemInterface $importFilesystem;
+    private Filesystem $importFilesystem;
     private EntityManagerInterface $entityManager;
 
     /**
      * ImportHelper constructor.
-     * @param FilesystemInterface $importUploadsFilesystem
+     * @param Filesystem $importUploadsFilesystem
      * @param EntityManagerInterface $entityManager
      */
     public function __construct(
-        FilesystemInterface $importUploadsFilesystem,
+        Filesystem $importUploadsFilesystem,
         EntityManagerInterface $entityManager)
     {
         $this->importFilesystem = $importUploadsFilesystem;
@@ -69,8 +68,6 @@ class ImportHelper
     }
 
     /**
-     * >> example of string: 'App:User'
-     *
      * @param string $className
      * @return mixed[]
      */
@@ -86,6 +83,7 @@ class ImportHelper
     /**
      * @return array
      * @throws Exception
+     * @throws FilesystemException
      */
     public function getCleanImportDatas()
     {
@@ -98,5 +96,4 @@ class ImportHelper
 
         return $this->loadDocument($lastFilename);
     }
-
 }

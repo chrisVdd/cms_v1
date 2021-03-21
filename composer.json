@@ -15,8 +15,7 @@
         "doctrine/orm": "^2.7",
         "friendsofsymfony/ckeditor-bundle": "^2.3",
         "gedmo/doctrine-extensions": "^3.0",
-        "liip/imagine-bundle": "^2.3",
-        "oneup/flysystem-bundle": "^3.7",
+        "oneup/flysystem-bundle": "4.0.6",
         "phpdocumentor/reflection-docblock": "^5.2",
         "phpoffice/phpspreadsheet": "^1.16",
         "sensio/framework-extra-bundle": "^5.1",
@@ -89,7 +88,6 @@
     },
     "scripts": {
         "auto-scripts": {
-            "cache:clear": "symfony-cmd",
             "assets:install %PUBLIC_DIR%": "symfony-cmd"
         },
         "post-install-cmd": [
