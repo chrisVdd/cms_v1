@@ -26,13 +26,13 @@ class UploadHelper
     const TEMPLATE_FILE     = 'uploaded_templates';
     const IMPORT_FILE       = 'data_import';
 
-    private $publicFilesystem;
-    private $privateFilesystem;
-    private $templateFilesystem;
-    private $importFilesystem;
-    private $requestStackContext;
-    private $logger;
-    private $publicAssetBaseUrl;
+    private FilesystemInterface $publicFilesystem;
+    private FilesystemInterface $privateFilesystem;
+    private FilesystemInterface $templateFilesystem;
+    private FilesystemInterface $importFilesystem;
+    private RequestStackContext $requestStackContext;
+    private LoggerInterface $logger;
+    private string $publicAssetBaseUrl;
 
     /**
      * UploadHelper constructor.
