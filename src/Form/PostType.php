@@ -12,8 +12,6 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormEvent;
-use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\Validator\Constraints\Image;
@@ -73,26 +71,6 @@ class PostType extends AbstractType
             ->add('online', CheckboxType::class,
                 ['label_attr' => ['class' => 'switch-custom']]
             );
-
-        $builder->addEventListener(FormEvents::PRE_SET_DATA,
-            function (FormEvent $event) {
-
-            $data = $event->getData();
-            dump("------- PRE_SET_DATA");
-            dump($data);
-            dump("------- END PRE_SET_DATA");
-        });
-
-        $builder->addEventListener(FormEvents::PRE_SUBMIT,
-            function (FormEvent $event){
-
-                $data = $event->getData();
-                dump("------- PRE_SUBMIT");
-                dd($data);
-                dump("------- END PRE_SUBMIT");
-
-            });
-
     }
 
     /**

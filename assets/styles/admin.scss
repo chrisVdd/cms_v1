@@ -67,7 +67,6 @@ $light-red:     #e35d6a;
 #post-reference-list {
 
     color: $dark-blue;
-    border: 1px solid green;
 
     .btn-primary,
     .btn-danger {
@@ -79,10 +78,10 @@ $light-red:     #e35d6a;
             cursor: grab;
         }
     }
-
     #sortable-item {
-        background-color: $light-blue;
+        //background-color: $light-blue;
         border: 1px solid $dark-blue;
+        border-radius: 8px;
     }
 }
 

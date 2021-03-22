@@ -38,9 +38,11 @@
                         }} ) }}
 
                         {% if form.vars.data.profile.avatar|default %}
-                            <a href="{{ form.vars.data.profile.avatarPath }}" target="_blank">
-                                <img src="{{ form.vars.data.profile.avatarPath|imagine_filter('squared_thumbnail_small') }}" height="100" />
-                            </a>
+                            <div class="text-center">
+                                <a href="{{ form.vars.data.profile.avatarPath }}" target="_blank">
+                                    <img src="{{ form.vars.data.profile.avatarPath|imagine_filter('squared_thumbnail_small') }}" class="mt-2" height="100" />
+                                </a>
+                            </div>
                         {% endif %}
                     </div>
                 </div>

@@ -50,6 +50,44 @@
                         </div>
                     </div>
 
+                    <hr>
+
+                    <div class="mb-3">
+                        <h3>References linked to this post</h3>
+
+                        {% if form.vars.data.postReferences|default %}
+
+                            <div class="js-reference-list" id="post-reference-list"
+                                 data-url="{{ path('admin_post_list_references', {id: post.id}) }}">
+                            </div>
+
+                            <form action="{{ path('admin_post_add_reference', {id: post.id}) }}"
+                                  method="post"
+                                  enctype="multipart/form-data"
+                                  class="dropzone js-reference-dropzone">
+                                <input type="file" name="reference">
+                                <button type="submit" class="btn btn-primary">Upload reference</button>
+                            </form>
+                        {% else %}
+                            Need to have the ID of the post
+                            {#                        post.id > {{ path('admin_post_add_reference', {id: post.id}) }}#}
+                        {% endif %}
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <div class="mb-3">
+                        {{ form_label(form.content, null, {'label_attr': {'class': 'form-label'} }) }}
+                        {{ form_widget(form.content, {'attr': {'class': 'form-control'}} ) }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
                     <div class="mb-3">
                         {{ form_label(form.online, null, {'label_attr': {'class': 'checkbox-switch-label'} }) }}
                         {{ form_widget(form.online, {'attr': {'class': 'checkbox-switch-input'}} ) }}
@@ -57,65 +95,11 @@
                 </div>
             </div>
 
-        <div class="row">
-            <div class="col">
-                <div class="mb-3">
-                    {{ form_label(form.content, null, {'label_attr': {'class': 'form-label'} }) }}
-                    {{ form_widget(form.content, {'attr': {'class': 'form-control'}} ) }}
-                </div>
+            <div class="d-grid gap-2">
+                <button class="btn btn-success ">
+                    {{ button_label|default('Save') }}
+                </button>
             </div>
-        </div>
-
-        <div class="row">
-            <div class="col">
-
-            </div>
-
-            <div class="col">
-                <div class="mb-3">
-                    <h3>References linked to this post</h3>
-
-                    {% if form.vars.data.postReferences|default %}
-
-                        <div class="js-reference-list" id="post-reference-list"
-                             data-url="{{ path('admin_post_list_references', {id: post.id}) }}">
-                        </div>
-
-                        <form action="{{ path('admin_post_add_reference', {id: post.id}) }}"
-                              method="post"
-                              enctype="multipart/form-data"
-                              class="dropzone js-reference-dropzone">
-                             <input type="file" name="reference">
-                             <button type="submit" class="btn btn-primary">Upload reference</button>
-                        </form>
-                    {% else %}
-                        Need to have the ID of the post
-{#                        post.id > {{ path('admin_post_add_reference', {id: post.id}) }}#}
-                    {% endif %}
-
-                </div>
-            </div>
-        </div>
-
-
-{#            <div class="row-3" style="border: 1px solid red;">#}
-{#                <h3>References linked to this post</h3>#}
-
-
-{#                <div class="row mb-3">#}
-{#                    <div class="col-4 themed-grid-col">.col-4</div>#}
-{#                    <div class="col-4 themed-grid-col">.col-4</div>#}
-{#                    <div class="col-4 themed-grid-col">.col-4</div>#}
-{#                </div>#}
-
-{#                <ul class="list-group row js-reference-list" id="post-reference-list"#}
-{#                    data-url="{{ path('admin_post_list_references', {id: post.id}) }}">#}
-{#                </ul>#}
-            <hr>
-
-            <button class="btn btn-success btn-block">
-                {{ button_label|default('Save') }}
-            </button>
         {{ form_end(form) }}
-    </div>
+        </div>
 </div>
