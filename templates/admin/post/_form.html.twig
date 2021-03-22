@@ -32,7 +32,6 @@
 
 {# RIGHT CONTENT #}
                 <div class="col">
-
                     <div class="mb-3">
                         <div class="row">
                             {{ form_label(form.imageFilename, null, {'label_attr': {'class': 'form-label'} }) }}
@@ -65,12 +64,12 @@
                                   method="post"
                                   enctype="multipart/form-data"
                                   class="dropzone js-reference-dropzone">
-                                <input type="file" name="reference">
-                                <button type="submit" class="btn btn-primary">Upload reference</button>
+{#                                <input type="file" name="reference">#}
+{#                                <button type="submit" class="btn btn-primary">Upload reference</button>#}
                             </form>
                         {% else %}
                             Need to have the ID of the post
-                            {#                        post.id > {{ path('admin_post_add_reference', {id: post.id}) }}#}
+                            {# post.id > {{ path('admin_post_add_reference', {id: post.id}) }}#}
                         {% endif %}
 
                     </div>
