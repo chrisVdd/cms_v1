@@ -22,8 +22,23 @@
 
             <div class="container-fluid" id="main-content">
 
-                {# Breadcrumb #}
-                {{ include('admin/includes/breadcrumb.html.twig') }}
+                <div class="d-grid gap-3 pb-3" style="grid-template-columns: 2fr 1fr;">
+
+                    {# Breadcrumb #}
+                    {{ include('admin/includes/breadcrumb.html.twig') }}
+
+                    {# Page tools #}
+                    {# @TODO -> create an automatic genereation of the tools
+                        depending of the page displayed
+                        {{ include('admin/includes/page_tools.html.twig') }}
+                    #}
+                    <div class="bg-light border rounded-3">
+                        <br>
+                    </div>
+
+                </div>
+
+
 
                 {% block body %}
                 {% endblock body %}

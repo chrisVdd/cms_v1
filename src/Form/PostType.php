@@ -8,6 +8,7 @@ use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -22,7 +23,7 @@ use Symfony\Component\Validator\Constraints\Image;
  */
 class PostType extends AbstractType
 {
-    private $slugger;
+    private SluggerInterface $slugger;
 
     /**
      * PostType constructor.
@@ -70,6 +71,13 @@ class PostType extends AbstractType
             )
             ->add('online', CheckboxType::class,
                 ['label_attr' => ['class' => 'switch-custom']]
+            )
+            ->add('postReferences', CollectionType::class,
+                [
+                    'entry_type' => PostReferenceType::class,
+                    'required' => false,
+                    'allow_add' => true
+                ]
             );
     }
 
@@ -78,8 +86,9 @@ class PostType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults([
-            'data_class' => Post::class,
-        ]);
+        $resolver->setDefaults(
+            [
+                'class' => Post::class,
+            ]);
     }
 }

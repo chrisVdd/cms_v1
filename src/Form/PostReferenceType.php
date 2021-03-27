@@ -23,8 +23,11 @@ class PostReferenceType extends AbstractType
         $builder
             ->add('filename', FileType::class,
                 [
-                    'block_name' => 'reference',
-                    'attr' => ['name' => 'reference2']
+//                    'block_name' => 'reference',
+                    'attr' => [
+                        'class' => 'dropzone js-reference-dropzone'
+                    ],
+                    'data_class' => null
                 ]
             );
     }

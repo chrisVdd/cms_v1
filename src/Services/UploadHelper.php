@@ -70,7 +70,7 @@ class UploadHelper
      * @return string
      * @throws FileExistsExceptionAlias
      */
-    private function  uploadFile(UploadedFile $uploadedFile, string $directory, string $filesystemType)
+    private function uploadFile(UploadedFile $uploadedFile, string $directory, string $filesystemType)
     {
         if ($uploadedFile instanceof  UploadedFile) {
             $originalFilename = $uploadedFile->getClientOriginalName();
@@ -117,15 +117,18 @@ class UploadHelper
      */
     public function getFilesystem(string $filesystemType)
     {
-
         if ($filesystemType === 'public') {
             $filesystem = $this->publicFilesystem;
+
         } elseif ($filesystemType === 'private') {
             $filesystem = $this->privateFilesystem;
+
         } elseif ($filesystemType === 'template') {
             $filesystem = $this->templateFilesystem;
+
         } elseif ($filesystemType === 'import') {
             $filesystem = $this->importFilesystem;
+
         } else {
             $this->logger->alert("There is no filesystem");
         }
