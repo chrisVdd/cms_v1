@@ -48,117 +48,38 @@
                             {% endif %}
                         </div>
                     </div>
-
                     <hr>
+                    <div class="mb-3 dropzone">
 
-                    <div class="mb-3">
-                        <h3>References linked to this post</h3>
+{#                            <ul id="post-references-list"#}
+{#                                data-prototype="{{ form_widget(form.postReferences.vars.prototype)|e }}"#}
+{#                                data-widget-tags="{{ '<li></li>'|e }}"#}
+{#                                data-widget-counter="{{ form.postReferences|length }}">#}
 
-                        <div class="container">
-                            <!-- HTML heavily inspired by https://blueimp.github.io/jQuery-File-Upload/ -->
-                            <div id="actions" class="row">
-                                <div class="col-lg-7">
-                                    <!-- The fileinput-button span is used to style the file input field as button -->
-                                    <span class="btn btn-success fileinput-button dz-clickable">
-          <i class="glyphicon glyphicon-plus"></i>
-          <span>Add files...</span>
-      </span>
-                                    <button type="submit" class="btn btn-primary start">
-                                        <i class="glyphicon glyphicon-upload"></i>
-                                        <span>Start upload</span>
-                                    </button>
-                                    <button type="reset" class="btn btn-warning cancel">
-                                        <i class="glyphicon glyphicon-ban-circle"></i>
-                                        <span>Cancel upload</span>
-                                    </button>
-                                </div>
+{#                                {% for postReference in form.postReferences %}#}
+{#                                    <li>#}
+{#                                        {{ form_errors(postReference) }}#}
+{#                                        {{ form_widget(postReference) }}#}
+{#                                    </li>#}
+{#                                {% endfor %}#}
+{#                            </ul>#}
 
-                                <div class="col-lg-5">
-                                    <!-- The global file processing state -->
-                                    <span class="fileupload-process">
-        <div id="total-progress" class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
-          <div class="progress-bar progress-bar-success" style="width:0%;" data-dz-uploadprogress=""></div>
-        </div>
-      </span>
-                                </div>
-                            </div>
-                            <div class="table table-striped files" id="previews">
-                                <div id="template" class="file-row dz-image-preview">
-                                    <!-- This is used as the file preview template -->
-                                    <div>
-                                        <span class="preview"><img data-dz-thumbnail></span>
-                                    </div>
-                                    <div>
-                                        <p class="name" data-dz-name></p>
-                                        <strong class="error text-danger" data-dz-errormessage></strong>
-                                    </div>
-                                    <div>
-                                        <p class="size" data-dz-size></p>
-                                        <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
-                                            <div class="progress-bar progress-bar-success" style="width:0%;" data-dz-uploadprogress></div>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <button class="btn btn-primary start">
-                                            <i class="glyphicon glyphicon-upload"></i>
-                                            <span>Start</span>
-                                        </button>
-                                        <button data-dz-remove class="btn btn-warning cancel">
-                                            <i class="glyphicon glyphicon-ban-circle"></i>
-                                            <span>Cancel</span>
-                                        </button>
-                                        <button data-dz-remove class="btn btn-danger delete">
-                                            <i class="glyphicon glyphicon-trash"></i>
-                                            <span>Delete</span>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                            {{ form_label(form.postReferences, null, {'label_attr': {'class': 'form-label'} }) }}
+                            {{ form_widget(form.postReferences, {'attr': {'class': ''}} ) }}
 
-{#                        <div class="js-reference-list" id="post-reference-list"#}
-{#                             data-url="{{ path('admin_post_list_references', {id: post.id}) }}">#}
-{#                        </div>#}
+{#                            <button type="button"#}
+{#                                    class="add-another-collection btn btn-success needsclick"#}
+{#                                    data-list-selector="#post-references-list">#}
+{#                                Add another reference#}
+{#                            </button>#}
+{#                        <div class="dropzone dz-clickable">#}
 
-{#                        {{ form_label(form.postReferences, null, {'label_attr': {'class': 'form-label'} }) }}#}
-{#                        {{ form_widget(form.postReferences,#}
-{#                            {#}
-{#                                'attr': {'class': 'form-control'},#}
-{#                                'placeholder': 'POST REFE ADDADAD'#}
-{#                            }#}
-{#                        ) }}#}
-{#                        {% if form.vars.data.postReferences|default %}#}
-{#                            <div class="js-reference-list" id="post-reference-list"#}
-{#                                 data-url="{{ path('admin_post_list_references', {id: post.id}) }}">#}
-{#                            </div>#}
-
+{#                        {{ include('admin/includes/upload-widget.html.twig') }}#}
 {#                            {{ form_label(form.postReferences, null, {'label_attr': {'class': 'form-label'} }) }}#}
-{#                            {{ form_widget(form.postReferences,#}
-{#                                {#}
-{#                                    'attr': {'class': 'form-control'},#}
-{#                                    'placeholder': 'POST REFE ADDADAD'#}
-{#                                }#}
-{#                            ) }}#}
-
-{#                            <form action="{{ path('admin_post_add_reference', {id: post.id}) }}"#}
-{#                                  method="post"#}
-{#                                  enctype="multipart/form-data"#}
-{#                                  class="dropzone js-reference-dropzone">#}
-{#                                <input type="file" name="reference">#}
-{#                                <button type="submit" class="btn btn-primary">Upload reference</button>#}
-{#                            </form>#}
-{#                        {% else %}#}
-{#                            Need to have the ID of the post#}
-{#                            <form action=""#}
-{#                                  method="post"#}
-{#                                  enctype="multipart/form-data"#}
-{#                                  class="dropzone js-reference-dropzone">#}
-{#                                <input type="file" name="reference">#}
-{#                                <button type="submit" class="btn btn-primary">Upload reference</button>#}
-{#                            </form>#}
-{#                        {% endif %}#}
-
+{#                            {{ form_widget(form.postReferences, {'attr': {'class': 'dropzone'}} ) }}#}
+{#                        </div>#}
                     </div>
+
                 </div>
             </div>
 

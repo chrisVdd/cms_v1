@@ -44,6 +44,10 @@ class PostController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             $post = $form->getData();
+
+            dd($post);
+
+
             $post->setAuthor($this->getUser());
 
             $uploadedFile = $form['imageFilename']->getData();
@@ -89,7 +93,12 @@ class PostController extends AbstractController
      */
     public function edit(Request $request, Post $post, UploadHelper $uploadHelper): Response
     {
+//        dd($post);
+
         $form = $this->createForm(PostType::class, $post);
+
+//        dd($form);
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

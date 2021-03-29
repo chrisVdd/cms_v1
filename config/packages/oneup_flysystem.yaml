@@ -23,6 +23,7 @@ oneup_flysystem:
 
         private_uploads_filesystem:
             adapter: private_uploads_adapter
+            mount: private_uploads_fs
 
         template_uploads_filesystem:
             adapter: template_uploads_adapter

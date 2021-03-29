@@ -2,6 +2,10 @@
 
 {% block title %}New Post{% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
 {% block body %}
     <h1>Create new Post</h1>
 
@@ -10,3 +14,8 @@
     <a href="{{ path('admin_post_index') }}">back to list</a>
 
 {% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('myDropzone') }}
+{% endblock javascripts %}

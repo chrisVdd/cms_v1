@@ -70,13 +70,24 @@ class PostType extends AbstractType
                 ]
             )
             ->add('online', CheckboxType::class,
-                ['label_attr' => ['class' => 'switch-custom']]
+                [   'required' => false,
+                    'label_attr' =>
+                        ['class' => 'switch-custom']
+                ]
             )
             ->add('postReferences', CollectionType::class,
                 [
                     'entry_type' => PostReferenceType::class,
+                    'allow_add' => true,
+                    'allow_delete' => true,
                     'required' => false,
-                    'allow_add' => true
+                    'label'=>false,
+                    'by_reference' => false,
+                    'disabled' => false,
+//                    'attr' =>
+//                        [
+//                            'action' => '%kernel.project_dir%/storage/uploads/post_reference'
+//                        ]
                 ]
             );
     }

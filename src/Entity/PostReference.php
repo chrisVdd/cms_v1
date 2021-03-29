@@ -3,13 +3,14 @@
 namespace App\Entity;
 
 use App\Repository\PostReferenceRepository;
-use App\Services\UploadHelper;
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Serializer\Annotation\Groups;
-use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Entity(repositoryClass=PostReferenceRepository::class)
+ * @Vich\Uploadable()
  */
 class PostReference
 {
@@ -17,7 +18,6 @@ class PostReference
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups("main")
      */
     private $id;
 
@@ -29,28 +29,20 @@ class PostReference
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups("main")
      */
     private $filename;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     * @Groups({"main", "input"})
-     * @Assert\NotBlank()
-     * @Assert\Length(max="100")
+     * @Vich\UploadableField(mapping="private_post_reference", fileNameProperty="filename")
+     * @var File|null
      */
-    private $originalFilename;
+    private $file;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     * @Groups("main")
+     * @ORM\Column(type="datetime")
+     * @var DateTimeInterface|null
      */
-    private $mimeType;
-
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $position = 0;
+    private $updateDate;
 
     /**
      * PostReference constructor.
@@ -108,57 +100,39 @@ class PostReference
     }
 
     /**
-     * @return string|null
+     * @return File|null
      */
-    public function getOriginalFilename(): ?string
+    public function getFile(): ?File
     {
-        return $this->originalFilename;
+        return $this->file;
     }
 
     /**
-     * @param string $originalFilename
-     * @return $this
+     * @param File|null $file
      */
-    public function setOriginalFilename(string $originalFilename): self
+    public function setFile(?File $file = null)
     {
-        $this->originalFilename = $originalFilename;
+        $this->file = $file;
 
-        return $this;
+        if (null !== $file) {
+            $this->updateDate = new \DateTimeImmutable();
+        }
     }
 
     /**
-     * @return string|null
+     * @return DateTimeInterface|null
      */
-    public function getMimeType(): ?string
+    public function getUpdateDate(): ?DateTimeInterface
     {
-        return $this->mimeType;
+        return $this->updateDate;
     }
 
     /**
-     * @param string $mimeType
-     * @return $this
+     * @param DateTimeInterface|null $updateDate
      */
-    public function setMimeType(string $mimeType): self
+    public function setUpdateDate(?DateTimeInterface $updateDate): void
     {
-        $this->mimeType = $mimeType;
-
-        return $this;
-    }
-
-    /**
-     * @return int
-     */
-    public function getPosition(): int
-    {
-        return $this->position;
-    }
-
-    /**
-     * @param int $position
-     */
-    public function setPosition(int $position): void
-    {
-        $this->position = $position;
+        $this->updateDate = $updateDate;
     }
 
     /**
@@ -167,5 +141,13 @@ class PostReference
     public function getFilePath(): string
     {
         return UploadHelper::POST_REFERENCE.'/'.$this->getFilename();
+    }
+
+    /**
+     * @return string|null
+     */
+    public function __toString()
+    {
+        return $this->getFilename();
     }
 }

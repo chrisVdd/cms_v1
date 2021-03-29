@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Vich\UploaderBundle\Form\Type\VichFileType;
 
 /**
  * Class PostReferenceType
@@ -20,16 +21,16 @@ class PostReferenceType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-            ->add('filename', FileType::class,
-                [
-//                    'block_name' => 'reference',
-                    'attr' => [
-                        'class' => 'dropzone js-reference-dropzone'
-                    ],
-                    'data_class' => null
-                ]
-            );
+        $builder->add('file', VichFileType::class);
+//            ->add('filename', FileType::class,
+//                [
+//                    'data_class' => null,
+//                    'attr' =>
+//                    [
+//                        'class' => 'dropzone'
+//                    ],
+//                ]
+//            );
     }
 
     /**
@@ -39,6 +40,7 @@ class PostReferenceType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => PostReference::class,
+            "allow_extra_fields" => true,
         ]);
     }
 }

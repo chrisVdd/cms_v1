@@ -62,7 +62,6 @@ class Post
 
     /**
      * @ORM\OneToMany(targetEntity=PostReference::class, mappedBy="post")
-     * @ORM\OrderBy({"position"="ASC"})
      */
     private $postReferences;
 
@@ -278,6 +277,7 @@ class Post
     public function addPostReference(PostReference $postReference): self
     {
         if (!$this->postReferences->contains($postReference)) {
+
             $this->postReferences[] = $postReference;
             $postReference->setPost($this);
         }
@@ -292,6 +292,7 @@ class Post
     public function removePostReference(PostReference $postReference): self
     {
         if ($this->postReferences->removeElement($postReference)) {
+
             // set the owning side to null (unless already changed)
             if ($postReference->getPost() === $this) {
                 $postReference->setPost(null);
