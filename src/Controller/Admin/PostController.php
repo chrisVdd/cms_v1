@@ -44,10 +44,6 @@ class PostController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             $post = $form->getData();
-
-            dd($post);
-
-
             $post->setAuthor($this->getUser());
 
             $uploadedFile = $form['imageFilename']->getData();

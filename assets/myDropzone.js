@@ -2,23 +2,19 @@ import Dropzone from 'dropzone';
 import Sortable from 'sortablejs';
 
 // Disable the autodiscover for dropZone
-Dropzone.autoDiscover = false;
-
-$(document).ready(function() {
-
-    var myDropzone = new Dropzone(".dropzone", {
-        url: "%kernel.project_dir%/storage/uploads/post_reference",
-        maxFiles: 10,
-        addRemoveLinks: true,
-        autoProcessQueue: false,
-        uploadMultiple: true,
-        parallelUploads: 100,
-    });
-
-    // $(".dropzone").dropzone({
-    //     url: "/file/post"
-    // });
-});
+// Dropzone.autoDiscover = false;
+//
+// $(document).ready(function() {
+//
+//     var myDropzone = new Dropzone(".dropzone", {
+//         url: "%kernel.project_dir%/storage/uploads/post_reference",
+//         maxFiles: 10,
+//         addRemoveLinks: true,
+//         autoProcessQueue: false,
+//         uploadMultiple: true,
+//         parallelUploads: 100,
+//     });
+// });
 
 
 

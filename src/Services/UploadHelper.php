@@ -192,18 +192,6 @@ class UploadHelper
         return $newFilename;
     }
 
-
-    /**
-     * @param UploadedFile $uploadedFile
-     * @return string
-     * @throws FileExistsExceptionAlias
-     */
-    public function uploadPostReference(UploadedFile $uploadedFile): string
-    {
-        return $this->uploadFile($uploadedFile, self::POST_REFERENCE,'private');
-
-    }
-
     /**
      * @param UploadedFile $uploadedFile
      * @return string

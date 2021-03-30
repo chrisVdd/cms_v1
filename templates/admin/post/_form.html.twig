@@ -32,22 +32,22 @@
 
 {# RIGHT CONTENT #}
                 <div class="col">
-                    <div class="mb-3">
-                        <div class="row">
-                            {{ form_label(form.imageFilename, null, {'label_attr': {'class': 'form-label'} }) }}
-                            {{ form_widget(form.imageFilename,
-                                {
-                                    'attr': {'class': 'form-control'},
-                                    'placeholder': 'Select an image for this post'
-                                }
-                            ) }}
-                            {% if form.vars.data.imageFilename|default %}
-                                <a href="{{ form.vars.data.imagePath }}" target="_blank" class="mx-auto pt-3" style="width: 200px;">
-                                    <img src="{{ form.vars.data.imagePath|imagine_filter('squared_thumbnail_small') }}" height="100"  alt=""/>
-                                </a>
-                            {% endif %}
-                        </div>
-                    </div>
+{#                    <div class="mb-3">#}
+{#                        <div class="row">#}
+{#                            {{ form_label(form.imageFilename, null, {'label_attr': {'class': 'form-label'} }) }}#}
+{#                            {{ form_widget(form.imageFilename,#}
+{#                                {#}
+{#                                    'attr': {'class': 'form-control'},#}
+{#                                    'placeholder': 'Select an image for this post'#}
+{#                                }#}
+{#                            ) }}#}
+{#                            {% if form.vars.data.imageFilename|default %}#}
+{#                                <a href="{{ form.vars.data.imagePath }}" target="_blank" class="mx-auto pt-3" style="width: 200px;">#}
+{#                                    <img src="{{ form.vars.data.imagePath|imagine_filter('squared_thumbnail_small') }}" height="100"  alt=""/>#}
+{#                                </a>#}
+{#                            {% endif %}#}
+{#                        </div>#}
+{#                    </div>#}
                     <hr>
                     <div class="mb-3 dropzone">
 
@@ -64,8 +64,8 @@
 {#                                {% endfor %}#}
 {#                            </ul>#}
 
-                            {{ form_label(form.postReferences, null, {'label_attr': {'class': 'form-label'} }) }}
-                            {{ form_widget(form.postReferences, {'attr': {'class': ''}} ) }}
+{#                            {{ form_label(form.postReferences, null, {'label_attr': {'class': 'form-label'} }) }}#}
+{#                            {{ form_widget(form.postReferences, {'attr': {'class': ''}} ) }}#}
 
 {#                            <button type="button"#}
 {#                                    class="add-another-collection btn btn-success needsclick"#}

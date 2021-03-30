@@ -8,7 +8,6 @@ use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -73,21 +72,6 @@ class PostType extends AbstractType
                 [   'required' => false,
                     'label_attr' =>
                         ['class' => 'switch-custom']
-                ]
-            )
-            ->add('postReferences', CollectionType::class,
-                [
-                    'entry_type' => PostReferenceType::class,
-                    'allow_add' => true,
-                    'allow_delete' => true,
-                    'required' => false,
-                    'label'=>false,
-                    'by_reference' => false,
-                    'disabled' => false,
-//                    'attr' =>
-//                        [
-//                            'action' => '%kernel.project_dir%/storage/uploads/post_reference'
-//                        ]
                 ]
             );
     }

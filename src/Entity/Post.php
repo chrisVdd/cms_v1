@@ -61,11 +61,6 @@ class Post
     private $imageFilename;
 
     /**
-     * @ORM\OneToMany(targetEntity=PostReference::class, mappedBy="post")
-     */
-    private $postReferences;
-
-    /**
      * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="post", orphanRemoval=true)
      */
     private $comments;
@@ -87,7 +82,6 @@ class Post
     public function __construct()
     {
         $this->categories       = new ArrayCollection();
-        $this->postReferences   = new ArrayCollection();
         $this->comments         = new ArrayCollection();
     }
 
@@ -260,46 +254,6 @@ class Post
     public function __toString()
     {
         return $this->title;
-    }
-
-    /**
-     * @return Collection|PostReference[]
-     */
-    public function getPostReferences(): Collection
-    {
-        return $this->postReferences;
-    }
-
-    /**
-     * @param PostReference $postReference
-     * @return $this
-     */
-    public function addPostReference(PostReference $postReference): self
-    {
-        if (!$this->postReferences->contains($postReference)) {
-
-            $this->postReferences[] = $postReference;
-            $postReference->setPost($this);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @param PostReference $postReference
-     * @return $this
-     */
-    public function removePostReference(PostReference $postReference): self
-    {
-        if ($this->postReferences->removeElement($postReference)) {
-
-            // set the owning side to null (unless already changed)
-            if ($postReference->getPost() === $this) {
-                $postReference->setPost(null);
-            }
-        }
-
-        return $this;
     }
 
     /**
